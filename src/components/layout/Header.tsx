@@ -1,7 +1,6 @@
 import React from 'react';
 import { FilterState } from '../../types/dashboard';
 import { Filter, Calendar, Sun, Moon } from 'lucide-react';
-import { EasLogo } from '../common/EasLogo';
 
 interface HeaderProps {
   filters: FilterState;
@@ -30,7 +29,6 @@ export const Header: React.FC<HeaderProps> = ({
     >
       {/* Title & Brand Header */}
       <div className="flex items-center space-x-3">
-        <EasLogo size={36} />
         <div>
           <h1
             className={`text-lg lg:text-xl font-bold tracking-tight flex items-center gap-2 ${
