@@ -92,50 +92,114 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
         </div>
       </div>
 
-      {/* Main Cockpit Section: Funnel, Roadmap, KPIs */}
+      {/* Main Cockpit Section: Visual Funnel, Roadmap, KPIs */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
-        {/* Embudo de Valor Stage-Gate (3 cols) */}
-        <div className={`xl:col-span-3 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        {/* Embudo de Valor Stage-Gate Gráfico Trapezoidal Auténtico (4 cols) */}
+        <div className={`xl:col-span-4 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <h3 className={`text-xs font-bold tracking-wide uppercase border-b pb-1.5 ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
-            EMBUDO DE VALOR (STAGE-GATE)
-          </h3>
+          <div className={`flex items-center justify-between border-b pb-1.5 ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
+            <h3 className={`text-xs font-bold tracking-wide uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              EMBUDO DE VALOR (STAGE-GATE)
+            </h3>
+            <span className="text-[9px] bg-blue-950 text-cyan-300 border border-blue-500/30 px-2 py-0.5 rounded font-semibold">
+              Gráfico de Embudo
+            </span>
+          </div>
 
-          <div className="py-2 space-y-1.5 text-center text-xs">
-            <div className="bg-blue-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Ideas (Forms 1)</span>
-              <span className="bg-blue-900 px-2 py-0.5 rounded text-white font-black">{kpis.funnelIdeas}</span>
-            </div>
-            <div className="bg-cyan-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Priorizadas (Score)</span>
-              <span className="bg-cyan-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelPrioritized}</span>
-            </div>
-            <div className="bg-emerald-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Aprobadas ($66M)</span>
-              <span className="bg-emerald-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelApproved}</span>
-            </div>
-            <div className="bg-amber-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>En Construcción (Forms 2)</span>
-              <span className="bg-amber-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelInConstruction}</span>
-            </div>
-            <div className="bg-purple-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Productivas (Go-Live)</span>
-              <span className="bg-purple-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelProductive}</span>
-            </div>
-            <div className="bg-emerald-500 text-slate-950 font-black py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>ROI Medido (Forms 3)</span>
-              <span className="bg-slate-900 px-2 py-0.5 rounded text-emerald-400 font-black">{kpis.funnelRoiMeasured}</span>
-            </div>
+          {/* Authentic Visual SVG Funnel */}
+          <div className="relative py-2 flex flex-col items-center justify-center">
+            <svg viewBox="0 0 400 290" className="w-full h-auto max-h-[260px] drop-shadow-md">
+              <defs>
+                <linearGradient id="funnelGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#2563eb" />
+                  <stop offset="50%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#1d4ed8" />
+                </linearGradient>
+                <linearGradient id="funnelGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#0891b2" />
+                  <stop offset="50%" stopColor="#06b6d4" />
+                  <stop offset="100%" stopColor="#0e7490" />
+                </linearGradient>
+                <linearGradient id="funnelGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#059669" />
+                  <stop offset="50%" stopColor="#10b981" />
+                  <stop offset="100%" stopColor="#047857" />
+                </linearGradient>
+                <linearGradient id="funnelGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#d97706" />
+                  <stop offset="50%" stopColor="#f59e0b" />
+                  <stop offset="100%" stopColor="#b45309" />
+                </linearGradient>
+                <linearGradient id="funnelGrad5" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#7c3aed" />
+                  <stop offset="50%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#6d28d9" />
+                </linearGradient>
+                <linearGradient id="funnelGrad6" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="50%" stopColor="#34d399" />
+                  <stop offset="100%" stopColor="#059669" />
+                </linearGradient>
+              </defs>
+
+              {/* Stage 1: Ideas */}
+              <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                <polygon points="10,0 390,0 365,42 35,42" fill="url(#funnelGrad1)" rx="4" />
+                <text x="200" y="26" fill="#ffffff" fontSize="13" fontWeight="bold" textAnchor="middle">
+                  1. Ideas / Postuladas (Forms 1): {kpis.funnelIdeas}
+                </text>
+              </g>
+
+              {/* Stage 2: Priorizadas */}
+              <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                <polygon points="38,47 362,47 338,89 62,89" fill="url(#funnelGrad2)" />
+                <text x="200" y="73" fill="#ffffff" fontSize="13" fontWeight="bold" textAnchor="middle">
+                  2. Priorizadas (Score &gt; 70): {kpis.funnelPrioritized}
+                </text>
+              </g>
+
+              {/* Stage 3: Aprobadas */}
+              <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                <polygon points="65,94 335,94 311,136 89,136" fill="url(#funnelGrad3)" />
+                <text x="200" y="120" fill="#ffffff" fontSize="13" fontWeight="bold" textAnchor="middle">
+                  3. Aprobadas ($66M PMO): {kpis.funnelApproved}
+                </text>
+              </g>
+
+              {/* Stage 4: En Construcción */}
+              <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                <polygon points="92,141 308,141 284,183 116,183" fill="url(#funnelGrad4)" />
+                <text x="200" y="167" fill="#ffffff" fontSize="13" fontWeight="bold" textAnchor="middle">
+                  4. En Construcción (Forms 2): {kpis.funnelInConstruction}
+                </text>
+              </g>
+
+              {/* Stage 5: Productivas */}
+              <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                <polygon points="119,188 281,188 257,230 143,230" fill="url(#funnelGrad5)" />
+                <text x="200" y="214" fill="#ffffff" fontSize="13" fontWeight="bold" textAnchor="middle">
+                  5. Productivas (Go-Live): {kpis.funnelProductive}
+                </text>
+              </g>
+
+              {/* Stage 6: ROI Medido */}
+              <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                <polygon points="146,235 254,235 235,277 165,277" fill="url(#funnelGrad6)" />
+                <text x="200" y="261" fill="#090d16" fontSize="12" fontWeight="900" textAnchor="middle">
+                  6. ROI 90D (Forms 3): {kpis.funnelRoiMeasured}
+                </text>
+              </g>
+            </svg>
           </div>
 
           <div className={`text-[9px] text-center border-t pt-1.5 ${isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-            Conversión de concepto a beneficio real
+            Conversión real de concepto a beneficio medido a 90 días
           </div>
         </div>
 
-        {/* Roadmap Estratégico - Próximos 12 Meses (5 cols) */}
-        <div className={`xl:col-span-5 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        {/* Roadmap Estratégico - Próximos 12 Meses (4 cols) */}
+        <div className={`xl:col-span-4 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <div className={`flex items-center justify-between border-b pb-1.5 ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
@@ -303,19 +367,19 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5">
-            <button onClick={() => onNavigate('iniciativas')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
+            <button onClick={() => onNavigate('iniciativas')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors cursor-pointer">
               1. Iniciativas →
             </button>
-            <button onClick={() => onNavigate('proyectos')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
+            <button onClick={() => onNavigate('proyectos')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors cursor-pointer">
               2. Proyectos →
             </button>
-            <button onClick={() => onNavigate('beneficios')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
+            <button onClick={() => onNavigate('beneficios')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors cursor-pointer">
               3. Beneficios →
             </button>
-            <button onClick={() => onNavigate('nps')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
+            <button onClick={() => onNavigate('nps')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors cursor-pointer">
               4. NPS / Adopción →
             </button>
-            <button onClick={() => onNavigate('pmo')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
+            <button onClick={() => onNavigate('pmo')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors cursor-pointer">
               5. PMO
             </button>
           </div>
