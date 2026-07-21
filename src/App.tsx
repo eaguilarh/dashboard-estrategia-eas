@@ -124,6 +124,9 @@ export function App() {
                   onNavigate={setCurrentView}
                   theme={theme}
                   onDrillDown={setDrillDownItem}
+                  filters={filters}
+                  onFilterChange={handleFilterChange}
+                  lastUpdated={lastUpdated}
                 />
               </div>
             </div>
