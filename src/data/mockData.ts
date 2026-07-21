@@ -1,44 +1,44 @@
 import { Initiative, ProjectExecution, ClosedProject, PortfolioKPIs, PortfolioAlert } from '../types/dashboard';
 
 export const mockKPIs: PortfolioKPIs = {
-  // Module 1
-  totalInitiatives: 125,
-  totalInvestmentRequired: 68, // Millions MXN
+  // Module 1 (Forms 1: Priorización)
+  totalInitiatives: 125, // Prioritised initiatives with valid score
+  totalInvestmentRequired: 68, // Millions MXN (Total requested)
   totalPotentialBenefit: 125, // Millions MXN
-  avgExpectedROI: 184, // %
+  avgExpectedROI: 184, // % ($125M / $68M)
   avgScore: 82, // /100
   avgTimeToValueMonths: 8,
 
-  // Module 2
-  activeProjects: 32,
-  pctOnTrack: 82,
-  projectsInRisk: 6,
-  projectsDelayed: 4,
+  // Module 2 (Forms 2: Ejecución & PMO)
+  activeProjects: 32, // Projects in construction
+  pctOnTrack: 69, // 22 of 32 = 68.75% ~ 69%
+  projectsInRisk: 6, // 6 of 32
+  projectsDelayed: 4, // 4 of 32 (22 + 6 + 4 = 32)
   avgProgressPct: 67,
   consumedBudgetMXN: 42,
-  totalApprovedBudgetMXN: 66,
+  totalApprovedBudgetMXN: 66, // Approved budget out of $68M requested
   portfolioSPI: 0.92,
   portfolioCPI: 1.05,
   openIssuesCount: 18,
   criticalDependenciesCount: 7,
 
-  // Module 3
-  closedProjectsCount: 24,
+  // Module 3 (Forms 3: Beneficios y Cierre)
+  closedProjectsCount: 24, // Productive / Go-live projects
   realizedBenefitMXN: 96,
   promisedBenefitMXN: 102,
   avgROI90DaysPct: 145,
-  benefitCompliancePct: 92,
+  benefitCompliancePct: 94, // ($96M / $102M = 94.1%)
   avgNPS: 74,
   avgAdoptionPct: 85,
   totalPostGoLiveIncidents: 4,
 
-  // Funnel
-  funnelIdeas: 160,
-  funnelPrioritized: 90,
-  funnelApproved: 50,
-  funnelInConstruction: 32,
-  funnelProductive: 24,
-  funnelRoiMeasured: 18,
+  // Cockpit Stage-Gate Funnel (Perfect Lifecycle Traceability)
+  funnelIdeas: 160,          // 1. Total Ideas Ingresadas en Forms 1
+  funnelPrioritized: 125,    // 2. Evaluadas & Priorizadas (Score > 70)
+  funnelApproved: 50,       // 3. Aprobadas por Comité/PMO ($66M Aprobados)
+  funnelInConstruction: 32, // 4. En Ejecución Activa (Forms 2)
+  funnelProductive: 24,     // 5. Entregadas en Producción / Go-Live
+  funnelRoiMeasured: 18,    // 6. Beneficio & ROI Medido a 90 Días (Forms 3)
 };
 
 export const mockInitiatives: Initiative[] = [
@@ -73,8 +73,8 @@ export const mockClosedProjects: ClosedProject[] = [
 ];
 
 export const mockAlerts: PortfolioAlert[] = [
-  { id: 'A1', type: 'danger', message: '6 proyectos en riesgo requieren atención inmediata', count: 6 },
+  { id: 'A1', type: 'danger', message: '6 proyectos en riesgo requieren atención inmediata de la PMO', count: 6 },
   { id: 'A2', type: 'warning', message: '8 proyectos sin encuesta NPS pendiente de aplicar', count: 8 },
-  { id: 'A3', type: 'warning', message: '3 proyectos sin medición de ROI a 90 días post go-live', count: 3 },
-  { id: 'A4', type: 'info', message: '18 issues abiertos requieren seguimiento por la PMO', count: 18 },
+  { id: 'A3', type: 'warning', message: '6 proyectos en periodo de gracia post go-live (<90 días)', count: 6 },
+  { id: 'A4', type: 'info', message: '18 issues abiertos requieren seguimiento operativo', count: 18 },
 ];

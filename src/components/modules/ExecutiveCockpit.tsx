@@ -1,6 +1,6 @@
 import React from 'react';
 import { PortfolioKPIs, PortfolioAlert, ViewMode } from '../../types/dashboard';
-import { AlertTriangle, Layers } from 'lucide-react';
+import { AlertTriangle, Layers, ArrowRight, CheckCircle2, ShieldCheck, TrendingUp, DollarSign } from 'lucide-react';
 
 interface ExecutiveCockpitProps {
   kpis: PortfolioKPIs;
@@ -15,7 +15,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
   return (
     <div className="space-y-4 text-left">
       {/* Banner Header for Executive Cockpit */}
-      <div className={`border rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 shadow-md transition-colors ${
+      <div className={`border rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2 shadow-md transition-colors ${
         isDark ? 'bg-gradient-to-r from-[#0b132b] via-[#102144] to-[#0b132b] border-[#1d325e]' : 'bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border-slate-800 text-white'
       }`}>
         <div className="flex items-center space-x-3">
@@ -27,59 +27,68 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
               EXECUTIVE COCKPIT - VISIÓN INTEGRAL DEL PORTAFOLIO
             </h2>
             <p className="text-xs text-blue-200/90 font-medium">
-              Del concepto al valor real para el negocio • Estrategia de Negocio EAS
+              Del concepto al valor real para el negocio • Trazabilidad End-to-End EAS Consulting
             </p>
           </div>
         </div>
         <div className="text-right text-xs">
           <span className="bg-blue-950 text-cyan-300 border border-blue-500/40 px-3 py-1 rounded-md font-bold">
-            Consolidado General
+            Flujo Integrado de Portafolio
           </span>
         </div>
       </div>
 
-      {/* Resumen Ejecutivo Row */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-        <div className={`p-3 rounded-xl border border-l-4 border-l-blue-500 transition-colors ${
-          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
-        }`}>
-          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelIdeas}</span>
-          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Ideas / Iniciativas</span>
+      {/* Cadena de Trazabilidad Visual (End-to-End Traceability Ribbon) */}
+      <div className={`p-3 rounded-xl border transition-colors ${
+        isDark ? 'bg-[#0a1428] border-[#1a2d52]' : 'bg-blue-50/80 border-blue-200 shadow-sm'
+      }`}>
+        <div className="flex items-center justify-between mb-2">
+          <span className={`text-[10px] uppercase font-bold tracking-wider flex items-center gap-1.5 ${
+            isDark ? 'text-cyan-400' : 'text-blue-900'
+          }`}>
+            <Layers className="w-3.5 h-3.5" /> Trazabilidad de Ciclo de Vida: Forms 1 (Captura) ➔ Forms 2 (Ejecución) ➔ Forms 3 (ROI 90 Días)
+          </span>
+          <span className={`text-[9px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            100% Datos Conectados
+          </span>
         </div>
 
-        <div className={`p-3 rounded-xl border border-l-4 border-l-cyan-500 transition-colors ${
-          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
-        }`}>
-          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelPrioritized}</span>
-          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Priorizadas</span>
-        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2 text-center text-xs">
+          <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0e1933] border-[#1f3460]' : 'bg-white border-slate-200 shadow-xs'}`}>
+            <span className="text-[9px] text-blue-500 font-bold block">1. FORMS 1 (IDEAS)</span>
+            <strong className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelIdeas}</strong>
+            <span className="text-[8px] text-slate-400 block">Postulaciones</span>
+          </div>
 
-        <div className={`p-3 rounded-xl border border-l-4 border-l-emerald-500 transition-colors ${
-          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
-        }`}>
-          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelApproved}</span>
-          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Aprobadas</span>
-        </div>
+          <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0e1933] border-[#1f3460]' : 'bg-white border-slate-200 shadow-xs'}`}>
+            <span className="text-[9px] text-cyan-500 font-bold block">2. PRIORIZADAS</span>
+            <strong className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelPrioritized}</strong>
+            <span className="text-[8px] text-slate-400 block">Score {kpis.avgScore}/100 ($68M)</span>
+          </div>
 
-        <div className={`p-3 rounded-xl border border-l-4 border-l-amber-500 transition-colors ${
-          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
-        }`}>
-          <span className="text-2xl font-black text-amber-500">{kpis.funnelInConstruction}</span>
-          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>En Construcción</span>
-        </div>
+          <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0e1933] border-[#1f3460]' : 'bg-white border-slate-200 shadow-xs'}`}>
+            <span className="text-[9px] text-emerald-500 font-bold block">3. APROBADAS</span>
+            <strong className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelApproved}</strong>
+            <span className="text-[8px] text-slate-400 block">Presupuesto $66M</span>
+          </div>
 
-        <div className={`p-3 rounded-xl border border-l-4 border-l-purple-500 transition-colors ${
-          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
-        }`}>
-          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelProductive}</span>
-          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Productivas</span>
-        </div>
+          <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0e1933] border-[#1f3460]' : 'bg-white border-slate-200 shadow-xs'}`}>
+            <span className="text-[9px] text-amber-500 font-bold block">4. FORMS 2 (GANTT)</span>
+            <strong className="text-base font-black text-amber-500">{kpis.funnelInConstruction}</strong>
+            <span className="text-[8px] text-slate-400 block">22 On Track | 6 Riesgo</span>
+          </div>
 
-        <div className={`p-3 rounded-xl border border-l-4 border-l-emerald-400 transition-colors ${
-          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
-        }`}>
-          <span className="text-2xl font-black text-emerald-500">{kpis.funnelRoiMeasured}</span>
-          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Con ROI Medido</span>
+          <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0e1933] border-[#1f3460]' : 'bg-white border-slate-200 shadow-xs'}`}>
+            <span className="text-[9px] text-purple-500 font-bold block">5. GO-LIVE</span>
+            <strong className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelProductive}</strong>
+            <span className="text-[8px] text-slate-400 block">NPS {kpis.avgNPS} | Adop. 85%</span>
+          </div>
+
+          <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0e1933] border-[#1f3460]' : 'bg-white border-slate-200 shadow-xs'}`}>
+            <span className="text-[9px] text-emerald-500 font-bold block">6. FORMS 3 (ROI 90D)</span>
+            <strong className="text-base font-black text-emerald-500">{kpis.funnelRoiMeasured}</strong>
+            <span className="text-[8px] text-slate-400 block">$96M Realizados (94%)</span>
+          </div>
         </div>
       </div>
 
@@ -95,19 +104,19 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
 
           <div className="py-2 space-y-1.5 text-center text-xs">
             <div className="bg-blue-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Ideas / Iniciativas</span>
+              <span>Ideas (Forms 1)</span>
               <span className="bg-blue-900 px-2 py-0.5 rounded text-white font-black">{kpis.funnelIdeas}</span>
             </div>
             <div className="bg-cyan-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Priorizadas</span>
+              <span>Priorizadas (Score)</span>
               <span className="bg-cyan-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelPrioritized}</span>
             </div>
             <div className="bg-emerald-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Aprobadas</span>
+              <span>Aprobadas ($66M)</span>
               <span className="bg-emerald-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelApproved}</span>
             </div>
             <div className="bg-amber-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>En Construcción</span>
+              <span>En Construcción (Forms 2)</span>
               <span className="bg-amber-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelInConstruction}</span>
             </div>
             <div className="bg-purple-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
@@ -115,7 +124,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
               <span className="bg-purple-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelProductive}</span>
             </div>
             <div className="bg-emerald-500 text-slate-950 font-black py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
-              <span>Con ROI Medido</span>
+              <span>ROI Medido (Forms 3)</span>
               <span className="bg-slate-900 px-2 py-0.5 rounded text-emerald-400 font-black">{kpis.funnelRoiMeasured}</span>
             </div>
           </div>
@@ -213,7 +222,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
 
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
-              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Total</span>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Solicitada</span>
               <strong className="text-emerald-500 text-sm font-extrabold">${kpis.totalInvestmentRequired}M <span className="text-[9px] font-normal">MXN</span></strong>
             </div>
 
