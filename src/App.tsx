@@ -123,6 +123,7 @@ export function App() {
                   alerts={mockAlerts}
                   onNavigate={setCurrentView}
                   theme={theme}
+                  onDrillDown={setDrillDownItem}
                 />
               </div>
             </div>

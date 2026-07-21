@@ -1,9 +1,9 @@
 import React from 'react';
-import { X, FileSpreadsheet, Layers, Calendar, DollarSign, TrendingUp, Award, AlertTriangle, CheckCircle2, ShieldCheck, Clock, UserCheck } from 'lucide-react';
+import { X, FileSpreadsheet, Layers, Calendar, DollarSign, TrendingUp, Award, AlertTriangle, CheckCircle2, ShieldCheck, Clock, UserCheck, HelpCircle } from 'lucide-react';
 import { Initiative, ProjectExecution, ClosedProject } from '../../types/dashboard';
 
 export interface DrillDownItem {
-  type: 'initiative' | 'project' | 'closedProject' | 'metric';
+  type: 'initiative' | 'project' | 'closedProject' | 'metric' | 'alert';
   title: string;
   sourceForm: 'Formulario 1 (Ingreso de Iniciativas)' | 'Formulario 2 (Brief & Gantt PMO)' | 'Formulario 3 (NPS & ROI 90 Días)' | 'Sistema Integrado';
   data: any;
@@ -25,8 +25,10 @@ export const DrillDownModal: React.FC<DrillDownModalProps> = ({ item, onClose })
         {/* Header */}
         <div className="bg-gradient-to-r from-[#0d1c3a] via-[#142850] to-[#0d1c3a] border-b border-[#1d325e] p-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-lg bg-blue-600/30 border border-blue-400/40 text-cyan-400">
-              <FileSpreadsheet className="w-5 h-5" />
+            <div className={`p-2 rounded-lg border ${
+              type === 'alert' ? 'bg-amber-500/20 border-amber-400/40 text-amber-400' : 'bg-blue-600/30 border-blue-400/40 text-cyan-400'
+            }`}>
+              {type === 'alert' ? <AlertTriangle className="w-5 h-5" /> : <FileSpreadsheet className="w-5 h-5" />}
             </div>
             <div>
               <span className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider block">
@@ -57,6 +59,49 @@ export const DrillDownModal: React.FC<DrillDownModalProps> = ({ item, onClose })
 
         {/* Modal Body */}
         <div className="p-5 overflow-y-auto space-y-4 text-xs">
+          {/* ALERT DRILL-DOWN TYPE */}
+          {type === 'alert' && (
+            <div className="space-y-4">
+              <div className="bg-amber-950/40 border border-amber-500/30 p-3 rounded-xl flex items-start space-x-3 text-amber-200">
+                <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-amber-300 text-xs">Diagnóstico PMO e Impacto Operativo</h4>
+                  <p className="text-[11px] mt-0.5 text-amber-100/90 leading-relaxed">
+                    {data.recommendation || 'Se requiere revisión en el comité de gobierno semanal para asegurar la continuidad y mitigación de desvíos en el portafolio.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Items List Breakdown */}
+              <div className="bg-[#081022] p-3.5 rounded-xl border border-[#17284a] space-y-2.5">
+                <h4 className="font-bold text-white uppercase text-[11px] border-b border-[#1b2d52] pb-1.5 flex items-center justify-between">
+                  <span>Proyectos e Elementos Involucrados</span>
+                  <span className="text-cyan-400 font-extrabold text-[10px]">{data.items ? data.items.length : 0} Registros</span>
+                </h4>
+
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {data.items && data.items.map((it: any, idx: number) => (
+                    <div key={idx} className="p-2.5 rounded-lg border bg-[#0e1933] border-[#1f3460] flex items-center justify-between text-xs">
+                      <div>
+                        <strong className="text-white block font-bold">{it.name || it.title || it}</strong>
+                        <span className="text-[10px] text-slate-400">{it.detail || it.reason || 'Seguimiento por la PMO'}</span>
+                      </div>
+                      {it.status && (
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
+                          it.status === 'Crítico' || it.status === 'Riesgo' ? 'bg-rose-950 text-rose-300 border-rose-500/30' :
+                          it.status === 'Pendiente' ? 'bg-amber-950 text-amber-300 border-amber-500/30' :
+                          'bg-blue-950 text-cyan-300 border-blue-500/30'
+                        }`}>
+                          {it.status}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {type === 'initiative' && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -206,7 +251,7 @@ export const DrillDownModal: React.FC<DrillDownModalProps> = ({ item, onClose })
         <div className="bg-[#070e1e] p-3 border-t border-[#172748] flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow transition-colors"
+            className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow transition-colors cursor-pointer"
           >
             Cerrar Detalle
           </button>

@@ -7,9 +7,10 @@ interface ExecutiveCockpitProps {
   alerts: PortfolioAlert[];
   onNavigate: (view: ViewMode) => void;
   theme?: 'dark' | 'light';
+  onDrillDown?: (item: any) => void;
 }
 
-export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts, onNavigate, theme = 'dark' }) => {
+export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts, onNavigate, theme = 'dark', onDrillDown }) => {
   const isDark = theme === 'dark';
 
   const funnelRows = [
@@ -20,6 +21,70 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
     { count: kpis.funnelProductive, label: 'Productivas (Go Live)', color: '#0d9488', topW: 36, botW: 20 },
     { count: kpis.funnelRoiMeasured, label: 'Con ROI Medido', color: '#0f172a', topW: 18, botW: 18 },
   ];
+
+  const getAlertDetails = (alertId: string, alertMessage: string) => {
+    switch (alertId) {
+      case 'A1':
+        return {
+          recommendation: 'Reunión extraordinaria de alineación PMO y renegociación de hitos críticos de avance.',
+          items: [
+            { name: 'Automatización SAP', detail: 'SPI: 0.85, CPI: 0.98 - Retraso en migración de módulos contables', status: 'Riesgo' },
+            { name: 'Portal del Cliente', detail: 'SPI: 0.83, CPI: 0.95 - Pendiente validación de seguridad e integración API', status: 'Riesgo' },
+            { name: 'Migración Cloud AWS', detail: 'SPI: 0.82, CPI: 0.92 - Dependencia con entrega de servidor por proveedor', status: 'Riesgo' },
+            { name: 'Sistema de Facturación', detail: 'SPI: 0.80, CPI: 0.90 - Aprobación presupuestal adicional pendiente', status: 'Riesgo' },
+            { name: 'Workflow Legal', detail: 'SPI: 0.81, CPI: 0.94 - Revisión de normas de cumplimiento normativo', status: 'Riesgo' },
+            { name: 'App Proveedores', detail: 'SPI: 0.84, CPI: 0.96 - Cambio de requerimientos en Sprint 3', status: 'Riesgo' }
+          ]
+        };
+      case 'A2':
+        return {
+          recommendation: 'Enviar recordatorio automático de encuesta Forms 3 a los sponsors operativos asignados.',
+          items: [
+            { name: 'Portal del Cliente', detail: 'Go-Live: 30 Abr 2026 - Encuesta agendada para Día 90', status: 'Pendiente' },
+            { name: 'App Móvil Clientes', detail: 'Go-Live: 20 May 2026 - Encuesta agendada para Día 90', status: 'Pendiente' },
+            { name: 'Firma Electrónica', detail: 'En fase de preparación de lanzamiento', status: 'Pendiente' },
+            { name: 'Chatbot IA Operaciones', detail: 'Despliegue reciente en canal productivo', status: 'Pendiente' },
+            { name: 'Gobierno de Datos TI', detail: 'Piloto operativo en revisión por el CIO', status: 'Pendiente' },
+            { name: 'Gestión Documental', detail: 'Adopción en segunda fase corporativa', status: 'Pendiente' },
+            { name: 'E-learning Corporativo', detail: 'Próximo despliegue a usuarios finales', status: 'Pendiente' },
+            { name: 'Mesa de Ayuda TI', detail: 'Programada para aplicación en Forms 3', status: 'Pendiente' }
+          ]
+        };
+      case 'A3':
+        return {
+          recommendation: 'Consolidar métricas de uso diario (DAU/MAU) antes de la sesión ejecutiva de captura de ROI.',
+          items: [
+            { name: 'CRM 360°', detail: 'Go-Live 15 Ene 2026 - Día 85 de evaluación post-salida', status: 'En Periodo' },
+            { name: 'IA Contact Center', detail: 'Go-Live 28 Feb 2026 - Día 75 de evaluación post-salida', status: 'En Periodo' },
+            { name: 'Automatización SAP', detail: 'Go-Live 10 Mar 2026 - Día 65 de evaluación post-salida', status: 'En Periodo' },
+            { name: 'Portal del Cliente', detail: 'Go-Live 30 Abr 2026 - Día 45 de evaluación post-salida', status: 'En Periodo' },
+            { name: 'App Móvil Clientes', detail: 'Go-Live 20 May 2026 - Día 25 de evaluación post-salida', status: 'En Periodo' },
+            { name: 'Data Analytics', detail: 'Go-Live 10 Jun 2026 - Día 15 de evaluación post-salida', status: 'En Periodo' }
+          ]
+        };
+      default:
+        return {
+          recommendation: 'Asignar equipo técnico dedicado para liberar bloqueos de alta severidad.',
+          items: [
+            { name: 'Infraestructura TI (6 tickets)', detail: 'Latencia en sincronización de servidores de base de datos', status: 'Crítico' },
+            { name: 'Finanzas y Compras (4 tickets)', detail: 'Retraso en orden de pago de licencias de software', status: 'Riesgo' },
+            { name: 'Operaciones UX (5 tickets)', detail: 'Ajustes menores de interfaz solicitados por usuarios', status: 'Pendiente' },
+            { name: 'Compliance Legal (3 tickets)', detail: 'Revisión de cláusulas de confidencialidad de proveedores', status: 'Pendiente' }
+          ]
+        };
+    }
+  };
+
+  const handleAlertClick = (alert: PortfolioAlert) => {
+    if (onDrillDown) {
+      onDrillDown({
+        type: 'alert',
+        title: alert.message,
+        sourceForm: 'Formulario 2 (Brief & Gantt PMO)',
+        data: getAlertDetails(alert.id, alert.message)
+      });
+    }
+  };
 
   return (
     <div className="space-y-4 text-left">
@@ -291,7 +356,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
         </div>
       </div>
 
-      {/* Alertas Principales & Recommended Navigation */}
+      {/* Alertas Principales (Interactive Drill-Down Cards) */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
         {/* Alertas Principales (12 cols) */}
         <div className={`xl:col-span-12 p-3.5 rounded-xl border transition-colors ${
@@ -302,19 +367,25 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
               <AlertTriangle className="w-4 h-4 text-amber-500" /> ALERTAS PRINCIPALES DEL PORTAFOLIO
             </h3>
             <span className="text-[9px] bg-rose-500/10 text-rose-600 border border-rose-300 px-2 py-0.5 rounded font-bold">
-              Atención PMO Requerida
+              Atención PMO Requerida • Presione para Drill-Down
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
             {alerts.map((alert) => (
-              <div key={alert.id} className={`p-2.5 rounded-lg border flex items-start space-x-2 ${
-                isDark ? 'bg-[#0d172c] border-[#1b2b4e]' : 'bg-slate-50 border-slate-200'
-              }`}>
+              <div
+                key={alert.id}
+                onClick={() => handleAlertClick(alert)}
+                className={`p-2.5 rounded-lg border flex items-start space-x-2 cursor-pointer hover:border-amber-400 transition-all ${
+                  isDark ? 'bg-[#0d172c] border-[#1b2b4e] hover:bg-[#132345]' : 'bg-slate-50 border-slate-200 hover:bg-amber-50/50'
+                }`}
+              >
                 <AlertTriangle className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
                   alert.type === 'danger' ? 'text-rose-500' : alert.type === 'warning' ? 'text-amber-500' : 'text-blue-500'
                 }`} />
-                <span className={`text-xs font-medium leading-tight ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{alert.message}</span>
+                <span className={`text-xs font-medium leading-tight ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  {alert.message}
+                </span>
               </div>
             ))}
           </div>
