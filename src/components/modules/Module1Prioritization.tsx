@@ -35,30 +35,30 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
     }
   };
 
-  // Pre-calculated scattered dot coordinates (x%, y%) inside the quadrant canvas to match reference screenshot exactly
+  // Strictly bounded scatter dot coordinates (x%, y%) to ensure dots never cross middle lines or touch labels
   const scatterDots = [
-    // Quick Wins (Top-Left) - Green
-    { initId: '1', name: 'IA Contact Center', score: 96, quadrant: 'Quick Wins', x: 18, y: 55, color: '#16a34a' },
-    { initId: '4', name: 'Data Analytics', score: 87, quadrant: 'Quick Wins', x: 38, y: 58, color: '#16a34a' },
+    // Quick Wins (Top-Left, X: 10-40%, Y: 18-42%) - Green
+    { initId: '1', name: 'IA Contact Center', score: 96, quadrant: 'Quick Wins', x: 22, y: 24, color: '#16a34a' },
+    { initId: '4', name: 'Data Analytics', score: 87, quadrant: 'Quick Wins', x: 36, y: 34, color: '#16a34a' },
 
-    // Apuestas Estratégicas (Top-Right) - Blue
-    { initId: '2', name: 'CRM 360°', score: 93, quadrant: 'Apuestas Estratégicas', x: 68, y: 15, color: '#2563eb' },
-    { initId: '3', name: 'Automatización SAP', score: 89, quadrant: 'Apuestas Estratégicas', x: 60, y: 32, color: '#2563eb' },
-    { initId: '8', name: 'App Móvil Clientes', score: 76, quadrant: 'Apuestas Estratégicas', x: 78, y: 36, color: '#2563eb' },
-    { initId: '5', name: 'Portal del Cliente', score: 84, quadrant: 'Apuestas Estratégicas', x: 68, y: 48, color: '#2563eb' },
+    // Apuestas Estratégicas (Top-Right, X: 58-88%, Y: 15-42%) - Blue
+    { initId: '2', name: 'CRM 360°', score: 93, quadrant: 'Apuestas Estratégicas', x: 68, y: 16, color: '#2563eb' },
+    { initId: '3', name: 'Automatización SAP', score: 89, quadrant: 'Apuestas Estratégicas', x: 58, y: 28, color: '#2563eb' },
+    { initId: '8', name: 'App Móvil Clientes', score: 76, quadrant: 'Apuestas Estratégicas', x: 78, y: 34, color: '#2563eb' },
+    { initId: '5', name: 'Portal del Cliente', score: 84, quadrant: 'Apuestas Estratégicas', x: 66, y: 42, color: '#2563eb' },
 
-    // Relleno (Bottom-Left) - Yellow/Amber
-    { initId: '6', name: 'Gestión Documental', score: 81, quadrant: 'Relleno', x: 18, y: 72, color: '#eab308' },
-    { initId: '7', name: 'Firma Electrónica', score: 78, quadrant: 'Relleno', x: 30, y: 64, color: '#eab308' },
-    { initId: '9', name: 'Chatbot IA', score: 74, quadrant: 'Relleno', x: 28, y: 84, color: '#eab308' },
-    { initId: '11', name: 'Workflow Legal', score: 70, quadrant: 'Relleno', x: 40, y: 74, color: '#eab308' },
+    // Relleno (Bottom-Left, X: 12-42%, Y: 58-82%) - Yellow/Amber
+    { initId: '6', name: 'Gestión Documental', score: 81, quadrant: 'Relleno', x: 18, y: 64, color: '#ca8a04' },
+    { initId: '7', name: 'Firma Electrónica', score: 78, quadrant: 'Relleno', x: 34, y: 58, color: '#ca8a04' },
+    { initId: '9', name: 'Chatbot IA', score: 74, quadrant: 'Relleno', x: 26, y: 74, color: '#ca8a04' },
+    { initId: '11', name: 'Workflow Legal', score: 70, quadrant: 'Relleno', x: 38, y: 82, color: '#ca8a04' },
 
-    // Baja Prioridad (Bottom-Right) - Red
-    { initId: '10', name: 'Gobierno de Datos', score: 72, quadrant: 'Baja Prioridad', x: 68, y: 64, color: '#dc2626' },
-    { initId: '12', name: 'Legacy Migration', score: 68, quadrant: 'Baja Prioridad', x: 82, y: 70, color: '#dc2626' },
-    { initId: '13', name: 'Hardware Upgrade', score: 65, quadrant: 'Baja Prioridad', x: 62, y: 75, color: '#dc2626' },
-    { initId: '14', name: 'Encuesta Clima', score: 60, quadrant: 'Baja Prioridad', x: 74, y: 83, color: '#dc2626' },
-    { initId: '15', name: 'Rediseño Intranet', score: 55, quadrant: 'Baja Prioridad', x: 64, y: 88, color: '#dc2626' },
+    // Baja Prioridad (Bottom-Right, X: 58-88%, Y: 58-82%) - Red
+    { initId: '10', name: 'Gobierno de Datos', score: 72, quadrant: 'Baja Prioridad', x: 66, y: 58, color: '#dc2626' },
+    { initId: '12', name: 'Legacy Migration', score: 68, quadrant: 'Baja Prioridad', x: 80, y: 64, color: '#dc2626' },
+    { initId: '13', name: 'Hardware Upgrade', score: 65, quadrant: 'Baja Prioridad', x: 58, y: 72, color: '#dc2626' },
+    { initId: '14', name: 'Encuesta Clima', score: 60, quadrant: 'Baja Prioridad', x: 72, y: 78, color: '#dc2626' },
+    { initId: '15', name: 'Rediseño Intranet', score: 55, quadrant: 'Baja Prioridad', x: 64, y: 83, color: '#dc2626' },
   ];
 
   return (
@@ -140,21 +140,21 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
       {/* Main Content Grid: Matriz Valor vs Esfuerzo & Top 10 Ranking */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
-        {/* Matriz Valor vs Esfuerzo (Replicating exact reference image media__1784655370139.png) */}
+        {/* Matriz Valor vs Esfuerzo (Pixel-perfect proportioned to reference image) */}
         <div className={`xl:col-span-7 p-4 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <h3 className={`text-center text-sm font-extrabold tracking-wide uppercase mb-3 ${isDark ? 'text-white' : 'text-[#0f172a]'}`}>
-            MATRIZ VALOR vs ESFUERZO
+            MATRIZ VALOR VS ESFUERZO
           </h3>
 
           <div className="relative flex items-center justify-center p-2 my-1">
-            {/* Y Axis Label & Arrow */}
+            {/* Y Axis Label & Arrow (Alto top, Bajo bottom, VALOR ↑ middle) */}
             <div className="absolute -left-2 top-0 bottom-8 flex flex-col items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
               <span className="text-[11px] font-bold">Alto</span>
               <div className="flex items-center space-x-1 -rotate-90 my-auto text-[11px] font-black uppercase tracking-wider">
                 <span>VALOR</span>
-                <ArrowRight className="w-3.5 h-3.5 rotate-180" />
+                <ArrowUp className="w-3.5 h-3.5 rotate-90" />
               </div>
               <span className="text-[11px] font-bold">Bajo</span>
             </div>
@@ -166,36 +166,36 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
               {/* Horizontal Center Axis Line */}
               <div className="absolute top-1/2 left-0 right-0 h-[1.5px] bg-slate-300 dark:bg-slate-700" />
 
-              {/* Quadrant Titles matching reference screenshot exactly */}
+              {/* Quadrant Titles strictly positioned in top-left or bottom-left corners */}
               {/* Top-Left: Quick Wins (Green) */}
-              <div className="absolute top-2.5 left-3">
+              <div className="absolute top-3 left-4 z-0">
                 <span className="font-extrabold text-xs text-[#16a34a]">
                   Quick Wins
                 </span>
               </div>
 
               {/* Top-Right: Apuestas Estratégicas (Blue) */}
-              <div className="absolute top-2.5 right-3 text-right">
+              <div className="absolute top-3 left-[54%] z-0">
                 <span className="font-extrabold text-xs text-[#2563eb]">
                   Apuestas Estratégicas
                 </span>
               </div>
 
               {/* Bottom-Left: Relleno (Yellow/Orange) */}
-              <div className="absolute bottom-2.5 left-3">
+              <div className="absolute bottom-3 left-4 z-0">
                 <span className="font-extrabold text-xs text-[#ca8a04]">
                   Relleno
                 </span>
               </div>
 
               {/* Bottom-Right: Baja Prioridad (Red) */}
-              <div className="absolute bottom-2.5 right-3 text-right">
+              <div className="absolute bottom-3 left-[54%] z-0">
                 <span className="font-extrabold text-xs text-[#dc2626]">
                   Baja Prioridad
                 </span>
               </div>
 
-              {/* Scatter Circles rendering with glow & interactive hover */}
+              {/* Scatter Circles rendering with glow & interactive hover strictly bounded */}
               {scatterDots.map((dot, idx) => {
                 const initObj = initiatives.find((i) => i.id === dot.initId) || {
                   id: dot.initId,
@@ -219,7 +219,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                     key={dot.initId + idx}
                     onClick={() => handleItemClick(initObj as Initiative)}
                     style={{ left: `${dot.x}%`, top: `${dot.y}%`, backgroundColor: dot.color }}
-                    className="absolute w-5 h-5 rounded-full shadow-lg border-2 border-white dark:border-slate-900 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:scale-150 transition-all z-10 group"
+                    className="absolute w-5 h-5 rounded-full shadow-md border-2 border-white dark:border-slate-900 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:scale-150 transition-all z-10 group"
                     title={`${dot.name} (Score ${dot.score}) - Clic para Drill-Down`}
                   >
                     {/* Tooltip on hover */}
@@ -233,10 +233,10 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             </div>
           </div>
 
-          {/* X Axis Label & Arrow */}
+          {/* X Axis Label & Arrow (Bajo left, ESFUERZO → middle, Alto right) */}
           <div className="ml-8 flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1">
             <span className="text-[11px] font-bold">Bajo</span>
-            <div className="flex items-center space-x-1 text-[11px] font-black uppercase tracking-wider">
+            <div className="flex items-center space-x-1.5 text-[11px] font-black uppercase tracking-wider">
               <span>ESFUERZO</span>
               <ArrowRight className="w-4 h-4 text-slate-700 dark:text-slate-300" />
             </div>

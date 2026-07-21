@@ -12,15 +12,6 @@ interface ExecutiveCockpitProps {
 export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts, onNavigate, theme = 'dark' }) => {
   const isDark = theme === 'dark';
 
-  const funnelStages = [
-    { count: kpis.funnelIdeas, label: 'Ideas / Iniciativas', color: '#2563eb' },
-    { count: kpis.funnelPrioritized, label: 'Priorizadas', color: '#16a34a' },
-    { count: kpis.funnelApproved, label: 'Aprobadas', color: '#9333ea' },
-    { count: kpis.funnelInConstruction, label: 'En Construcción', color: '#ea580c' },
-    { count: kpis.funnelProductive, label: 'Productivas (Go Live)', color: '#0d9488' },
-    { count: kpis.funnelRoiMeasured, label: 'Con ROI Medido', color: '#0f172a' },
-  ];
-
   return (
     <div className="space-y-4 text-left">
       {/* Banner Header for Executive Cockpit */}
@@ -115,26 +106,26 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
 
           {/* Authentic Visual Funnel Layout: Inverted Funnel SVG on Left + Connected Text Labels on Right */}
           <div className="py-2 flex items-center justify-between gap-2">
-            {/* SVG Inverted Funnel Graphic */}
-            <div className="w-1/2 flex justify-center">
-              <svg viewBox="0 0 160 220" className="w-full h-auto max-h-[220px]">
-                {/* Layer 1: Ideas (Blue) */}
-                <polygon points="10,5 150,5 136,36 24,36" fill="#2563eb" />
+            {/* Perfectly Proportioned SVG Inverted Funnel Graphic */}
+            <div className="w-1/2 flex justify-center items-center">
+              <svg viewBox="0 0 160 216" className="w-full h-auto max-h-[216px]">
+                {/* Layer 1: Ideas (Blue) - Y: 4 to 34 (height 30) */}
+                <polygon points="10,4 150,4 138,34 22,34" fill="#2563eb" />
                 
-                {/* Layer 2: Priorizadas (Green) */}
-                <polygon points="26,40 134,40 120,71 40,71" fill="#16a34a" />
+                {/* Layer 2: Priorizadas (Green) - Y: 40 to 70 (height 30) */}
+                <polygon points="25,40 135,40 123,70 37,70" fill="#16a34a" />
                 
-                {/* Layer 3: Aprobadas (Purple) */}
-                <polygon points="42,75 118,75 104,106 56,106" fill="#9333ea" />
+                {/* Layer 3: Aprobadas (Purple) - Y: 76 to 106 (height 30) */}
+                <polygon points="40,76 120,76 108,106 52,106" fill="#9333ea" />
                 
-                {/* Layer 4: En Construcción (Orange) */}
-                <polygon points="58,110 102,110 88,141 72,141" fill="#ea580c" />
+                {/* Layer 4: En Construcción (Orange) - Y: 112 to 142 (height 30) */}
+                <polygon points="55,112 105,112 93,142 67,142" fill="#ea580c" />
                 
-                {/* Layer 5: Productivas (Teal) */}
-                <polygon points="74,145 86,145 82,176 78,176" fill="#0d9488" />
+                {/* Layer 5: Productivas (Teal) - Y: 148 to 178 (height 30) */}
+                <polygon points="70,148 90,148 83,178 77,178" fill="#0d9488" />
                 
-                {/* Layer 6: ROI Medido (Dark Blue Square Base) */}
-                <rect x="73" y="180" width="14" height="24" rx="2" fill="#0f172a" stroke={isDark ? '#38bdf8' : '#1e3a8a'} strokeWidth="1" />
+                {/* Layer 6: ROI Medido (Dark Navy Square Base) - Y: 184 to 208 */}
+                <rect x="73" y="184" width="14" height="24" rx="2" fill="#0f172a" stroke={isDark ? '#38bdf8' : '#1e3a8a'} strokeWidth="1" />
               </svg>
             </div>
 
