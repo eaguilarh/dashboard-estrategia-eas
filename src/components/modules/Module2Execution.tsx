@@ -1,14 +1,15 @@
 import React from 'react';
 import { PortfolioKPIs, ProjectExecution } from '../../types/dashboard';
-import { KanbanSquare as Kanban, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
+import { KanbanSquare as Kanban, CheckCircle, AlertTriangle, XCircle, Eye } from 'lucide-react';
 
 interface Module2Props {
   kpis: PortfolioKPIs;
   projects: ProjectExecution[];
   theme?: 'dark' | 'light';
+  onDrillDown?: (item: any) => void;
 }
 
-export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme = 'dark' }) => {
+export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme = 'dark', onDrillDown }) => {
   const isDark = theme === 'dark';
 
   const getStatusBadge = (status: string) => {
@@ -33,6 +34,17 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
     }
   };
 
+  const handleRowClick = (prj: ProjectExecution) => {
+    if (onDrillDown) {
+      onDrillDown({
+        type: 'project',
+        title: prj.name,
+        sourceForm: 'Formulario 2 (Brief & Gantt PMO)',
+        data: prj,
+      });
+    }
+  };
+
   return (
     <div className="space-y-4 text-left">
       {/* Module Banner Header */}
@@ -48,7 +60,7 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
               PIPELINE DE PROYECTOS EN EJECUCIÓN
             </h2>
             <p className="text-[11px] text-cyan-200/90 font-medium">
-              ¿Cómo vamos con los proyectos en construcción?
+              ¿Cómo vamos con los proyectos en construcción? • Haga clic en cualquier proyecto para Drill-Down
             </p>
           </div>
         </div>
@@ -149,7 +161,11 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
             </thead>
             <tbody className={`divide-y ${isDark ? 'divide-[#152342]' : 'divide-slate-100'}`}>
               {projects.map((prj, idx) => (
-                <tr key={prj.id} className={`transition-colors ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}>
+                <tr
+                  key={prj.id}
+                  onClick={() => handleRowClick(prj)}
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
+                >
                   <td className={`py-1.5 px-2 font-bold text-[11px] ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</td>
                   <td className={`py-1.5 px-1 text-center font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{prj.startDatePlan}</td>
                   <td className={`py-1.5 px-1 text-center font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{prj.endDatePlan}</td>
@@ -244,7 +260,11 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
               </thead>
               <tbody className={`divide-y ${isDark ? 'divide-[#152342]' : 'divide-slate-100'}`}>
                 {projects.slice(0, 6).map((prj) => (
-                  <tr key={prj.id} className={`transition-colors ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}>
+                  <tr
+                    key={prj.id}
+                    onClick={() => handleRowClick(prj)}
+                    className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
+                  >
                     <td className={`py-1 px-1.5 font-semibold text-[11px] ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</td>
                     <td className="py-1 px-1.5 text-center">
                       <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.timeHealth)}`} />

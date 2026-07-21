@@ -7,12 +7,15 @@ import { Module1Prioritization } from './components/modules/Module1Prioritizatio
 import { Module2Execution } from './components/modules/Module2Execution';
 import { Module3Benefits } from './components/modules/Module3Benefits';
 import { Module4NpsAdoption } from './components/modules/Module4NpsAdoption';
+import { PMOKanbanView } from './components/modules/PMOKanbanView';
 import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
+import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
 
 export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [drillDownItem, setDrillDownItem] = useState<DrillDownItem | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('20 Jul 2026 08:30 AM');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
@@ -88,6 +91,7 @@ export function App() {
                     kpis={mockKPIs}
                     initiatives={mockInitiatives}
                     theme={theme}
+                    onDrillDown={setDrillDownItem}
                   />
                 </div>
 
@@ -97,6 +101,7 @@ export function App() {
                     kpis={mockKPIs}
                     projects={mockProjects}
                     theme={theme}
+                    onDrillDown={setDrillDownItem}
                   />
                 </div>
 
@@ -106,6 +111,7 @@ export function App() {
                     kpis={mockKPIs}
                     closedProjects={mockClosedProjects}
                     theme={theme}
+                    onDrillDown={setDrillDownItem}
                   />
                 </div>
               </div>
@@ -128,6 +134,7 @@ export function App() {
               kpis={mockKPIs}
               initiatives={mockInitiatives}
               theme={theme}
+              onDrillDown={setDrillDownItem}
             />
           )}
 
@@ -137,6 +144,7 @@ export function App() {
               kpis={mockKPIs}
               projects={mockProjects}
               theme={theme}
+              onDrillDown={setDrillDownItem}
             />
           )}
 
@@ -146,6 +154,7 @@ export function App() {
               kpis={mockKPIs}
               closedProjects={mockClosedProjects}
               theme={theme}
+              onDrillDown={setDrillDownItem}
             />
           )}
 
@@ -158,35 +167,14 @@ export function App() {
             />
           )}
 
-          {/* PMO Tab */}
+          {/* PMO Tab: Interactive Kanban Governance View */}
           {currentView === 'pmo' && (
-            <div className="space-y-4">
-              <div
-                className={`p-5 rounded-xl text-center space-y-2 border transition-colors ${
-                  isDark
-                    ? 'bg-[#0e172a] border-[#1e293b]'
-                    : 'bg-white border-slate-200 shadow-sm'
-                }`}
-              >
-                <h2 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  Gobierno de Portafolio PMO
-                </h2>
-                <p
-                  className={`text-xs max-w-xl mx-auto ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}
-                >
-                  Gestión de riesgos, dependencias críticas entre proyectos, asignación de PMs y
-                  control presupuestal de la PMO de EAS Consulting.
-                </p>
-              </div>
-
-              <Module2Execution
-                kpis={mockKPIs}
-                projects={mockProjects}
-                theme={theme}
-              />
-            </div>
+            <PMOKanbanView
+              initiatives={mockInitiatives}
+              projects={mockProjects}
+              theme={theme}
+              onDrillDown={setDrillDownItem}
+            />
           )}
 
           {/* Settings Tab */}
@@ -276,6 +264,12 @@ export function App() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onDataLoaded={handleDataLoaded}
+      />
+
+      {/* Drill-Down Interactive Modal */}
+      <DrillDownModal
+        item={drillDownItem}
+        onClose={() => setDrillDownItem(null)}
       />
     </div>
   );

@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PortfolioKPIs, Initiative } from '../../types/dashboard';
-import { Sparkles, TrendingUp, HelpCircle } from 'lucide-react';
+import { Sparkles, TrendingUp, HelpCircle, Eye, ChevronRight } from 'lucide-react';
 
 interface Module1Props {
   kpis: PortfolioKPIs;
   initiatives: Initiative[];
   theme?: 'dark' | 'light';
+  onDrillDown?: (item: any) => void;
 }
 
-export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiatives, theme = 'dark' }) => {
+export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiatives, theme = 'dark', onDrillDown }) => {
   const isDark = theme === 'dark';
+  const [selectedQuadrant, setSelectedQuadrant] = useState<string | null>(null);
 
   const categories = [
     { name: 'Transformación Digital', pct: 40, color: '#1e68d7' },
@@ -17,6 +19,21 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
     { name: 'Automatización', pct: 20, color: '#f59e0b' },
     { name: 'Compliance', pct: 15, color: '#ef4444' },
   ];
+
+  const filteredInitiatives = selectedQuadrant
+    ? initiatives.filter((i) => i.quadrant === selectedQuadrant)
+    : initiatives;
+
+  const handleItemClick = (init: Initiative) => {
+    if (onDrillDown) {
+      onDrillDown({
+        type: 'initiative',
+        title: `${init.rank}. ${init.name}`,
+        sourceForm: 'Formulario 1 (Ingreso de Iniciativas)',
+        data: init,
+      });
+    }
+  };
 
   return (
     <div className="space-y-4 text-left">
@@ -29,11 +46,11 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             1
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white tracking-tight uppercase">
+            <h2 className="text-sm font-bold text-white tracking-tight uppercase flex items-center gap-1.5">
               PRIORIZACIÓN Y RANKEO DE INICIATIVAS
             </h2>
             <p className="text-[11px] text-blue-200/90 font-medium">
-              ¿Qué iniciativas debemos ejecutar primero?
+              ¿Qué iniciativas debemos ejecutar primero? • Haga clic en cualquier elemento para Drill-Down
             </p>
           </div>
         </div>
@@ -97,11 +114,11 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
       {/* Main Content Grid: Matriz Valor vs Esfuerzo & Top 10 Ranking */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
-        {/* Matriz Valor vs Esfuerzo (7 cols) */}
+        {/* Matriz Valor vs Esfuerzo Dinámica (7 cols) */}
         <div className={`xl:col-span-7 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <div className={`flex items-center justify-between mb-2 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
-            <h3 className={`text-xs font-bold tracking-wide uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              MATRIZ VALOR VS ESFUERZO
+            <h3 className={`text-xs font-bold tracking-wide uppercase flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              MATRIZ VALOR VS ESFUERZO (DINÁMICA INTERACTIVA)
             </h3>
             <span className={`text-[9px] flex items-center gap-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
               <HelpCircle className="w-3 h-3 text-cyan-500" /> Preguntas 4-13
@@ -109,52 +126,102 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
           </div>
 
           {/* Quadrants Grid */}
-          <div className={`relative h-60 w-full rounded-lg border p-2 quadrant-bg grid grid-cols-2 grid-rows-2 gap-2 ${
+          <div className={`relative h-64 w-full rounded-lg border p-2 quadrant-bg grid grid-cols-2 grid-rows-2 gap-2 ${
             isDark ? 'bg-[#080f1e] border-[#1a294a]' : 'bg-slate-50 border-slate-200'
           }`}>
             {/* Quick Wins (Top Left) */}
-            <div className={`border rounded-md p-2 relative flex flex-col justify-between ${isDark ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-emerald-50 border-emerald-200'}`}>
+            <div
+              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Quick Wins' ? null : 'Quick Wins')}
+              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
+                selectedQuadrant === 'Quick Wins' ? 'ring-2 ring-emerald-400 scale-[1.01]' : ''
+              } ${isDark ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-emerald-50 border-emerald-200'}`}
+            >
               <span className="text-[9px] font-bold text-emerald-600 bg-emerald-100 border border-emerald-300 px-1.5 py-0.5 rounded w-max">
                 Quick Wins
               </span>
-              <div className="absolute inset-0 p-3 pointer-events-none flex flex-wrap gap-3 items-center justify-center">
-                <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="IA Contact Center (Score 96)" />
-                <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Data Analytics (Score 87)" />
-                <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Portal del Cliente (Score 84)" />
-                <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Gestión Documental (Score 81)" />
+              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
+                {initiatives.filter(i => i.quadrant === 'Quick Wins').map(init => (
+                  <div
+                    key={init.id}
+                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
+                    className="w-4 h-4 rounded-full bg-emerald-500 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-slate-950"
+                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
+                  >
+                    {init.rank}
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Apuestas Estratégicas (Top Right) */}
-            <div className={`border rounded-md p-2 relative flex flex-col justify-between ${isDark ? 'bg-blue-950/20 border-blue-500/30' : 'bg-blue-50 border-blue-200'}`}>
+            <div
+              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Apuestas Estratégicas' ? null : 'Apuestas Estratégicas')}
+              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
+                selectedQuadrant === 'Apuestas Estratégicas' ? 'ring-2 ring-blue-400 scale-[1.01]' : ''
+              } ${isDark ? 'bg-blue-950/20 border-blue-500/30' : 'bg-blue-50 border-blue-200'}`}
+            >
               <span className="text-[9px] font-bold text-blue-600 bg-blue-100 border border-blue-300 px-1.5 py-0.5 rounded w-max">
                 Apuestas Estratégicas
               </span>
-              <div className="absolute inset-0 p-3 pointer-events-none flex flex-wrap gap-3 items-center justify-center">
-                <div className="w-3.5 h-3.5 rounded-full bg-blue-600 shadow-md cursor-pointer hover:scale-125 transition-transform" title="CRM 360° (Score 93)" />
-                <div className="w-3.5 h-3.5 rounded-full bg-blue-600 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Automatización SAP (Score 89)" />
-                <div className="w-3.5 h-3.5 rounded-full bg-blue-600 shadow-md cursor-pointer hover:scale-125 transition-transform" title="App Móvil Clientes (Score 76)" />
+              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
+                {initiatives.filter(i => i.quadrant === 'Apuestas Estratégicas').map(init => (
+                  <div
+                    key={init.id}
+                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
+                    className="w-4 h-4 rounded-full bg-blue-600 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-white"
+                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
+                  >
+                    {init.rank}
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Relleno (Bottom Left) */}
-            <div className={`border rounded-md p-2 relative flex flex-col justify-between ${isDark ? 'bg-amber-950/20 border-amber-500/30' : 'bg-amber-50 border-amber-200'}`}>
+            <div
+              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Relleno' ? null : 'Relleno')}
+              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
+                selectedQuadrant === 'Relleno' ? 'ring-2 ring-amber-400 scale-[1.01]' : ''
+              } ${isDark ? 'bg-amber-950/20 border-amber-500/30' : 'bg-amber-50 border-amber-200'}`}
+            >
               <span className="text-[9px] font-bold text-amber-700 bg-amber-100 border border-amber-300 px-1.5 py-0.5 rounded w-max">
                 Relleno
               </span>
-              <div className="absolute inset-0 p-3 pointer-events-none flex flex-wrap gap-3 items-center justify-center">
-                <div className="w-3.5 h-3.5 rounded-full bg-amber-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Firma Electrónica (Score 78)" />
-                <div className="w-3.5 h-3.5 rounded-full bg-amber-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Chatbot IA (Score 74)" />
+              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
+                {initiatives.filter(i => i.quadrant === 'Relleno').map(init => (
+                  <div
+                    key={init.id}
+                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
+                    className="w-4 h-4 rounded-full bg-amber-500 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-slate-950"
+                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
+                  >
+                    {init.rank}
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Baja Prioridad (Bottom Right) */}
-            <div className={`border rounded-md p-2 relative flex flex-col justify-between ${isDark ? 'bg-rose-950/20 border-rose-500/30' : 'bg-rose-50 border-rose-200'}`}>
+            <div
+              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Baja Prioridad' ? null : 'Baja Prioridad')}
+              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
+                selectedQuadrant === 'Baja Prioridad' ? 'ring-2 ring-rose-400 scale-[1.01]' : ''
+              } ${isDark ? 'bg-rose-950/20 border-rose-500/30' : 'bg-rose-50 border-rose-200'}`}
+            >
               <span className="text-[9px] font-bold text-rose-600 bg-rose-100 border border-rose-300 px-1.5 py-0.5 rounded w-max">
                 Baja Prioridad
               </span>
-              <div className="absolute inset-0 p-3 pointer-events-none flex flex-wrap gap-3 items-center justify-center">
-                <div className="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-md cursor-pointer hover:scale-125 transition-transform" title="Gobierno de Datos (Score 72)" />
+              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
+                {initiatives.filter(i => i.quadrant === 'Baja Prioridad').map(init => (
+                  <div
+                    key={init.id}
+                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
+                    className="w-4 h-4 rounded-full bg-rose-500 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-white"
+                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
+                  >
+                    {init.rank}
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -170,6 +237,14 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'
           }`}>
             <span>Alto Valor / Bajo Esfuerzo = Prioridad Máxima</span>
+            {selectedQuadrant && (
+              <button
+                onClick={() => setSelectedQuadrant(null)}
+                className="text-cyan-400 hover:underline font-bold"
+              >
+                Limpiar filtro de cuadrante
+              </button>
+            )}
             <span className="font-semibold text-blue-500">10 Top Iniciativas Mapeadas</span>
           </div>
         </div>
@@ -195,11 +270,16 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                   <th className="py-1 px-1.5">Iniciativa</th>
                   <th className="py-1 px-1.5 text-center">Score</th>
                   <th className="py-1 px-1.5 text-right">ROI Esperado</th>
+                  <th className="py-1 px-1.5 text-center">Acción</th>
                 </tr>
               </thead>
               <tbody className={`divide-y ${isDark ? 'divide-[#152342]' : 'divide-slate-100'}`}>
-                {initiatives.slice(0, 10).map((item) => (
-                  <tr key={item.id} className={`transition-colors ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}>
+                {filteredInitiatives.slice(0, 10).map((item) => (
+                  <tr
+                    key={item.id}
+                    onClick={() => handleItemClick(item)}
+                    className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
+                  >
                     <td className="py-1 px-1.5 font-bold text-blue-500 text-center w-6">{item.rank}</td>
                     <td className={`py-1 px-1.5 font-semibold text-[11px] ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>{item.name}</td>
                     <td className="py-1 px-1.5 text-center">
@@ -210,6 +290,9 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                       </span>
                     </td>
                     <td className="py-1 px-1.5 text-right font-bold text-emerald-600 text-[11px]">{item.roiExpected}%</td>
+                    <td className="py-1 px-1.5 text-center text-cyan-400 hover:text-white">
+                      <Eye className="w-3.5 h-3.5 inline" />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -225,7 +308,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
       {/* Bottom Section: Distribución Estratégica & Footnote */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
         <div className={`xl:col-span-6 p-3.5 rounded-xl border transition-colors ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <h3 className={`text-xs font-bold tracking-wide uppercase mb-2 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
+          <h3 className={`text-xs font-bold tracking-wide uppercase mb-2 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
             DISTRIBUCIÓN ESTRATÉGICA
           </h3>
           <div className="flex flex-col sm:flex-row items-center justify-around gap-3">
