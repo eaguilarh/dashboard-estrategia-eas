@@ -1,14 +1,18 @@
 import React from 'react';
 import { ViewMode } from '../../types/dashboard';
 import { LayoutDashboard, Target, KanbanSquare as Kanban, TrendingUp, HeartHandshake, ShieldCheck, Settings, Upload } from 'lucide-react';
+import { EasLogo } from '../common/EasLogo';
 
 interface SidebarProps {
   currentView: ViewMode;
   onSelectView: (view: ViewMode) => void;
   onOpenUploadModal: () => void;
+  theme: 'dark' | 'light';
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentView, onSelectView, onOpenUploadModal }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentView, onSelectView, onOpenUploadModal, theme }) => {
+  const isDark = theme === 'dark';
+
   const navItems: { id: ViewMode; label: string; icon: React.ReactNode }[] = [
     { id: 'cockpit', label: 'Cockpit', icon: <LayoutDashboard className="w-5 h-5" /> },
     { id: 'iniciativas', label: 'Iniciativas', icon: <Target className="w-5 h-5" /> },
@@ -20,12 +24,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onSelectView, onO
   ];
 
   return (
-    <aside className="w-20 lg:w-24 bg-[#0a1122] border-r border-[#1a2847] flex flex-col items-center py-4 flex-shrink-0 select-none">
-      {/* Brand Icon */}
-      <div className="mb-6 flex flex-col items-center">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-blue-900/40">
-          EAS
+    <aside
+      className={`w-20 lg:w-24 border-r flex flex-col items-center py-4 flex-shrink-0 select-none transition-colors duration-200 ${
+        isDark
+          ? 'bg-[#0a1122] border-[#1a2847]'
+          : 'bg-white border-slate-200 shadow-sm'
+      }`}
+    >
+      {/* Brand Official EAS Logo */}
+      <div className="mb-5 flex flex-col items-center cursor-pointer group" onClick={() => onSelectView('cockpit')}>
+        <div className="p-1 rounded-2xl bg-gradient-to-b from-blue-500/10 to-cyan-500/5 border border-blue-500/20 group-hover:border-cyan-400/50 transition-colors">
+          <EasLogo size={42} />
         </div>
+        <span className={`text-[10px] font-extrabold tracking-wider mt-1.5 ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
+          EAS
+        </span>
       </div>
 
       {/* Nav Menu */}
@@ -39,11 +52,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onSelectView, onO
               title={item.label}
               className={`w-full flex flex-col items-center justify-center py-2.5 px-1 rounded-xl transition-all duration-200 group ${
                 isActive
-                  ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/50'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#13203c]'
+                  ? 'bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md shadow-blue-900/40'
+                  : isDark
+                  ? 'text-slate-400 hover:text-slate-200 hover:bg-[#13203c]'
+                  : 'text-slate-600 hover:text-blue-700 hover:bg-slate-100'
               }`}
             >
-              <div className={`transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-cyan-400'}`}>
+              <div
+                className={`transition-transform duration-200 group-hover:scale-110 ${
+                  isActive
+                    ? 'text-white'
+                    : isDark
+                    ? 'text-slate-400 group-hover:text-cyan-400'
+                    : 'text-slate-500 group-hover:text-blue-600'
+                }`}
+              >
                 {item.icon}
               </div>
               <span className="text-[10px] font-medium tracking-tight mt-1 text-center line-clamp-1">
@@ -55,14 +78,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onSelectView, onO
       </nav>
 
       {/* Forms & Excel Upload Trigger Button */}
-      <div className="mt-auto px-2 w-full pt-4 border-t border-[#1a2847]">
+      <div className={`mt-auto px-2 w-full pt-4 border-t ${isDark ? 'border-[#1a2847]' : 'border-slate-200'}`}>
         <button
           onClick={onOpenUploadModal}
           title="Cargar / Sincronizar Excel de Forms"
-          className="w-full flex flex-col items-center justify-center py-2.5 px-1 rounded-xl bg-[#122347] hover:bg-blue-600 text-cyan-400 hover:text-white transition-all border border-blue-500/30 group shadow-sm"
+          className={`w-full flex flex-col items-center justify-center py-2 px-1 rounded-xl transition-all border group shadow-sm ${
+            isDark
+              ? 'bg-[#122347] hover:bg-blue-600 text-cyan-400 hover:text-white border-blue-500/30'
+              : 'bg-slate-50 hover:bg-blue-50 text-blue-700 hover:text-blue-800 border-blue-200'
+          }`}
         >
-          <Upload className="w-5 h-5 group-hover:scale-110 transition-transform" />
-          <span className="text-[9px] font-semibold tracking-tight mt-1 text-center leading-tight">
+          <Upload className="w-4 h-4 group-hover:scale-110 transition-transform" />
+          <span className="text-[9px] font-bold tracking-tight mt-1 text-center leading-tight">
             Cargar Excel
           </span>
         </button>

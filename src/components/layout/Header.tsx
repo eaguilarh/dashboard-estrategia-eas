@@ -1,106 +1,189 @@
 import React from 'react';
 import { FilterState } from '../../types/dashboard';
-import { Calendar, Filter, RefreshCw, UploadCloud } from 'lucide-react';
+import { Filter, Calendar, Sun, Moon } from 'lucide-react';
+import { EasLogo } from '../common/EasLogo';
 
 interface HeaderProps {
   filters: FilterState;
   onFilterChange: (key: keyof FilterState, value: string) => void;
-  onOpenUploadModal: () => void;
   lastUpdated: string;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ filters, onFilterChange, onOpenUploadModal, lastUpdated }) => {
+export const Header: React.FC<HeaderProps> = ({
+  filters,
+  onFilterChange,
+  lastUpdated,
+  theme,
+  onToggleTheme,
+}) => {
+  const isDark = theme === 'dark';
+
   return (
-    <header className="bg-[#0b1328] border-b border-[#1a2847] px-4 py-3 flex flex-wrap items-center justify-between gap-4 select-none">
-      {/* Title & Tagline */}
+    <header
+      className={`border-b px-4 py-3 flex flex-wrap items-center justify-between gap-4 select-none transition-colors duration-200 ${
+        isDark
+          ? 'bg-[#0b1328] border-[#1a2847]'
+          : 'bg-white border-slate-200 shadow-sm'
+      }`}
+    >
+      {/* Title & Brand Header */}
       <div className="flex items-center space-x-3">
-        <div className="p-2 rounded-lg bg-blue-900/40 border border-blue-500/30 text-cyan-400">
-          <Filter className="w-5 h-5" />
-        </div>
+        <EasLogo size={36} />
         <div>
-          <h1 className="text-lg lg:text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            EXECUTIVE COCKPIT <span className="text-slate-400 font-normal text-sm">| VISIÓN INTEGRAL DEL PORTAFOLIO</span>
+          <h1
+            className={`text-lg lg:text-xl font-bold tracking-tight flex items-center gap-2 ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}
+          >
+            EXECUTIVE COCKPIT{' '}
+            <span
+              className={`font-normal text-sm hidden sm:inline-block ${
+                isDark ? 'text-slate-400' : 'text-slate-500'
+              }`}
+            >
+              | VISIÓN INTEGRAL DEL PORTAFOLIO
+            </span>
           </h1>
-          <p className="text-xs text-blue-300/80 font-medium">
+          <p
+            className={`text-xs font-medium ${
+              isDark ? 'text-blue-300/80' : 'text-blue-700'
+            }`}
+          >
             Del concepto al valor real para el negocio • EAS Consulting
           </p>
         </div>
       </div>
 
-      {/* Global Filters Controls */}
-      <div className="flex flex-wrap items-center gap-3">
+      {/* Global Filters & Theme Toggle Controls */}
+      <div className="flex flex-wrap items-center gap-2.5">
         {/* Filter: Año */}
-        <div className="flex items-center space-x-1.5 bg-[#121e38] border border-[#21345e] rounded-lg px-2.5 py-1 text-xs">
-          <span className="text-slate-400 font-medium">Año:</span>
+        <div
+          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+            isDark
+              ? 'bg-[#121e38] border-[#21345e] text-slate-400'
+              : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}
+        >
+          <span className="font-medium">Año:</span>
           <select
             value={filters.year}
             onChange={(e) => onFilterChange('year', e.target.value)}
-            className="bg-transparent text-white font-semibold outline-none cursor-pointer"
+            className={`bg-transparent font-semibold outline-none cursor-pointer ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}
           >
-            <option value="2024" className="bg-[#0b1328]">2024</option>
-            <option value="2025" className="bg-[#0b1328]">2025</option>
+            <option value="2024" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>2024</option>
+            <option value="2025" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>2025</option>
           </select>
         </div>
 
         {/* Filter: Dirección */}
-        <div className="flex items-center space-x-1.5 bg-[#121e38] border border-[#21345e] rounded-lg px-2.5 py-1 text-xs">
-          <span className="text-slate-400 font-medium">Dirección:</span>
+        <div
+          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+            isDark
+              ? 'bg-[#121e38] border-[#21345e] text-slate-400'
+              : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}
+        >
+          <span className="font-medium">Dirección:</span>
           <select
             value={filters.direction}
             onChange={(e) => onFilterChange('direction', e.target.value)}
-            className="bg-transparent text-white font-semibold outline-none cursor-pointer"
+            className={`bg-transparent font-semibold outline-none cursor-pointer ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}
           >
-            <option value="Todas" className="bg-[#0b1328]">Todas</option>
-            <option value="Operaciones" className="bg-[#0b1328]">Operaciones</option>
-            <option value="Comercial" className="bg-[#0b1328]">Comercial</option>
-            <option value="Finanzas" className="bg-[#0b1328]">Finanzas</option>
-            <option value="TI" className="bg-[#0b1328]">TI</option>
+            <option value="Todas" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Todas</option>
+            <option value="Operaciones" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Operaciones</option>
+            <option value="Comercial" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Comercial</option>
+            <option value="Finanzas" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Finanzas</option>
+            <option value="TI" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>TI</option>
           </select>
         </div>
 
         {/* Filter: Sponsor */}
-        <div className="flex items-center space-x-1.5 bg-[#121e38] border border-[#21345e] rounded-lg px-2.5 py-1 text-xs">
-          <span className="text-slate-400 font-medium">Sponsor:</span>
+        <div
+          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+            isDark
+              ? 'bg-[#121e38] border-[#21345e] text-slate-400'
+              : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}
+        >
+          <span className="font-medium">Sponsor:</span>
           <select
             value={filters.sponsor}
             onChange={(e) => onFilterChange('sponsor', e.target.value)}
-            className="bg-transparent text-white font-semibold outline-none cursor-pointer"
+            className={`bg-transparent font-semibold outline-none cursor-pointer ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}
           >
-            <option value="Todos" className="bg-[#0b1328]">Todos</option>
-            <option value="CEO" className="bg-[#0b1328]">CEO</option>
-            <option value="CFO" className="bg-[#0b1328]">CFO</option>
-            <option value="CIO" className="bg-[#0b1328]">CIO</option>
-            <option value="CMO" className="bg-[#0b1328]">CMO</option>
+            <option value="Todos" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Todos</option>
+            <option value="CEO" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>CEO</option>
+            <option value="CFO" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>CFO</option>
+            <option value="CIO" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>CIO</option>
+            <option value="CMO" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>CMO</option>
           </select>
         </div>
 
         {/* Filter: Tipo */}
-        <div className="flex items-center space-x-1.5 bg-[#121e38] border border-[#21345e] rounded-lg px-2.5 py-1 text-xs">
-          <span className="text-slate-400 font-medium">Tipo:</span>
+        <div
+          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+            isDark
+              ? 'bg-[#121e38] border-[#21345e] text-slate-400'
+              : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}
+        >
+          <span className="font-medium">Tipo:</span>
           <select
             value={filters.type}
             onChange={(e) => onFilterChange('type', e.target.value)}
-            className="bg-transparent text-white font-semibold outline-none cursor-pointer"
+            className={`bg-transparent font-semibold outline-none cursor-pointer ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}
           >
-            <option value="Todos" className="bg-[#0b1328]">Todos</option>
-            <option value="Estratégicos" className="bg-[#0b1328]">Estratégicos</option>
-            <option value="Operativos" className="bg-[#0b1328]">Operativos</option>
+            <option value="Todos" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Todos</option>
+            <option value="Estratégicos" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Estratégicos</option>
+            <option value="Operativos" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Operativos</option>
           </select>
         </div>
 
         {/* Last Updated Badge */}
-        <div className="flex items-center space-x-2 text-xs bg-[#0f2444] text-cyan-300 border border-cyan-500/30 rounded-lg px-3 py-1 font-medium">
-          <Calendar className="w-3.5 h-3.5 text-cyan-400" />
-          <span>Última actualización: <strong className="text-white">{lastUpdated}</strong></span>
+        <div
+          className={`flex items-center space-x-2 text-xs border rounded-lg px-3 py-1 font-medium ${
+            isDark
+              ? 'bg-[#0f2444] text-cyan-300 border-cyan-500/30'
+              : 'bg-blue-50 text-blue-800 border-blue-200'
+          }`}
+        >
+          <Calendar className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+          <span>
+            Última actualización: <strong className={isDark ? 'text-white' : 'text-blue-950'}>{lastUpdated}</strong>
+          </span>
         </div>
 
-        {/* Upload Button */}
+        {/* Theme Toggle Button (Light/Dark mode) */}
         <button
-          onClick={onOpenUploadModal}
-          className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg shadow-md shadow-blue-900/40 transition-all border border-cyan-400/30 cursor-pointer"
+          onClick={onToggleTheme}
+          title={isDark ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'}
+          className={`flex items-center space-x-1.5 font-semibold text-xs px-3 py-1.5 rounded-lg shadow-sm border transition-all cursor-pointer ${
+            isDark
+              ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/30'
+              : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+          }`}
         >
-          <UploadCloud className="w-4 h-4" />
-          <span>Sincronizar Excel</span>
+          {isDark ? (
+            <>
+              <Sun className="w-4 h-4 text-amber-400" />
+              <span>Modo Claro</span>
+            </>
+          ) : (
+            <>
+              <Moon className="w-4 h-4 text-indigo-600" />
+              <span>Modo Oscuro</span>
+            </>
+          )}
         </button>
       </div>
     </header>

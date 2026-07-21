@@ -1,100 +1,145 @@
 import React from 'react';
 import { PortfolioKPIs, PortfolioAlert, ViewMode } from '../../types/dashboard';
-import { LayoutDashboard, ArrowRight, AlertTriangle, ShieldAlert, CheckCircle, TrendingUp, DollarSign, Award, Layers } from 'lucide-react';
+import { AlertTriangle, Layers } from 'lucide-react';
 
 interface ExecutiveCockpitProps {
   kpis: PortfolioKPIs;
   alerts: PortfolioAlert[];
   onNavigate: (view: ViewMode) => void;
+  theme?: 'dark' | 'light';
 }
 
-export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts, onNavigate }) => {
+export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts, onNavigate, theme = 'dark' }) => {
+  const isDark = theme === 'dark';
+
   return (
-    <div className="space-y-4">
-      {/* Resumen Ejecutivo Row */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="executive-card p-3 border-l-4 border-l-blue-500">
-          <span className="text-2xl font-black text-white">{kpis.funnelIdeas}</span>
-          <span className="block text-[11px] text-slate-400 font-medium mt-0.5">Ideas / Iniciativas</span>
+    <div className="space-y-4 text-left">
+      {/* Banner Header for Executive Cockpit */}
+      <div className={`border rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 shadow-md transition-colors ${
+        isDark ? 'bg-gradient-to-r from-[#0b132b] via-[#102144] to-[#0b132b] border-[#1d325e]' : 'bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border-slate-800 text-white'
+      }`}>
+        <div className="flex items-center space-x-3">
+          <div className="p-2 rounded-lg bg-blue-600 text-white font-extrabold text-lg shadow">
+            📊
+          </div>
+          <div>
+            <h2 className="text-base font-extrabold text-white tracking-tight uppercase">
+              EXECUTIVE COCKPIT - VISIÓN INTEGRAL DEL PORTAFOLIO
+            </h2>
+            <p className="text-xs text-blue-200/90 font-medium">
+              Del concepto al valor real para el negocio • Estrategia de Negocio EAS
+            </p>
+          </div>
         </div>
-
-        <div className="executive-card p-3 border-l-4 border-l-cyan-500">
-          <span className="text-2xl font-black text-white">{kpis.funnelPrioritized}</span>
-          <span className="block text-[11px] text-slate-400 font-medium mt-0.5">Priorizadas</span>
-        </div>
-
-        <div className="executive-card p-3 border-l-4 border-l-emerald-500">
-          <span className="text-2xl font-black text-white">{kpis.funnelApproved}</span>
-          <span className="block text-[11px] text-slate-400 font-medium mt-0.5">Aprobadas</span>
-        </div>
-
-        <div className="executive-card p-3 border-l-4 border-l-amber-500">
-          <span className="text-2xl font-black text-amber-400">{kpis.funnelInConstruction}</span>
-          <span className="block text-[11px] text-slate-400 font-medium mt-0.5">En Construcción</span>
-        </div>
-
-        <div className="executive-card p-3 border-l-4 border-l-purple-500">
-          <span className="text-2xl font-black text-white">{kpis.funnelProductive}</span>
-          <span className="block text-[11px] text-slate-400 font-medium mt-0.5">Productivas</span>
-        </div>
-
-        <div className="executive-card p-3 border-l-4 border-l-emerald-400">
-          <span className="text-2xl font-black text-emerald-400">{kpis.funnelRoiMeasured}</span>
-          <span className="block text-[11px] text-slate-400 font-medium mt-0.5">Con ROI Medido</span>
+        <div className="text-right text-xs">
+          <span className="bg-blue-950 text-cyan-300 border border-blue-500/40 px-3 py-1 rounded-md font-bold">
+            Consolidado General
+          </span>
         </div>
       </div>
 
-      {/* Main Cockpit Section: Funnel, Roadmap, KPIs, Alerts */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      {/* Resumen Ejecutivo Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+        <div className={`p-3 rounded-xl border border-l-4 border-l-blue-500 transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelIdeas}</span>
+          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Ideas / Iniciativas</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border border-l-4 border-l-cyan-500 transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelPrioritized}</span>
+          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Priorizadas</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border border-l-4 border-l-emerald-500 transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelApproved}</span>
+          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Aprobadas</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border border-l-4 border-l-amber-500 transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <span className="text-2xl font-black text-amber-500">{kpis.funnelInConstruction}</span>
+          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>En Construcción</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border border-l-4 border-l-purple-500 transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelProductive}</span>
+          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Productivas</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border border-l-4 border-l-emerald-400 transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <span className="text-2xl font-black text-emerald-500">{kpis.funnelRoiMeasured}</span>
+          <span className={`block text-[11px] font-medium mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Con ROI Medido</span>
+        </div>
+      </div>
+
+      {/* Main Cockpit Section: Funnel, Roadmap, KPIs */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
         {/* Embudo de Valor Stage-Gate (3 cols) */}
-        <div className="lg:col-span-3 executive-card p-4 flex flex-col justify-between">
-          <h3 className="text-xs font-bold text-white tracking-wide uppercase border-b border-[#1d2d4f] pb-2">
+        <div className={`xl:col-span-3 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <h3 className={`text-xs font-bold tracking-wide uppercase border-b pb-1.5 ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
             EMBUDO DE VALOR (STAGE-GATE)
           </h3>
 
           <div className="py-2 space-y-1.5 text-center text-xs">
-            <div className="bg-blue-600/90 text-white font-bold py-1.5 px-3 rounded shadow clip-funnel-1 flex justify-between items-center text-[11px]">
+            <div className="bg-blue-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
               <span>Ideas / Iniciativas</span>
               <span className="bg-blue-900 px-2 py-0.5 rounded text-white font-black">{kpis.funnelIdeas}</span>
             </div>
-            <div className="bg-cyan-600/90 text-white font-bold py-1.5 px-4 rounded shadow clip-funnel-2 flex justify-between items-center text-[11px] mx-1">
+            <div className="bg-cyan-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
               <span>Priorizadas</span>
               <span className="bg-cyan-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelPrioritized}</span>
             </div>
-            <div className="bg-emerald-600/90 text-white font-bold py-1.5 px-4 rounded shadow clip-funnel-3 flex justify-between items-center text-[11px] mx-2">
+            <div className="bg-emerald-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
               <span>Aprobadas</span>
               <span className="bg-emerald-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelApproved}</span>
             </div>
-            <div className="bg-amber-600/90 text-white font-bold py-1.5 px-3 rounded shadow clip-funnel-4 flex justify-between items-center text-[11px] mx-3">
+            <div className="bg-amber-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
               <span>En Construcción</span>
               <span className="bg-amber-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelInConstruction}</span>
             </div>
-            <div className="bg-purple-600/90 text-white font-bold py-1.5 px-2 rounded shadow clip-funnel-5 flex justify-between items-center text-[11px] mx-4">
+            <div className="bg-purple-600 text-white font-bold py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
               <span>Productivas (Go-Live)</span>
               <span className="bg-purple-950 px-2 py-0.5 rounded text-white font-black">{kpis.funnelProductive}</span>
             </div>
-            <div className="bg-emerald-500 text-slate-950 font-black py-1.5 px-2 rounded shadow flex justify-between items-center text-[11px] mx-5">
+            <div className="bg-emerald-500 text-slate-950 font-black py-1.5 px-3 rounded shadow flex justify-between items-center text-[11px]">
               <span>Con ROI Medido</span>
-              <span className="bg-slate-900 px-2 py-0.5 rounded text-emerald-400">{kpis.funnelRoiMeasured}</span>
+              <span className="bg-slate-900 px-2 py-0.5 rounded text-emerald-400 font-black">{kpis.funnelRoiMeasured}</span>
             </div>
           </div>
 
-          <div className="text-[10px] text-slate-400 text-center border-t border-[#1d2d4f] pt-2">
+          <div className={`text-[9px] text-center border-t pt-1.5 ${isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'}`}>
             Conversión de concepto a beneficio real
           </div>
         </div>
 
         {/* Roadmap Estratégico - Próximos 12 Meses (5 cols) */}
-        <div className="lg:col-span-5 executive-card p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between border-b border-[#1d2d4f] pb-2">
-            <h3 className="text-xs font-bold text-white tracking-wide uppercase">
+        <div className={`xl:col-span-5 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <div className={`flex items-center justify-between border-b pb-1.5 ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
+            <h3 className={`text-xs font-bold tracking-wide uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
               ROADMAP ESTRATÉGICO - PRÓXIMOS 12 MESES
             </h3>
-            <span className="text-[10px] text-slate-400">2024</span>
+            <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>2024</span>
           </div>
 
-          <div className="space-y-3 py-2 text-xs">
-            <div className="grid grid-cols-5 text-[10px] text-slate-400 font-bold border-b border-[#152342] pb-1 text-center">
+          <div className="space-y-2 py-2 text-xs">
+            <div className={`grid grid-cols-5 text-[9px] font-bold border-b pb-1 text-center ${
+              isDark ? 'border-[#152342] text-slate-400' : 'border-slate-200 text-slate-500'
+            }`}>
               <span className="text-left col-span-1">Proyecto</span>
               <span>Q1 2024</span>
               <span>Q2 2024</span>
@@ -102,147 +147,166 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
               <span>Q4 2024</span>
             </div>
 
-            {/* Project Bars */}
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="w-28 font-semibold text-slate-200 text-[11px] truncate">IA Generativa</span>
-                <div className="flex-1 bg-[#091122] h-4 rounded overflow-hidden relative ml-2 border border-[#1a2a4c]">
+                <span className={`w-28 font-semibold text-[11px] truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>IA Generativa</span>
+                <div className={`flex-1 h-3.5 rounded overflow-hidden relative ml-2 border ${
+                  isDark ? 'bg-[#091122] border-[#1a2a4c]' : 'bg-slate-100 border-slate-200'
+                }`}>
                   <div className="absolute left-0 w-3/5 h-full bg-blue-600 rounded" />
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="w-28 font-semibold text-slate-200 text-[11px] truncate">CRM 360°</span>
-                <div className="flex-1 bg-[#091122] h-4 rounded overflow-hidden relative ml-2 border border-[#1a2a4c]">
+                <span className={`w-28 font-semibold text-[11px] truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>CRM 360°</span>
+                <div className={`flex-1 h-3.5 rounded overflow-hidden relative ml-2 border ${
+                  isDark ? 'bg-[#091122] border-[#1a2a4c]' : 'bg-slate-100 border-slate-200'
+                }`}>
                   <div className="absolute left-[10%] w-3/4 h-full bg-emerald-600 rounded" />
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="w-28 font-semibold text-slate-200 text-[11px] truncate">Automatización SAP</span>
-                <div className="flex-1 bg-[#091122] h-4 rounded overflow-hidden relative ml-2 border border-[#1a2a4c]">
+                <span className={`w-28 font-semibold text-[11px] truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Automatización SAP</span>
+                <div className={`flex-1 h-3.5 rounded overflow-hidden relative ml-2 border ${
+                  isDark ? 'bg-[#091122] border-[#1a2a4c]' : 'bg-slate-100 border-slate-200'
+                }`}>
                   <div className="absolute left-[45%] w-1/2 h-full bg-purple-600 rounded" />
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="w-28 font-semibold text-slate-200 text-[11px] truncate">Data Analytics</span>
-                <div className="flex-1 bg-[#091122] h-4 rounded overflow-hidden relative ml-2 border border-[#1a2a4c]">
+                <span className={`w-28 font-semibold text-[11px] truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Data Analytics</span>
+                <div className={`flex-1 h-3.5 rounded overflow-hidden relative ml-2 border ${
+                  isDark ? 'bg-[#091122] border-[#1a2a4c]' : 'bg-slate-100 border-slate-200'
+                }`}>
                   <div className="absolute left-[25%] w-3/5 h-full bg-amber-600 rounded" />
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="w-28 font-semibold text-slate-200 text-[11px] truncate">Portal del Cliente</span>
-                <div className="flex-1 bg-[#091122] h-4 rounded overflow-hidden relative ml-2 border border-[#1a2a4c]">
+                <span className={`w-28 font-semibold text-[11px] truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Portal del Cliente</span>
+                <div className={`flex-1 h-3.5 rounded overflow-hidden relative ml-2 border ${
+                  isDark ? 'bg-[#091122] border-[#1a2a4c]' : 'bg-slate-100 border-slate-200'
+                }`}>
                   <div className="absolute left-[50%] w-2/5 h-full bg-cyan-600 rounded" />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="text-[10px] text-slate-400 border-t border-[#1d2d4f] pt-2 flex justify-between">
+          <div className={`text-[9px] border-t pt-1.5 flex justify-between ${
+            isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'
+          }`}>
             <span>Línea temporal ajustada a entregas ejecutivas</span>
-            <span className="text-cyan-400 font-semibold">Q1-Q4 Visión</span>
+            <span className="text-cyan-500 font-semibold">Q1-Q4 Visión</span>
           </div>
         </div>
 
         {/* KPIs Clave del Portafolio (4 cols) */}
-        <div className="lg:col-span-4 executive-card p-4">
-          <h3 className="text-xs font-bold text-white tracking-wide uppercase border-b border-[#1d2d4f] pb-2 mb-3">
+        <div className={`xl:col-span-4 p-3.5 rounded-xl border transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <h3 className={`text-xs font-bold tracking-wide uppercase border-b pb-1.5 mb-2.5 ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
             KPIS CLAVE DEL PORTAFOLIO
           </h3>
 
-          <div className="grid grid-cols-2 gap-3 text-xs">
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">Inversión Total</span>
-              <strong className="text-emerald-400 text-base font-extrabold">${kpis.totalInvestmentRequired}M <span className="text-[10px] text-slate-400 font-normal">MXN</span></strong>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Total</span>
+              <strong className="text-emerald-500 text-sm font-extrabold">${kpis.totalInvestmentRequired}M <span className="text-[9px] font-normal">MXN</span></strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">Proyectos Activos</span>
-              <strong className="text-white text-base font-extrabold">{kpis.activeProjects}</strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos Activos</span>
+              <strong className={`text-sm font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.activeProjects}</strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">Beneficio Esperado</span>
-              <strong className="text-purple-400 text-base font-extrabold">${kpis.totalPotentialBenefit}M <span className="text-[10px] text-slate-400 font-normal">MXN</span></strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Esperado</span>
+              <strong className="text-purple-500 text-sm font-extrabold">${kpis.totalPotentialBenefit}M <span className="text-[9px] font-normal">MXN</span></strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">Proyectos en Riesgo</span>
-              <strong className="text-rose-400 text-base font-extrabold">{kpis.projectsInRisk}</strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos en Riesgo</span>
+              <strong className="text-rose-500 text-sm font-extrabold">{kpis.projectsInRisk}</strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">ROI Promedio</span>
-              <strong className="text-amber-400 text-base font-extrabold">{kpis.avgExpectedROI}%</strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>ROI Promedio</span>
+              <strong className="text-amber-500 text-sm font-extrabold">{kpis.avgExpectedROI}%</strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">Beneficio Realizado</span>
-              <strong className="text-emerald-400 text-base font-extrabold">${kpis.realizedBenefitMXN}M <span className="text-[10px] text-slate-400 font-normal">MXN</span></strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Realizado</span>
+              <strong className="text-emerald-500 text-sm font-extrabold">${kpis.realizedBenefitMXN}M <span className="text-[9px] font-normal">MXN</span></strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">% Proyectos On Track</span>
-              <strong className="text-emerald-400 text-base font-extrabold">{kpis.pctOnTrack}%</strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>% Proyectos On Track</span>
+              <strong className="text-emerald-500 text-sm font-extrabold">{kpis.pctOnTrack}%</strong>
             </div>
 
-            <div className="bg-[#0b162c] p-2.5 rounded-lg border border-[#1a2948]">
-              <span className="text-[10px] text-slate-400 block">NPS Promedio</span>
-              <strong className="text-cyan-400 text-base font-extrabold">{kpis.avgNPS}</strong>
+            <div className={`p-2 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+              <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
+              <strong className="text-cyan-500 text-sm font-extrabold">{kpis.avgNPS}</strong>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Row: Alertas Principales & Recommended Navigation */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      {/* Alertas Principales & Recommended Navigation */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
         {/* Alertas Principales (12 cols) */}
-        <div className="lg:col-span-12 executive-card p-4">
-          <div className="flex items-center justify-between mb-3 border-b border-[#1d2d4f] pb-2">
-            <h3 className="text-xs font-bold text-white tracking-wide uppercase flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-400" /> ALERTAS PRINCIPALES DEL PORTAFOLIO
+        <div className={`xl:col-span-12 p-3.5 rounded-xl border transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <div className={`flex items-center justify-between mb-2 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
+            <h3 className={`text-xs font-bold tracking-wide uppercase flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <AlertTriangle className="w-4 h-4 text-amber-500" /> ALERTAS PRINCIPALES DEL PORTAFOLIO
             </h3>
-            <span className="text-[10px] bg-rose-950 text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded font-bold">
+            <span className="text-[9px] bg-rose-500/10 text-rose-600 border border-rose-300 px-2 py-0.5 rounded font-bold">
               Atención PMO Requerida
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
             {alerts.map((alert) => (
-              <div key={alert.id} className="bg-[#0d172c] border border-[#1b2b4e] rounded-lg p-3 flex items-start space-x-2.5">
-                <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                  alert.type === 'danger' ? 'text-rose-400' : alert.type === 'warning' ? 'text-amber-400' : 'text-blue-400'
+              <div key={alert.id} className={`p-2.5 rounded-lg border flex items-start space-x-2 ${
+                isDark ? 'bg-[#0d172c] border-[#1b2b4e]' : 'bg-slate-50 border-slate-200'
+              }`}>
+                <AlertTriangle className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
+                  alert.type === 'danger' ? 'text-rose-500' : alert.type === 'warning' ? 'text-amber-500' : 'text-blue-500'
                 }`} />
-                <span className="text-xs text-slate-300 font-medium leading-tight">{alert.message}</span>
+                <span className={`text-xs font-medium leading-tight ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{alert.message}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Recommended Navigation Footer */}
-        <div className="lg:col-span-12 bg-gradient-to-r from-blue-950 via-[#0d1e3d] to-blue-950 border border-blue-500/30 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="flex items-center space-x-2 text-cyan-300 font-medium">
-            <Layers className="w-4 h-4" />
-            <span>Navegación recomendada del dashboard:</span>
+        <div className={`xl:col-span-12 border rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs transition-colors ${
+          isDark ? 'bg-gradient-to-r from-blue-950 via-[#0d1e3d] to-blue-950 border-blue-500/30' : 'bg-blue-50 border-blue-200 text-blue-900'
+        }`}>
+          <div className="flex items-center space-x-2 font-medium">
+            <Layers className="w-4 h-4 text-blue-500" />
+            <span className={isDark ? 'text-cyan-300' : 'text-blue-900'}>Navegación recomendada del dashboard:</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <button onClick={() => onNavigate('iniciativas')} className="px-3 py-1 bg-blue-900/60 hover:bg-blue-600 text-white rounded border border-blue-400/30 transition-colors font-semibold">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <button onClick={() => onNavigate('iniciativas')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
               1. Iniciativas →
             </button>
-            <button onClick={() => onNavigate('proyectos')} className="px-3 py-1 bg-blue-900/60 hover:bg-blue-600 text-white rounded border border-blue-400/30 transition-colors font-semibold">
+            <button onClick={() => onNavigate('proyectos')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
               2. Proyectos →
             </button>
-            <button onClick={() => onNavigate('beneficios')} className="px-3 py-1 bg-blue-900/60 hover:bg-blue-600 text-white rounded border border-blue-400/30 transition-colors font-semibold">
+            <button onClick={() => onNavigate('beneficios')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
               3. Beneficios →
             </button>
-            <button onClick={() => onNavigate('nps')} className="px-3 py-1 bg-blue-900/60 hover:bg-blue-600 text-white rounded border border-blue-400/30 transition-colors font-semibold">
+            <button onClick={() => onNavigate('nps')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
               4. NPS / Adopción →
             </button>
-            <button onClick={() => onNavigate('pmo')} className="px-3 py-1 bg-blue-900/60 hover:bg-blue-600 text-white rounded border border-blue-400/30 transition-colors font-semibold">
+            <button onClick={() => onNavigate('pmo')} className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded font-semibold text-xs shadow-sm transition-colors">
               5. PMO
             </button>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ViewMode, FilterState } from './types/dashboard';
 import { mockKPIs, mockInitiatives, mockProjects, mockClosedProjects, mockAlerts } from './data/mockData';
 import { Sidebar } from './components/layout/Sidebar';
@@ -13,30 +13,54 @@ export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [lastUpdated, setLastUpdated] = useState<string>('20 May 2024 08:30 AM');
-  
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
   const [filters, setFilters] = useState<FilterState>({
     year: '2024',
     direction: 'Todas',
     sponsor: 'Todos',
-    type: 'Todos'
+    type: 'Todos',
   });
 
   const handleFilterChange = (key: keyof FilterState, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleDataLoaded = (data: any) => {
     console.log('Processed upload data:', data);
-    setLastUpdated(new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }));
+    setLastUpdated(
+      new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' })
+    );
   };
 
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const isDark = theme === 'dark';
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#060b14] text-slate-100 font-['Plus_Jakarta_Sans',sans-serif]">
+    <div
+      className={`flex h-screen w-screen overflow-hidden font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-200 ${
+        isDark ? 'bg-[#060b14] text-slate-100' : 'bg-slate-100 text-slate-900'
+      }`}
+    >
       {/* Executive Sidebar */}
       <Sidebar
         currentView={currentView}
         onSelectView={setCurrentView}
         onOpenUploadModal={() => setIsModalOpen(true)}
+        theme={theme}
       />
 
       {/* Main App Workspace */}
@@ -45,98 +69,235 @@ export function App() {
         <Header
           filters={filters}
           onFilterChange={handleFilterChange}
-          onOpenUploadModal={() => setIsModalOpen(true)}
           lastUpdated={lastUpdated}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
 
         {/* View Content Area */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-5 space-y-4">
+        <main className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-4">
+          {/* Main Full Cockpit View: Replicates the reference composite dashboard image! */}
           {currentView === 'cockpit' && (
-            <ExecutiveCockpit
-              kpis={mockKPIs}
-              alerts={mockAlerts}
-              onNavigate={setCurrentView}
-            />
+            <div className="space-y-4">
+              {/* Top Row: 3 Module Columns Side-by-Side matching the Reference Image */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-3.5 items-start">
+                {/* Module 1 Panel */}
+                <div className="w-full">
+                  <Module1Prioritization
+                    kpis={mockKPIs}
+                    initiatives={mockInitiatives}
+                    theme={theme}
+                  />
+                </div>
+
+                {/* Module 2 Panel */}
+                <div className="w-full">
+                  <Module2Execution
+                    kpis={mockKPIs}
+                    projects={mockProjects}
+                    theme={theme}
+                  />
+                </div>
+
+                {/* Module 3 Panel */}
+                <div className="w-full">
+                  <Module3Benefits
+                    kpis={mockKPIs}
+                    closedProjects={mockClosedProjects}
+                    theme={theme}
+                  />
+                </div>
+              </div>
+
+              {/* Bottom Full-Width Panel: Executive Cockpit Consolidated */}
+              <div className="w-full pt-2">
+                <ExecutiveCockpit
+                  kpis={mockKPIs}
+                  alerts={mockAlerts}
+                  onNavigate={setCurrentView}
+                  theme={theme}
+                />
+              </div>
+            </div>
           )}
 
+          {/* Focused Module 1 View */}
           {currentView === 'iniciativas' && (
             <Module1Prioritization
               kpis={mockKPIs}
               initiatives={mockInitiatives}
+              theme={theme}
             />
           )}
 
+          {/* Focused Module 2 View */}
           {currentView === 'proyectos' && (
             <Module2Execution
               kpis={mockKPIs}
               projects={mockProjects}
+              theme={theme}
             />
           )}
 
+          {/* Focused Module 3 View */}
           {currentView === 'beneficios' && (
             <Module3Benefits
               kpis={mockKPIs}
               closedProjects={mockClosedProjects}
+              theme={theme}
             />
           )}
 
+          {/* NPS & Adoption Dedicated Tab */}
           {currentView === 'nps' && (
             <div className="space-y-4">
-              <div className="executive-card p-6 text-center space-y-3">
-                <h2 className="text-xl font-bold text-white">Módulo NPS y Adopción del Usuario</h2>
-                <p className="text-sm text-slate-400 max-w-xl mx-auto">
-                  Seguimiento detallado de encuestas de satisfacción de usuarios finales (NPS) y métricas de uso continuo por cada solución implementada.
+              <div
+                className={`p-6 rounded-2xl text-center space-y-3 border transition-colors ${
+                  isDark
+                    ? 'bg-[#0e172a] border-[#1e293b]'
+                    : 'bg-white border-slate-200 shadow-sm'
+                }`}
+              >
+                <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  Módulo NPS y Adopción del Usuario
+                </h2>
+                <p
+                  className={`text-sm max-w-xl mx-auto ${
+                    isDark ? 'text-slate-400' : 'text-slate-600'
+                  }`}
+                >
+                  Seguimiento detallado de encuestas de satisfacción de usuarios finales (NPS) y
+                  métricas de uso continuo por cada solución implementada.
                 </p>
-                <div className="pt-4 flex justify-center">
-                  <button onClick={() => setCurrentView('beneficios')} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg">
-                    Ver en Módulo 3 de Beneficios
+                <div className="pt-2 flex justify-center">
+                  <button
+                    onClick={() => setCurrentView('beneficios')}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow-sm"
+                  >
+                    Ver Módulo 3 de Beneficios & NPS
                   </button>
                 </div>
               </div>
+
+              <Module3Benefits
+                kpis={mockKPIs}
+                closedProjects={mockClosedProjects}
+                theme={theme}
+              />
             </div>
           )}
 
+          {/* PMO Tab */}
           {currentView === 'pmo' && (
             <div className="space-y-4">
-              <div className="executive-card p-6 text-center space-y-3">
-                <h2 className="text-xl font-bold text-white">Gobierno de Portafolio PMO</h2>
-                <p className="text-sm text-slate-400 max-w-xl mx-auto">
-                  Gestión de riesgos, dependencias críticas entre proyectos, asignación de PMs y control presupuestal de la PMO de EAS Consulting.
+              <div
+                className={`p-6 rounded-2xl text-center space-y-3 border transition-colors ${
+                  isDark
+                    ? 'bg-[#0e172a] border-[#1e293b]'
+                    : 'bg-white border-slate-200 shadow-sm'
+                }`}
+              >
+                <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  Gobierno de Portafolio PMO
+                </h2>
+                <p
+                  className={`text-sm max-w-xl mx-auto ${
+                    isDark ? 'text-slate-400' : 'text-slate-600'
+                  }`}
+                >
+                  Gestión de riesgos, dependencias críticas entre proyectos, asignación de PMs y
+                  control presupuestal de la PMO de EAS Consulting.
                 </p>
-                <div className="pt-4 flex justify-center">
-                  <button onClick={() => setCurrentView('proyectos')} className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-lg">
-                    Ver Pipeline de Proyectos
+                <div className="pt-2 flex justify-center">
+                  <button
+                    onClick={() => setCurrentView('proyectos')}
+                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-lg shadow-sm"
+                  >
+                    Ver Pipeline de Proyectos PMO
                   </button>
                 </div>
               </div>
+
+              <Module2Execution
+                kpis={mockKPIs}
+                projects={mockProjects}
+                theme={theme}
+              />
             </div>
           )}
 
+          {/* Settings Tab */}
           {currentView === 'config' && (
             <div className="space-y-4">
-              <div className="executive-card p-6 space-y-4 max-w-2xl mx-auto">
-                <h2 className="text-lg font-bold text-white border-b border-[#1d2d4f] pb-2">
-                  Configuración del Dashboard & Links a Forms
+              <div
+                className={`p-6 rounded-2xl space-y-4 max-w-2xl mx-auto border transition-colors ${
+                  isDark
+                    ? 'bg-[#0e172a] border-[#1e293b]'
+                    : 'bg-white border-slate-200 shadow-sm'
+                }`}
+              >
+                <h2
+                  className={`text-lg font-bold border-b pb-2 ${
+                    isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'
+                  }`}
+                >
+                  Configuración del Dashboard & Formatos de Excel
                 </h2>
 
                 <div className="space-y-3 text-xs">
-                  <div className="bg-[#0a1224] p-3 rounded-lg border border-[#1b2b4e]">
-                    <strong className="text-cyan-400 block mb-1">Formulario 1: Ingreso de Iniciativas</strong>
-                    <span className="text-slate-300 font-mono break-all text-[11px]">
+                  <div
+                    className={`p-3 rounded-xl border ${
+                      isDark
+                        ? 'bg-[#0a1224] border-[#1b2b4e]'
+                        : 'bg-slate-50 border-slate-200'
+                    }`}
+                  >
+                    <strong className="text-cyan-500 block mb-1">
+                      Formulario 1: Ingreso de Iniciativas
+                    </strong>
+                    <span
+                      className={`font-mono text-[11px] break-all ${
+                        isDark ? 'text-slate-300' : 'text-slate-700'
+                      }`}
+                    >
                       Ingreso de iniciativas.xlsx (Sincronizado vía SharePoint)
                     </span>
                   </div>
 
-                  <div className="bg-[#0a1224] p-3 rounded-lg border border-[#1b2b4e]">
-                    <strong className="text-emerald-400 block mb-1">Formulario 2: Brief de Iniciativas & Proyectos</strong>
-                    <span className="text-slate-300 font-mono break-all text-[11px]">
+                  <div
+                    className={`p-3 rounded-xl border ${
+                      isDark
+                        ? 'bg-[#0a1224] border-[#1b2b4e]'
+                        : 'bg-slate-50 border-slate-200'
+                    }`}
+                  >
+                    <strong className="text-emerald-500 block mb-1">
+                      Formulario 2: Brief de Iniciativas & Proyectos
+                    </strong>
+                    <span
+                      className={`font-mono text-[11px] break-all ${
+                        isDark ? 'text-slate-300' : 'text-slate-700'
+                      }`}
+                    >
                       Brief de Iniciativas - Estrategia de Negocio EAS.xlsx
                     </span>
                   </div>
 
-                  <div className="bg-[#0a1224] p-3 rounded-lg border border-[#1b2b4e]">
-                    <strong className="text-purple-400 block mb-1">Formulario 3: Evaluación NPS y Cierre 90 Días</strong>
-                    <span className="text-slate-300 font-mono break-all text-[11px]">
+                  <div
+                    className={`p-3 rounded-xl border ${
+                      isDark
+                        ? 'bg-[#0a1224] border-[#1b2b4e]'
+                        : 'bg-slate-50 border-slate-200'
+                    }`}
+                  >
+                    <strong className="text-purple-500 block mb-1">
+                      Formulario 3: Evaluación NPS y Cierre 90 Días
+                    </strong>
+                    <span
+                      className={`font-mono text-[11px] break-all ${
+                        isDark ? 'text-slate-300' : 'text-slate-700'
+                      }`}
+                    >
                       NPS Evaluación de Proyecto – Estrategia de Negocios EAS.xlsx
                     </span>
                   </div>
