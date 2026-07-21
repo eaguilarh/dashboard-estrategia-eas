@@ -12,6 +12,15 @@ interface ExecutiveCockpitProps {
 export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts, onNavigate, theme = 'dark' }) => {
   const isDark = theme === 'dark';
 
+  const funnelRows = [
+    { count: kpis.funnelIdeas, label: 'Ideas / Iniciativas', color: '#2563eb', topW: 140, botW: 116 },
+    { count: kpis.funnelPrioritized, label: 'Priorizadas', color: '#16a34a', topW: 114, botW: 90 },
+    { count: kpis.funnelApproved, label: 'Aprobadas', color: '#9333ea', topW: 88, botW: 64 },
+    { count: kpis.funnelInConstruction, label: 'En Construcción', color: '#ea580c', topW: 62, botW: 38 },
+    { count: kpis.funnelProductive, label: 'Productivas (Go Live)', color: '#0d9488', topW: 36, botW: 20 },
+    { count: kpis.funnelRoiMeasured, label: 'Con ROI Medido', color: '#0f172a', topW: 18, botW: 18 },
+  ];
+
   return (
     <div className="space-y-4 text-left">
       {/* Banner Header for Executive Cockpit */}
@@ -94,7 +103,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
 
       {/* Main Cockpit Section: Visual Funnel, Roadmap, KPIs */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
-        {/* Embudo de Valor Stage-Gate (Replicating exact reference image media__1784655705466.png) */}
+        {/* Embudo de Valor Stage-Gate (Perfect 1-to-1 Horizontal Linearity) */}
         <div className={`xl:col-span-4 p-4 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
@@ -104,63 +113,47 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
             EMBUDO DE VALOR (STAGE-GATE)
           </h3>
 
-          {/* Authentic Visual Funnel Layout: Inverted Funnel SVG on Left + Connected Text Labels on Right */}
-          <div className="py-2 flex items-center justify-between gap-2">
-            {/* Perfectly Proportioned SVG Inverted Funnel Graphic */}
-            <div className="w-1/2 flex justify-center items-center">
-              <svg viewBox="0 0 160 216" className="w-full h-auto max-h-[216px]">
-                {/* Layer 1: Ideas (Blue) - Y: 4 to 34 (height 30) */}
-                <polygon points="10,4 150,4 138,34 22,34" fill="#2563eb" />
-                
-                {/* Layer 2: Priorizadas (Green) - Y: 40 to 70 (height 30) */}
-                <polygon points="25,40 135,40 123,70 37,70" fill="#16a34a" />
-                
-                {/* Layer 3: Aprobadas (Purple) - Y: 76 to 106 (height 30) */}
-                <polygon points="40,76 120,76 108,106 52,106" fill="#9333ea" />
-                
-                {/* Layer 4: En Construcción (Orange) - Y: 112 to 142 (height 30) */}
-                <polygon points="55,112 105,112 93,142 67,142" fill="#ea580c" />
-                
-                {/* Layer 5: Productivas (Teal) - Y: 148 to 178 (height 30) */}
-                <polygon points="70,148 90,148 83,178 77,178" fill="#0d9488" />
-                
-                {/* Layer 6: ROI Medido (Dark Navy Square Base) - Y: 184 to 208 */}
-                <rect x="73" y="184" width="14" height="24" rx="2" fill="#0f172a" stroke={isDark ? '#38bdf8' : '#1e3a8a'} strokeWidth="1" />
-              </svg>
-            </div>
+          {/* 100% Linearly Aligned Funnel Rows */}
+          <div className="py-2 space-y-1">
+            {funnelRows.map((row, idx) => (
+              <div
+                key={idx}
+                className="flex items-center space-x-3 h-9 border-b border-slate-100 dark:border-slate-800/80 last:border-b-0 cursor-pointer hover:bg-slate-50 dark:hover:bg-[#132244] px-1 rounded transition-colors"
+              >
+                {/* Left 40%: Segmento de Embudo Trapezoidal SVG */}
+                <div className="w-2/5 flex justify-center items-center h-full">
+                  <svg viewBox="0 0 160 30" className="w-full h-7">
+                    {idx < 5 ? (
+                      <polygon
+                        points={`${(160 - row.topW) / 2},2 ${(160 + row.topW) / 2},2 ${(160 + row.botW) / 2},28 ${(160 - row.botW) / 2},28`}
+                        fill={row.color}
+                      />
+                    ) : (
+                      <rect
+                        x="71"
+                        y="2"
+                        width="18"
+                        height="26"
+                        rx="2"
+                        fill={row.color}
+                        stroke={isDark ? '#38bdf8' : '#1e3a8a'}
+                        strokeWidth="1"
+                      />
+                    )}
+                  </svg>
+                </div>
 
-            {/* Stage Text Labels & Values on Right connected by lines */}
-            <div className="w-1/2 flex flex-col justify-between space-y-3.5 text-xs pr-1">
-              <div className="flex items-center space-x-2 border-b pb-1 border-slate-200 dark:border-slate-800">
-                <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelIdeas}</span>
-                <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Ideas / Iniciativas</span>
+                {/* Right 60%: Número Enunciado perfectamente centrado y alineado en la misma línea */}
+                <div className="flex-1 flex items-center space-x-2 text-xs">
+                  <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    {row.count}
+                  </span>
+                  <span className={`text-[11px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                    {row.label}
+                  </span>
+                </div>
               </div>
-
-              <div className="flex items-center space-x-2 border-b pb-1 border-slate-200 dark:border-slate-800">
-                <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelPrioritized}</span>
-                <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Priorizadas</span>
-              </div>
-
-              <div className="flex items-center space-x-2 border-b pb-1 border-slate-200 dark:border-slate-800">
-                <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelApproved}</span>
-                <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Aprobadas</span>
-              </div>
-
-              <div className="flex items-center space-x-2 border-b pb-1 border-slate-200 dark:border-slate-800">
-                <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelInConstruction}</span>
-                <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>En Construcción</span>
-              </div>
-
-              <div className="flex items-center space-x-2 border-b pb-1 border-slate-200 dark:border-slate-800">
-                <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.funnelProductive}</span>
-                <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Productivas (Go Live)</span>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <span className={`text-base font-black ${isDark ? 'text-cyan-400' : 'text-slate-900'}`}>{kpis.funnelRoiMeasured}</span>
-                <span className={`text-[10px] font-bold truncate ${isDark ? 'text-cyan-300' : 'text-slate-900'}`}>Con ROI Medido</span>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className={`text-[9px] text-center border-t pt-1.5 ${isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'}`}>
