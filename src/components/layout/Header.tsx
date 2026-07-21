@@ -72,8 +72,8 @@ export const Header: React.FC<HeaderProps> = ({
               isDark ? 'text-white' : 'text-slate-900'
             }`}
           >
-            <option value="2024" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>2024</option>
-            <option value="2025" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>2025</option>
+            <option value="2026" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>2026</option>
+            <option value="2027" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>2027</option>
           </select>
         </div>
 

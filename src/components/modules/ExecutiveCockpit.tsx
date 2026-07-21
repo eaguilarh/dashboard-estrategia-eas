@@ -133,7 +133,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
             <h3 className={`text-xs font-bold tracking-wide uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
               ROADMAP ESTRATÉGICO - PRÓXIMOS 12 MESES
             </h3>
-            <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>2024</span>
+            <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>2026</span>
           </div>
 
           <div className="space-y-2 py-2 text-xs">
@@ -141,10 +141,10 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({ kpis, alerts
               isDark ? 'border-[#152342] text-slate-400' : 'border-slate-200 text-slate-500'
             }`}>
               <span className="text-left col-span-1">Proyecto</span>
-              <span>Q1 2024</span>
-              <span>Q2 2024</span>
-              <span>Q3 2024</span>
-              <span>Q4 2024</span>
+              <span>Q1 2026</span>
+              <span>Q2 2026</span>
+              <span>Q3 2026</span>
+              <span>Q4 2026</span>
             </div>
 
             <div className="space-y-2">

@@ -113,7 +113,7 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
       <div className={`p-3.5 rounded-xl border transition-colors ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
         <div className={`flex items-center justify-between mb-2 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
           <h3 className={`text-xs font-bold tracking-wide uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            ROADMAP / DIAGRAMA DE GANTT (2024)
+            ROADMAP / DIAGRAMA DE GANTT (2026)
           </h3>
           <div className={`flex items-center space-x-3 text-[9px] ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded bg-emerald-500 inline-block"></span> On Track</span>

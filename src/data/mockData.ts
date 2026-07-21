@@ -65,11 +65,11 @@ export const mockProjects: ProjectExecution[] = [
 ];
 
 export const mockClosedProjects: ClosedProject[] = [
-  { id: 'C1', name: 'CRM 360°', area: 'Ventas', deliveryDate: '15 Ene 2024', roiExpectedPct: 25, roiReal90DaysPct: 28, nps: 82, npsStatus: 'Excelente', adoptionPct: 92, realBenefitMXN: 32, promisedBenefitMXN: 30 },
-  { id: 'C2', name: 'IA Contact Center', area: 'Operaciones', deliveryDate: '28 Feb 2024', roiExpectedPct: 35, roiReal90DaysPct: 40, nps: 78, npsStatus: 'Excelente', adoptionPct: 90, realBenefitMXN: 28, promisedBenefitMXN: 26 },
-  { id: 'C3', name: 'Automatización SAP', area: 'Finanzas', deliveryDate: '10 Mar 2024', roiExpectedPct: 20, roiReal90DaysPct: 18, nps: 75, npsStatus: 'Bueno', adoptionPct: 88, realBenefitMXN: 16, promisedBenefitMXN: 18 },
-  { id: 'C4', name: 'Portal del Cliente', area: 'Atención Clientes', deliveryDate: '30 Abr 2024', roiExpectedPct: 20, roiReal90DaysPct: 10, nps: 0, npsStatus: 'Pendiente', adoptionPct: 60, realBenefitMXN: 11, promisedBenefitMXN: 15 },
-  { id: 'C5', name: 'App Móvil Clientes', area: 'Marketing', deliveryDate: '20 May 2024', roiExpectedPct: 15, roiReal90DaysPct: 13, nps: 0, npsStatus: 'Pendiente', adoptionPct: 55, realBenefitMXN: 9, promisedBenefitMXN: 13 },
+  { id: 'C1', name: 'CRM 360°', area: 'Ventas', deliveryDate: '15 Ene 2026', roiExpectedPct: 25, roiReal90DaysPct: 28, nps: 82, npsStatus: 'Excelente', adoptionPct: 92, realBenefitMXN: 32, promisedBenefitMXN: 30 },
+  { id: 'C2', name: 'IA Contact Center', area: 'Operaciones', deliveryDate: '28 Feb 2026', roiExpectedPct: 35, roiReal90DaysPct: 40, nps: 78, npsStatus: 'Excelente', adoptionPct: 90, realBenefitMXN: 28, promisedBenefitMXN: 26 },
+  { id: 'C3', name: 'Automatización SAP', area: 'Finanzas', deliveryDate: '10 Mar 2026', roiExpectedPct: 20, roiReal90DaysPct: 18, nps: 75, npsStatus: 'Bueno', adoptionPct: 88, realBenefitMXN: 16, promisedBenefitMXN: 18 },
+  { id: 'C4', name: 'Portal del Cliente', area: 'Atención Clientes', deliveryDate: '30 Abr 2026', roiExpectedPct: 20, roiReal90DaysPct: 10, nps: 0, npsStatus: 'Pendiente', adoptionPct: 60, realBenefitMXN: 11, promisedBenefitMXN: 15 },
+  { id: 'C5', name: 'App Móvil Clientes', area: 'Marketing', deliveryDate: '20 May 2026', roiExpectedPct: 15, roiReal90DaysPct: 13, nps: 0, npsStatus: 'Pendiente', adoptionPct: 55, realBenefitMXN: 9, promisedBenefitMXN: 13 },
 ];
 
 export const mockAlerts: PortfolioAlert[] = [

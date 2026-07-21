@@ -12,7 +12,7 @@ import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [lastUpdated, setLastUpdated] = useState<string>('20 May 2024 08:30 AM');
+  const [lastUpdated, setLastUpdated] = useState<string>('20 Jul 2026 08:30 AM');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function App() {
   }, [theme]);
 
   const [filters, setFilters] = useState<FilterState>({
-    year: '2024',
+    year: '2026',
     direction: 'Todas',
     sponsor: 'Todos',
     type: 'Todos',
