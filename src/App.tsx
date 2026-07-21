@@ -6,6 +6,7 @@ import { Header } from './components/layout/Header';
 import { Module1Prioritization } from './components/modules/Module1Prioritization';
 import { Module2Execution } from './components/modules/Module2Execution';
 import { Module3Benefits } from './components/modules/Module3Benefits';
+import { Module4NpsAdoption } from './components/modules/Module4NpsAdoption';
 import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 
@@ -148,74 +149,36 @@ export function App() {
             />
           )}
 
-          {/* NPS & Adoption Dedicated Tab */}
+          {/* NPS & Adoption Dedicated High-Value View */}
           {currentView === 'nps' && (
-            <div className="space-y-4">
-              <div
-                className={`p-6 rounded-2xl text-center space-y-3 border transition-colors ${
-                  isDark
-                    ? 'bg-[#0e172a] border-[#1e293b]'
-                    : 'bg-white border-slate-200 shadow-sm'
-                }`}
-              >
-                <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  Módulo NPS y Adopción del Usuario
-                </h2>
-                <p
-                  className={`text-sm max-w-xl mx-auto ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}
-                >
-                  Seguimiento detallado de encuestas de satisfacción de usuarios finales (NPS) y
-                  métricas de uso continuo por cada solución implementada.
-                </p>
-                <div className="pt-2 flex justify-center">
-                  <button
-                    onClick={() => setCurrentView('beneficios')}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow-sm"
-                  >
-                    Ver Módulo 3 de Beneficios & NPS
-                  </button>
-                </div>
-              </div>
-
-              <Module3Benefits
-                kpis={mockKPIs}
-                closedProjects={mockClosedProjects}
-                theme={theme}
-              />
-            </div>
+            <Module4NpsAdoption
+              kpis={mockKPIs}
+              closedProjects={mockClosedProjects}
+              theme={theme}
+            />
           )}
 
           {/* PMO Tab */}
           {currentView === 'pmo' && (
             <div className="space-y-4">
               <div
-                className={`p-6 rounded-2xl text-center space-y-3 border transition-colors ${
+                className={`p-5 rounded-xl text-center space-y-2 border transition-colors ${
                   isDark
                     ? 'bg-[#0e172a] border-[#1e293b]'
                     : 'bg-white border-slate-200 shadow-sm'
                 }`}
               >
-                <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <h2 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Gobierno de Portafolio PMO
                 </h2>
                 <p
-                  className={`text-sm max-w-xl mx-auto ${
+                  className={`text-xs max-w-xl mx-auto ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
                   Gestión de riesgos, dependencias críticas entre proyectos, asignación de PMs y
                   control presupuestal de la PMO de EAS Consulting.
                 </p>
-                <div className="pt-2 flex justify-center">
-                  <button
-                    onClick={() => setCurrentView('proyectos')}
-                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-lg shadow-sm"
-                  >
-                    Ver Pipeline de Proyectos PMO
-                  </button>
-                </div>
               </div>
 
               <Module2Execution
