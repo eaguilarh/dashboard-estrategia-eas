@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PortfolioKPIs, Initiative } from '../../types/dashboard';
-import { Sparkles, TrendingUp, HelpCircle, Eye, ChevronRight } from 'lucide-react';
+import { Sparkles, TrendingUp, HelpCircle, Eye, ArrowUp, ArrowRight } from 'lucide-react';
 
 interface Module1Props {
   kpis: PortfolioKPIs;
@@ -35,6 +35,32 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
     }
   };
 
+  // Pre-calculated scattered dot coordinates (x%, y%) inside the quadrant canvas to match reference screenshot exactly
+  const scatterDots = [
+    // Quick Wins (Top-Left) - Green
+    { initId: '1', name: 'IA Contact Center', score: 96, quadrant: 'Quick Wins', x: 18, y: 55, color: '#16a34a' },
+    { initId: '4', name: 'Data Analytics', score: 87, quadrant: 'Quick Wins', x: 38, y: 58, color: '#16a34a' },
+
+    // Apuestas Estratégicas (Top-Right) - Blue
+    { initId: '2', name: 'CRM 360°', score: 93, quadrant: 'Apuestas Estratégicas', x: 68, y: 15, color: '#2563eb' },
+    { initId: '3', name: 'Automatización SAP', score: 89, quadrant: 'Apuestas Estratégicas', x: 60, y: 32, color: '#2563eb' },
+    { initId: '8', name: 'App Móvil Clientes', score: 76, quadrant: 'Apuestas Estratégicas', x: 78, y: 36, color: '#2563eb' },
+    { initId: '5', name: 'Portal del Cliente', score: 84, quadrant: 'Apuestas Estratégicas', x: 68, y: 48, color: '#2563eb' },
+
+    // Relleno (Bottom-Left) - Yellow/Amber
+    { initId: '6', name: 'Gestión Documental', score: 81, quadrant: 'Relleno', x: 18, y: 72, color: '#eab308' },
+    { initId: '7', name: 'Firma Electrónica', score: 78, quadrant: 'Relleno', x: 30, y: 64, color: '#eab308' },
+    { initId: '9', name: 'Chatbot IA', score: 74, quadrant: 'Relleno', x: 28, y: 84, color: '#eab308' },
+    { initId: '11', name: 'Workflow Legal', score: 70, quadrant: 'Relleno', x: 40, y: 74, color: '#eab308' },
+
+    // Baja Prioridad (Bottom-Right) - Red
+    { initId: '10', name: 'Gobierno de Datos', score: 72, quadrant: 'Baja Prioridad', x: 68, y: 64, color: '#dc2626' },
+    { initId: '12', name: 'Legacy Migration', score: 68, quadrant: 'Baja Prioridad', x: 82, y: 70, color: '#dc2626' },
+    { initId: '13', name: 'Hardware Upgrade', score: 65, quadrant: 'Baja Prioridad', x: 62, y: 75, color: '#dc2626' },
+    { initId: '14', name: 'Encuesta Clima', score: 60, quadrant: 'Baja Prioridad', x: 74, y: 83, color: '#dc2626' },
+    { initId: '15', name: 'Rediseño Intranet', score: 55, quadrant: 'Baja Prioridad', x: 64, y: 88, color: '#dc2626' },
+  ];
+
   return (
     <div className="space-y-4 text-left">
       {/* Module Banner Header */}
@@ -46,11 +72,11 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             1
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white tracking-tight uppercase flex items-center gap-1.5">
+            <h2 className="text-sm font-bold text-white tracking-tight uppercase">
               PRIORIZACIÓN Y RANKEO DE INICIATIVAS
             </h2>
             <p className="text-[11px] text-blue-200/90 font-medium">
-              ¿Qué iniciativas debemos ejecutar primero? • Haga clic en cualquier elemento para Drill-Down
+              ¿Qué iniciativas debemos ejecutar primero? • Presione cualquier elemento para detalles
             </p>
           </div>
         </div>
@@ -114,138 +140,107 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
       {/* Main Content Grid: Matriz Valor vs Esfuerzo & Top 10 Ranking */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-3">
-        {/* Matriz Valor vs Esfuerzo Dinámica (7 cols) */}
-        <div className={`xl:col-span-7 p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className={`flex items-center justify-between mb-2 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
-            <h3 className={`text-xs font-bold tracking-wide uppercase flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              MATRIZ VALOR VS ESFUERZO (DINÁMICA INTERACTIVA)
-            </h3>
-            <span className={`text-[9px] flex items-center gap-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-              <HelpCircle className="w-3 h-3 text-cyan-500" /> Preguntas 4-13
-            </span>
-          </div>
+        {/* Matriz Valor vs Esfuerzo (Replicating exact reference image media__1784655370139.png) */}
+        <div className={`xl:col-span-7 p-4 rounded-xl border flex flex-col justify-between transition-colors ${
+          isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
+        }`}>
+          <h3 className={`text-center text-sm font-extrabold tracking-wide uppercase mb-3 ${isDark ? 'text-white' : 'text-[#0f172a]'}`}>
+            MATRIZ VALOR vs ESFUERZO
+          </h3>
 
-          {/* Quadrants Grid */}
-          <div className={`relative h-64 w-full rounded-lg border p-2 quadrant-bg grid grid-cols-2 grid-rows-2 gap-2 ${
-            isDark ? 'bg-[#080f1e] border-[#1a294a]' : 'bg-slate-50 border-slate-200'
-          }`}>
-            {/* Quick Wins (Top Left) */}
-            <div
-              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Quick Wins' ? null : 'Quick Wins')}
-              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
-                selectedQuadrant === 'Quick Wins' ? 'ring-2 ring-emerald-400 scale-[1.01]' : ''
-              } ${isDark ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-emerald-50 border-emerald-200'}`}
-            >
-              <span className="text-[9px] font-bold text-emerald-600 bg-emerald-100 border border-emerald-300 px-1.5 py-0.5 rounded w-max">
-                Quick Wins
-              </span>
-              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
-                {initiatives.filter(i => i.quadrant === 'Quick Wins').map(init => (
-                  <div
-                    key={init.id}
-                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
-                    className="w-4 h-4 rounded-full bg-emerald-500 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-slate-950"
-                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
-                  >
-                    {init.rank}
-                  </div>
-                ))}
+          <div className="relative flex items-center justify-center p-2 my-1">
+            {/* Y Axis Label & Arrow */}
+            <div className="absolute -left-2 top-0 bottom-8 flex flex-col items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span className="text-[11px] font-bold">Alto</span>
+              <div className="flex items-center space-x-1 -rotate-90 my-auto text-[11px] font-black uppercase tracking-wider">
+                <span>VALOR</span>
+                <ArrowRight className="w-3.5 h-3.5 rotate-180" />
               </div>
+              <span className="text-[11px] font-bold">Bajo</span>
             </div>
 
-            {/* Apuestas Estratégicas (Top Right) */}
-            <div
-              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Apuestas Estratégicas' ? null : 'Apuestas Estratégicas')}
-              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
-                selectedQuadrant === 'Apuestas Estratégicas' ? 'ring-2 ring-blue-400 scale-[1.01]' : ''
-              } ${isDark ? 'bg-blue-950/20 border-blue-500/30' : 'bg-blue-50 border-blue-200'}`}
-            >
-              <span className="text-[9px] font-bold text-blue-600 bg-blue-100 border border-blue-300 px-1.5 py-0.5 rounded w-max">
-                Apuestas Estratégicas
-              </span>
-              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
-                {initiatives.filter(i => i.quadrant === 'Apuestas Estratégicas').map(init => (
-                  <div
-                    key={init.id}
-                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
-                    className="w-4 h-4 rounded-full bg-blue-600 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-white"
-                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
-                  >
-                    {init.rank}
-                  </div>
-                ))}
+            {/* Matrix Board (2x2 Grid Canvas matching reference image) */}
+            <div className="ml-8 mr-2 w-full h-72 border-2 rounded-xl relative overflow-hidden transition-colors border-slate-300 dark:border-slate-700 bg-white dark:bg-[#070e1c]">
+              {/* Vertical Center Axis Line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-[1.5px] bg-slate-300 dark:bg-slate-700" />
+              {/* Horizontal Center Axis Line */}
+              <div className="absolute top-1/2 left-0 right-0 h-[1.5px] bg-slate-300 dark:bg-slate-700" />
+
+              {/* Quadrant Titles matching reference screenshot exactly */}
+              {/* Top-Left: Quick Wins (Green) */}
+              <div className="absolute top-2.5 left-3">
+                <span className="font-extrabold text-xs text-[#16a34a]">
+                  Quick Wins
+                </span>
               </div>
-            </div>
 
-            {/* Relleno (Bottom Left) */}
-            <div
-              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Relleno' ? null : 'Relleno')}
-              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
-                selectedQuadrant === 'Relleno' ? 'ring-2 ring-amber-400 scale-[1.01]' : ''
-              } ${isDark ? 'bg-amber-950/20 border-amber-500/30' : 'bg-amber-50 border-amber-200'}`}
-            >
-              <span className="text-[9px] font-bold text-amber-700 bg-amber-100 border border-amber-300 px-1.5 py-0.5 rounded w-max">
-                Relleno
-              </span>
-              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
-                {initiatives.filter(i => i.quadrant === 'Relleno').map(init => (
-                  <div
-                    key={init.id}
-                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
-                    className="w-4 h-4 rounded-full bg-amber-500 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-slate-950"
-                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
-                  >
-                    {init.rank}
-                  </div>
-                ))}
+              {/* Top-Right: Apuestas Estratégicas (Blue) */}
+              <div className="absolute top-2.5 right-3 text-right">
+                <span className="font-extrabold text-xs text-[#2563eb]">
+                  Apuestas Estratégicas
+                </span>
               </div>
-            </div>
 
-            {/* Baja Prioridad (Bottom Right) */}
-            <div
-              onClick={() => setSelectedQuadrant(selectedQuadrant === 'Baja Prioridad' ? null : 'Baja Prioridad')}
-              className={`border rounded-md p-2 relative flex flex-col justify-between transition-all cursor-pointer ${
-                selectedQuadrant === 'Baja Prioridad' ? 'ring-2 ring-rose-400 scale-[1.01]' : ''
-              } ${isDark ? 'bg-rose-950/20 border-rose-500/30' : 'bg-rose-50 border-rose-200'}`}
-            >
-              <span className="text-[9px] font-bold text-rose-600 bg-rose-100 border border-rose-300 px-1.5 py-0.5 rounded w-max">
-                Baja Prioridad
-              </span>
-              <div className="absolute inset-0 p-3 flex flex-wrap gap-2.5 items-center justify-center">
-                {initiatives.filter(i => i.quadrant === 'Baja Prioridad').map(init => (
-                  <div
-                    key={init.id}
-                    onClick={(e) => { e.stopPropagation(); handleItemClick(init); }}
-                    className="w-4 h-4 rounded-full bg-rose-500 shadow-md cursor-pointer hover:scale-150 transition-all flex items-center justify-center text-[8px] font-bold text-white"
-                    title={`${init.name} (Score ${init.score}) - Clic para Drill-Down`}
-                  >
-                    {init.rank}
-                  </div>
-                ))}
+              {/* Bottom-Left: Relleno (Yellow/Orange) */}
+              <div className="absolute bottom-2.5 left-3">
+                <span className="font-extrabold text-xs text-[#ca8a04]">
+                  Relleno
+                </span>
               </div>
-            </div>
 
-            <div className="absolute -left-5 top-1/2 -translate-y-1/2 -rotate-90 text-[9px] font-bold text-slate-400 tracking-widest uppercase">
-              VALOR
-            </div>
-            <div className="absolute bottom-[-16px] left-1/2 -translate-x-1/2 text-[9px] font-bold text-slate-400 tracking-widest uppercase">
-              ESFUERZO
+              {/* Bottom-Right: Baja Prioridad (Red) */}
+              <div className="absolute bottom-2.5 right-3 text-right">
+                <span className="font-extrabold text-xs text-[#dc2626]">
+                  Baja Prioridad
+                </span>
+              </div>
+
+              {/* Scatter Circles rendering with glow & interactive hover */}
+              {scatterDots.map((dot, idx) => {
+                const initObj = initiatives.find((i) => i.id === dot.initId) || {
+                  id: dot.initId,
+                  rank: idx + 1,
+                  name: dot.name,
+                  score: dot.score,
+                  quadrant: dot.quadrant,
+                  area: 'Operaciones',
+                  sponsor: 'Dirección General',
+                  roiExpected: 180,
+                  investmentRequired: 10,
+                  potentialBenefit: 18,
+                  timeToValueMonths: 6,
+                  effort: 'Bajo',
+                  value: 'Alto',
+                  category: 'Estratégica'
+                };
+
+                return (
+                  <div
+                    key={dot.initId + idx}
+                    onClick={() => handleItemClick(initObj as Initiative)}
+                    style={{ left: `${dot.x}%`, top: `${dot.y}%`, backgroundColor: dot.color }}
+                    className="absolute w-5 h-5 rounded-full shadow-lg border-2 border-white dark:border-slate-900 cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:scale-150 transition-all z-10 group"
+                    title={`${dot.name} (Score ${dot.score}) - Clic para Drill-Down`}
+                  >
+                    {/* Tooltip on hover */}
+                    <div className="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-36 p-2 rounded-lg bg-slate-900 text-white text-[10px] shadow-2xl z-50 pointer-events-none border border-slate-700 text-center">
+                      <strong className="block text-cyan-300 font-bold">{dot.name}</strong>
+                      <span>Score: {dot.score}/100</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          <div className={`mt-3 flex items-center justify-between text-[10px] pt-1.5 border-t ${
-            isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'
-          }`}>
-            <span>Alto Valor / Bajo Esfuerzo = Prioridad Máxima</span>
-            {selectedQuadrant && (
-              <button
-                onClick={() => setSelectedQuadrant(null)}
-                className="text-cyan-400 hover:underline font-bold"
-              >
-                Limpiar filtro de cuadrante
-              </button>
-            )}
-            <span className="font-semibold text-blue-500">10 Top Iniciativas Mapeadas</span>
+          {/* X Axis Label & Arrow */}
+          <div className="ml-8 flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1">
+            <span className="text-[11px] font-bold">Bajo</span>
+            <div className="flex items-center space-x-1 text-[11px] font-black uppercase tracking-wider">
+              <span>ESFUERZO</span>
+              <ArrowRight className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+            </div>
+            <span className="text-[11px] font-bold">Alto</span>
           </div>
         </div>
 
