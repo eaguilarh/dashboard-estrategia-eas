@@ -144,18 +144,18 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
   ];
 
   return (
-    <div className="space-y-3 text-left w-full select-none">
-      {/* Top Header Dark Navigation Bar (Exact Replica of Reference Banner) */}
+    <div className="space-y-3 text-left w-full select-none max-w-full overflow-hidden">
+      {/* Top Header Dark Navigation Bar */}
       <div className="bg-[#09152b] border border-[#1b2f56] rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-white shadow-xl">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-lg bg-[#0e2246] border border-[#1e3c74] flex items-center justify-center text-blue-400 shadow">
-            <BarChart3 className="w-6 h-6" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0e2246] border border-[#1e3c74] flex items-center justify-center text-blue-400 shadow flex-shrink-0">
+            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <h1 className="text-base font-extrabold text-white tracking-tight uppercase">
+            <h1 className="text-sm sm:text-base font-extrabold text-white tracking-tight uppercase">
               EXECUTIVE COCKPIT - VISIÓN INTEGRAL DEL PORTAFOLIO
             </h1>
-            <p className="text-xs text-slate-300 font-medium">
+            <p className="text-[11px] sm:text-xs text-slate-300 font-medium">
               Del concepto al valor real para el negocio
             </p>
           </div>
@@ -164,7 +164,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
         {/* Filter Controls Row Inside Header */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[11px]">Año</span>
+            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Año</span>
             <select
               value={filters?.year || '2026'}
               onChange={(e) => onFilterChange && onFilterChange('year', e.target.value)}
@@ -175,7 +175,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </div>
 
           <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[11px]">Dirección</span>
+            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Dirección</span>
             <select
               value={filters?.direction || 'Todas'}
               onChange={(e) => onFilterChange && onFilterChange('direction', e.target.value)}
@@ -188,7 +188,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </div>
 
           <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[11px]">Sponsor</span>
+            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Sponsor</span>
             <select
               value={filters?.sponsor || 'Todos'}
               onChange={(e) => onFilterChange && onFilterChange('sponsor', e.target.value)}
@@ -199,7 +199,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </div>
 
           <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[11px]">Tipo</span>
+            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Tipo</span>
             <select
               value={filters?.type || 'Todos'}
               onChange={(e) => onFilterChange && onFilterChange('type', e.target.value)}
@@ -210,16 +210,16 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </div>
 
           <div className="flex items-center space-x-1.5 bg-[#060e1d] px-2.5 py-1 rounded-md border border-[#1d3563] text-slate-300">
-            <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+            <Calendar className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
             <span className="text-[10px] font-medium">Última actualización: <strong className="text-white">{lastUpdated}</strong></span>
           </div>
         </div>
       </div>
 
-      {/* Main 5 Equal Columns Panel Row (Replicating exact layout of reference image) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 items-stretch">
+      {/* Main 5 Equal Columns Panel Row (Fluid responsive & zoom-resistant) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 items-stretch w-full">
         {/* PANEL 1: RESUMEN EJECUTIVO */}
-        <div className={`p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <h3 className={`text-center text-xs font-extrabold tracking-wide uppercase border-b pb-2 ${
@@ -232,14 +232,14 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
             {executiveSummaryCards.map((card, idx) => (
               <div
                 key={idx}
-                className={`p-2.5 rounded-xl border text-center flex flex-col justify-center items-center ${
+                className={`p-2 sm:p-2.5 rounded-xl border text-center flex flex-col justify-center items-center ${
                   isDark ? 'bg-[#081020] border-[#172848]' : 'bg-slate-50 border-slate-200'
                 }`}
               >
-                <span className="text-2xl font-black" style={{ color: card.color }}>
+                <span className="text-xl sm:text-2xl font-black" style={{ color: card.color }}>
                   {card.count}
                 </span>
-                <span className={`text-[10px] font-bold mt-0.5 leading-tight ${
+                <span className={`text-[9px] sm:text-[10px] font-bold mt-0.5 leading-tight ${
                   isDark ? 'text-slate-300' : 'text-slate-700'
                 }`}>
                   {card.label}
@@ -250,7 +250,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
         </div>
 
         {/* PANEL 2: EMBUDO DE VALOR (STAGE-GATE) */}
-        <div className={`p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <h3 className={`text-center text-xs font-extrabold tracking-wide uppercase border-b pb-2 ${
@@ -259,14 +259,12 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
             EMBUDO DE VALOR (STAGE-GATE)
           </h3>
 
-          {/* 100% Linearly Aligned Funnel Rows */}
           <div className="py-2 space-y-1 my-auto">
             {funnelRows.map((row, idx) => (
               <div
                 key={idx}
                 className="flex items-center space-x-2 h-8 border-b border-slate-100 dark:border-slate-800/60 last:border-b-0 px-1"
               >
-                {/* Left 45%: Funnel Segment */}
                 <div className="w-[45%] flex justify-center items-center h-full">
                   <svg viewBox="0 0 160 30" className="w-full h-6">
                     {idx < 5 ? (
@@ -289,12 +287,11 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
                   </svg>
                 </div>
 
-                {/* Right 55%: Number & Label */}
-                <div className="w-[55%] flex items-center space-x-1.5 text-xs">
-                  <span className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <div className="w-[55%] flex items-center space-x-1.5 text-xs min-w-0">
+                  <span className={`text-xs sm:text-sm font-black flex-shrink-0 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {row.count}
                   </span>
-                  <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  <span className={`text-[9px] sm:text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                     {row.label}
                   </span>
                 </div>
@@ -304,7 +301,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
         </div>
 
         {/* PANEL 3: ROADMAP ESTRATÉGICO - PRÓXIMOS 12 MESES */}
-        <div className={`p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <div className={`flex items-center justify-between border-b pb-1.5 ${
@@ -318,7 +315,6 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </div>
 
           <div className="my-auto py-1 space-y-2">
-            {/* Timeline Header (Q1 2026, Q2 2026, Q3 2026, Q4 2026) */}
             <div className={`grid grid-cols-4 text-[9px] font-bold border-b pb-1 text-center ${
               isDark ? 'border-[#152342] text-slate-400' : 'border-slate-200 text-slate-500'
             }`}>
@@ -328,11 +324,10 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <span>Q4 2026</span>
             </div>
 
-            {/* Gantt Rows matching image */}
             <div className="space-y-2 text-xs">
               {roadmapItems.map((item, idx) => (
-                <div key={idx} className="flex flex-col space-y-0.5">
-                  <span className={`text-[10px] font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                <div key={idx} className="flex flex-col space-y-0.5 min-w-0">
+                  <span className={`text-[9px] sm:text-[10px] font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
                     {item.name}
                   </span>
                   <div className={`h-3 rounded overflow-hidden relative border ${
@@ -353,8 +348,8 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </div>
         </div>
 
-        {/* PANEL 4: KPIs CLAVE DEL PORTAFOLIO (With exact icons & layout) */}
-        <div className={`p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        {/* PANEL 4: KPIs CLAVE DEL PORTAFOLIO */}
+        <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <h3 className={`text-center text-xs font-extrabold tracking-wide uppercase border-b pb-2 ${
@@ -364,82 +359,74 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           </h3>
 
           <div className="grid grid-cols-2 gap-2 my-auto py-1 text-xs">
-            {/* Metric 1: Inversión Total */}
-            <div className="flex items-center space-x-2">
-              <DollarSign className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Total</span>
-                <strong className="text-emerald-500 text-sm font-black">${kpis.totalInvestmentRequired}M <span className="text-[9px] font-normal">MXN</span></strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Total</span>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">${kpis.totalInvestmentRequired}M <span className="text-[8px] font-normal">MXN</span></strong>
               </div>
             </div>
 
-            {/* Metric 2: Proyectos Activos */}
-            <div className="flex items-center space-x-2">
-              <FileText className="w-5 h-5 text-blue-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos Activos</span>
-                <strong className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.activeProjects}</strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos Activos</span>
+                <strong className={`text-xs sm:text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.activeProjects}</strong>
               </div>
             </div>
 
-            {/* Metric 3: Beneficio Esperado */}
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Esperado</span>
-                <strong className="text-emerald-500 text-sm font-black">${kpis.totalPotentialBenefit}M <span className="text-[9px] font-normal">MXN</span></strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Esperado</span>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">${kpis.totalPotentialBenefit}M <span className="text-[8px] font-normal">MXN</span></strong>
               </div>
             </div>
 
-            {/* Metric 4: Proyectos en Riesgo */}
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="w-5 h-5 text-rose-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos en Riesgo</span>
-                <strong className="text-rose-500 text-sm font-black">{kpis.projectsInRisk}</strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos en Riesgo</span>
+                <strong className="text-rose-500 text-xs sm:text-sm font-black">{kpis.projectsInRisk}</strong>
               </div>
             </div>
 
-            {/* Metric 5: ROI Promedio */}
-            <div className="flex items-center space-x-2">
-              <Activity className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>ROI Promedio</span>
-                <strong className="text-emerald-500 text-sm font-black">{kpis.avgExpectedROI}%</strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>ROI Promedio</span>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black">{kpis.avgExpectedROI}%</strong>
               </div>
             </div>
 
-            {/* Metric 6: Beneficio Realizado */}
-            <div className="flex items-center space-x-2">
-              <Target className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Realizado</span>
-                <strong className="text-emerald-500 text-sm font-black">${kpis.realizedBenefitMXN}M <span className="text-[9px] font-normal">MXN</span></strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <Target className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Realizado</span>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">${kpis.realizedBenefitMXN}M <span className="text-[8px] font-normal">MXN</span></strong>
               </div>
             </div>
 
-            {/* Metric 7: % Proyectos On Track */}
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>% Proyectos On Track</span>
-                <strong className="text-emerald-500 text-sm font-black">{kpis.pctOnTrack}%</strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>% Proyectos On Track</span>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black">{kpis.pctOnTrack}%</strong>
               </div>
             </div>
 
-            {/* Metric 8: NPS Promedio */}
-            <div className="flex items-center space-x-2">
-              <Users className="w-5 h-5 text-cyan-500 flex-shrink-0" />
-              <div>
-                <span className={`text-[9px] block font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
-                <strong className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgNPS}</strong>
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-500 flex-shrink-0" />
+              <div className="min-w-0">
+                <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
+                <strong className={`text-xs sm:text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgNPS}</strong>
               </div>
             </div>
           </div>
         </div>
 
         {/* PANEL 5: ALERTAS PRINCIPALES */}
-        <div className={`p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <h3 className={`text-center text-xs font-extrabold tracking-wide uppercase border-b pb-2 ${
@@ -458,7 +445,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
                 }`}
               >
                 <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${alert.iconColor}`} />
-                <span className={`text-[11px] font-semibold leading-snug ${
+                <span className={`text-[10px] sm:text-[11px] font-semibold leading-snug ${
                   isDark ? 'text-slate-200' : 'text-slate-800'
                 }`}>
                   {alert.message}

@@ -55,7 +55,7 @@ export function App() {
 
   return (
     <div
-      className={`flex h-screen w-screen overflow-hidden font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-200 ${
+      className={`min-h-screen w-full flex overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-200 ${
         isDark ? 'bg-[#060b14] text-slate-100' : 'bg-slate-100 text-slate-900'
       }`}
     >

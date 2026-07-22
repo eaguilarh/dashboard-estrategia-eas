@@ -1,0 +1,112 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1784682396.3597944,
+    "ast_hash": "77f9a87a45afb04294cbb37fb5f68475",
+    "semantic_hash": "77f9a87a45afb04294cbb37fb5f68475"
+  },
+  "package.json": {
+    "mtime": 1784610462.118191,
+    "ast_hash": "09774a21d7fac339f3e719ebee441c6d",
+    "semantic_hash": "09774a21d7fac339f3e719ebee441c6d"
+  },
+  "postcss.config.js": {
+    "mtime": 1784610303.356747,
+    "ast_hash": "ef3ba2a81ba19f8ea5ddf625521e96f0",
+    "semantic_hash": "ef3ba2a81ba19f8ea5ddf625521e96f0"
+  },
+  "src/App.tsx": {
+    "mtime": 1784669269.913419,
+    "ast_hash": "947c819e458ff8396814989efe9446aa",
+    "semantic_hash": "947c819e458ff8396814989efe9446aa"
+  },
+  "src/components/common/EasLogo.tsx": {
+    "mtime": 1784654937.454542,
+    "ast_hash": "bd146fec2edc41e79c28f2f75f9a86d0",
+    "semantic_hash": "bd146fec2edc41e79c28f2f75f9a86d0"
+  },
+  "src/components/layout/Header.tsx": {
+    "mtime": 1784655513.1673753,
+    "ast_hash": "49bc85cbe06ad22cfe1e1339a2f9ab4f",
+    "semantic_hash": "49bc85cbe06ad22cfe1e1339a2f9ab4f"
+  },
+  "src/components/layout/Sidebar.tsx": {
+    "mtime": 1784654611.2083316,
+    "ast_hash": "31671a75aba2970395f95949b53a82c3",
+    "semantic_hash": "31671a75aba2970395f95949b53a82c3"
+  },
+  "src/components/modals/DrillDownModal.tsx": {
+    "mtime": 1784668807.6056485,
+    "ast_hash": "0d50287f47d2033f0bb696da1ff686ff",
+    "semantic_hash": "0d50287f47d2033f0bb696da1ff686ff"
+  },
+  "src/components/modals/ExcelUploaderModal.tsx": {
+    "mtime": 1784610376.0398915,
+    "ast_hash": "1eee3d7dca8f281be39fe5e122b4bae5",
+    "semantic_hash": "1eee3d7dca8f281be39fe5e122b4bae5"
+  },
+  "src/components/modules/ExecutiveCockpit.tsx": {
+    "mtime": 1784669264.9632864,
+    "ast_hash": "cc68fcb3dae67524e7e041c0fa09a435",
+    "semantic_hash": "cc68fcb3dae67524e7e041c0fa09a435"
+  },
+  "src/components/modules/Module1Prioritization.tsx": {
+    "mtime": 1784667351.0251627,
+    "ast_hash": "5b13503adb6a993367cfe2b012ba87a7",
+    "semantic_hash": "5b13503adb6a993367cfe2b012ba87a7"
+  },
+  "src/components/modules/Module2Execution.tsx": {
+    "mtime": 1784656845.3494735,
+    "ast_hash": "bbc5b376ffe1f1289d477645121945c2",
+    "semantic_hash": "bbc5b376ffe1f1289d477645121945c2"
+  },
+  "src/components/modules/Module3Benefits.tsx": {
+    "mtime": 1784656861.980939,
+    "ast_hash": "83b6222d75af096261510240f5e85325",
+    "semantic_hash": "83b6222d75af096261510240f5e85325"
+  },
+  "src/components/modules/Module4NpsAdoption.tsx": {
+    "mtime": 1784655908.5308611,
+    "ast_hash": "c76a510fe52062f536bafc4ce4d4cbdc",
+    "semantic_hash": "c76a510fe52062f536bafc4ce4d4cbdc"
+  },
+  "src/components/modules/PMOKanbanView.tsx": {
+    "mtime": 1784656803.6731722,
+    "ast_hash": "21a54e13a99b219435d9c3ea8d0d50bc",
+    "semantic_hash": "21a54e13a99b219435d9c3ea8d0d50bc"
+  },
+  "src/data/mockData.ts": {
+    "mtime": 1784655763.6482902,
+    "ast_hash": "bb553c323a947205d64921929b2aa9d2",
+    "semantic_hash": "bb553c323a947205d64921929b2aa9d2"
+  },
+  "src/main.tsx": {
+    "mtime": 1784610383.289367,
+    "ast_hash": "78fffb4190e85688f3e63b8caaf799e5",
+    "semantic_hash": "78fffb4190e85688f3e63b8caaf799e5"
+  },
+  "src/services/scoringEngine.ts": {
+    "mtime": 1784610321.8569803,
+    "ast_hash": "c7dfb83a903c87fb76dbe6f19880320c",
+    "semantic_hash": "c7dfb83a903c87fb76dbe6f19880320c"
+  },
+  "src/types/dashboard.ts": {
+    "mtime": 1784610314.6979716,
+    "ast_hash": "a971550b4db8ab7dcae452bd61403c5b",
+    "semantic_hash": "a971550b4db8ab7dcae452bd61403c5b"
+  },
+  "tailwind.config.js": {
+    "mtime": 1784610299.9015272,
+    "ast_hash": "6813eeda8a51d975ba96a92dcd795def",
+    "semantic_hash": "6813eeda8a51d975ba96a92dcd795def"
+  },
+  "tsconfig.json": {
+    "mtime": 1784610296.8020685,
+    "ast_hash": "5221e53c419acd58757c657be7344df3",
+    "semantic_hash": "5221e53c419acd58757c657be7344df3"
+  },
+  "vite.config.ts": {
+    "mtime": 1784610293.8702962,
+    "ast_hash": "b19fe56c29c71a3338f109bbefb1298d",
+    "semantic_hash": "b19fe56c29c71a3338f109bbefb1298d"
+  }
+}

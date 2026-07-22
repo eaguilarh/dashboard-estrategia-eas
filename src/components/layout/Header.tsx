@@ -21,23 +21,23 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`border-b px-4 py-3 flex flex-wrap items-center justify-between gap-4 select-none transition-colors duration-200 ${
+      className={`border-b px-3 sm:px-4 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-3 select-none transition-colors duration-200 ${
         isDark
           ? 'bg-[#0b1328] border-[#1a2847]'
           : 'bg-white border-slate-200 shadow-sm'
       }`}
     >
       {/* Title & Brand Header */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3">
         <div>
           <h1
-            className={`text-lg lg:text-xl font-bold tracking-tight flex items-center gap-2 ${
+            className={`text-base sm:text-lg lg:text-xl font-bold tracking-tight flex items-center gap-2 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}
           >
             EXECUTIVE COCKPIT{' '}
             <span
-              className={`font-normal text-sm hidden sm:inline-block ${
+              className={`font-normal text-xs sm:text-sm hidden md:inline-block ${
                 isDark ? 'text-slate-400' : 'text-slate-500'
               }`}
             >
@@ -45,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </h1>
           <p
-            className={`text-xs font-medium ${
+            className={`text-[10px] sm:text-xs font-medium ${
               isDark ? 'text-blue-300/80' : 'text-blue-700'
             }`}
           >
@@ -55,10 +55,10 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Global Filters & Theme Toggle Controls */}
-      <div className="flex flex-wrap items-center gap-2.5">
+      <div className="flex flex-wrap items-center gap-2">
         {/* Filter: Año */}
         <div
-          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+          className={`flex items-center space-x-1 border rounded-lg px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs transition-colors ${
             isDark
               ? 'bg-[#121e38] border-[#21345e] text-slate-400'
               : 'bg-slate-50 border-slate-200 text-slate-600'
@@ -79,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Filter: Dirección */}
         <div
-          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+          className={`flex items-center space-x-1 border rounded-lg px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs transition-colors ${
             isDark
               ? 'bg-[#121e38] border-[#21345e] text-slate-400'
               : 'bg-slate-50 border-slate-200 text-slate-600'
@@ -103,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Filter: Sponsor */}
         <div
-          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+          className={`flex items-center space-x-1 border rounded-lg px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs transition-colors ${
             isDark
               ? 'bg-[#121e38] border-[#21345e] text-slate-400'
               : 'bg-slate-50 border-slate-200 text-slate-600'
@@ -127,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Filter: Tipo */}
         <div
-          className={`flex items-center space-x-1.5 border rounded-lg px-2.5 py-1 text-xs transition-colors ${
+          className={`flex items-center space-x-1 border rounded-lg px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs transition-colors ${
             isDark
               ? 'bg-[#121e38] border-[#21345e] text-slate-400'
               : 'bg-slate-50 border-slate-200 text-slate-600'
@@ -149,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Last Updated Badge */}
         <div
-          className={`flex items-center space-x-2 text-xs border rounded-lg px-3 py-1 font-medium ${
+          className={`hidden sm:flex items-center space-x-1.5 text-[11px] sm:text-xs border rounded-lg px-2.5 py-1 font-medium ${
             isDark
               ? 'bg-[#0f2444] text-cyan-300 border-cyan-500/30'
               : 'bg-blue-50 text-blue-800 border-blue-200'
@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onToggleTheme}
           title={isDark ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'}
-          className={`flex items-center space-x-1.5 font-semibold text-xs px-3 py-1.5 rounded-lg shadow-sm border transition-all cursor-pointer ${
+          className={`flex items-center space-x-1 font-semibold text-xs px-2.5 py-1 sm:py-1.5 rounded-lg shadow-sm border transition-all cursor-pointer ${
             isDark
               ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/30'
               : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
@@ -173,12 +173,12 @@ export const Header: React.FC<HeaderProps> = ({
         >
           {isDark ? (
             <>
-              <Sun className="w-4 h-4 text-amber-400" />
+              <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
               <span>Modo Claro</span>
             </>
           ) : (
             <>
-              <Moon className="w-4 h-4 text-indigo-600" />
+              <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600" />
               <span>Modo Oscuro</span>
             </>
           )}

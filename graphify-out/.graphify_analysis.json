@@ -1,0 +1,294 @@
+{
+  "communities": {
+    "0": [
+      "ref_dom",
+      "ref_dom_iterable",
+      "ref_es2020",
+      "ref_src",
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowimportingtsextensions",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_nofallthroughcasesinswitch",
+      "tsconfig_compileroptions_nounusedlocals",
+      "tsconfig_compileroptions_nounusedparameters",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_compileroptions_usedefineforclassfields",
+      "tsconfig_include"
+    ],
+    "1": [
+      "src_components_modules_module1prioritization",
+      "src_components_modules_module1prioritization_module1prioritization",
+      "src_components_modules_module1prioritization_module1props",
+      "src_components_modules_module2execution",
+      "src_components_modules_module2execution_module2execution",
+      "src_components_modules_module2execution_module2props",
+      "src_components_modules_module3benefits",
+      "src_components_modules_module3benefits_module3benefits",
+      "src_components_modules_module3benefits_module3props",
+      "src_components_modules_module4npsadoption",
+      "src_components_modules_module4npsadoption_module4npsadoption",
+      "src_components_modules_module4npsadoption_module4props",
+      "src_components_modules_pmokanbanview",
+      "src_components_modules_pmokanbanview_pmokanbanprops",
+      "src_components_modules_pmokanbanview_pmokanbanview",
+      "src_types_dashboard",
+      "src_types_dashboard_closedproject",
+      "src_types_dashboard_ganttstatus",
+      "src_types_dashboard_healthstatus",
+      "src_types_dashboard_initiative",
+      "src_types_dashboard_portfoliokpis",
+      "src_types_dashboard_projectexecution"
+    ],
+    "2": [
+      "autoprefixer",
+      "package_devdependencies",
+      "package_devdependencies_autoprefixer",
+      "package_devdependencies_postcss",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react",
+      "postcss",
+      "tailwindcss",
+      "types_react",
+      "types_react_dom",
+      "typescript",
+      "vite",
+      "vitejs_plugin_react"
+    ],
+    "3": [
+      "src_app",
+      "src_app_app",
+      "src_components_modals_drilldownmodal",
+      "src_components_modals_drilldownmodal_drilldownitem",
+      "src_components_modals_drilldownmodal_drilldownmodal",
+      "src_components_modals_drilldownmodal_drilldownmodalprops",
+      "src_data_mockdata",
+      "src_data_mockdata_mockalerts",
+      "src_data_mockdata_mockclosedprojects",
+      "src_data_mockdata_mockinitiatives",
+      "src_data_mockdata_mockkpis",
+      "src_data_mockdata_mockprojects",
+      "src_main"
+    ],
+    "4": [
+      "lucide_react",
+      "package_dependencies",
+      "package_dependencies_lucide_react",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_xlsx",
+      "react",
+      "react_dom",
+      "src_components_modals_exceluploadermodal",
+      "src_components_modals_exceluploadermodal_exceluploadermodal",
+      "src_components_modals_exceluploadermodal_exceluploadermodalprops",
+      "xlsx"
+    ],
+    "5": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_preview",
+      "package_type",
+      "package_version"
+    ],
+    "6": [
+      "src_components_layout_header",
+      "src_components_layout_header_header",
+      "src_components_layout_header_headerprops",
+      "src_components_modules_executivecockpit",
+      "src_components_modules_executivecockpit_executivecockpit",
+      "src_components_modules_executivecockpit_executivecockpitprops",
+      "src_types_dashboard_filterstate",
+      "src_types_dashboard_portfolioalert"
+    ],
+    "7": [
+      "src_components_common_easlogo",
+      "src_components_common_easlogo_easlogo",
+      "src_components_common_easlogo_easlogoprops",
+      "src_components_layout_sidebar",
+      "src_components_layout_sidebar_sidebar",
+      "src_components_layout_sidebar_sidebarprops",
+      "src_types_dashboard_viewmode"
+    ],
+    "8": [
+      "src_services_scoringengine",
+      "src_services_scoringengine_calculateinitiativescore",
+      "src_services_scoringengine_forms1input"
+    ],
+    "9": [
+      "postcss_config"
+    ],
+    "10": [
+      "tailwind_config"
+    ],
+    "11": [
+      "vite_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.09090909090909091,
+    "1": 0.1774891774891775,
+    "2": 0.11764705882352941,
+    "3": 0.24358974358974358,
+    "4": 0.16666666666666666,
+    "5": 0.2222222222222222,
+    "6": 0.35714285714285715,
+    "7": 0.38095238095238093,
+    "8": 0.6666666666666666,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0
+  },
+  "gods": [
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "src_types_dashboard_portfoliokpis",
+      "label": "PortfolioKPIs",
+      "degree": 12
+    },
+    {
+      "id": "src_types_dashboard_initiative",
+      "label": "Initiative",
+      "degree": 7
+    },
+    {
+      "id": "src_types_dashboard_projectexecution",
+      "label": "ProjectExecution",
+      "degree": 7
+    },
+    {
+      "id": "src_types_dashboard_closedproject",
+      "label": "ClosedProject",
+      "degree": 7
+    },
+    {
+      "id": "src_types_dashboard_viewmode",
+      "label": "ViewMode",
+      "degree": 6
+    },
+    {
+      "id": "src_types_dashboard_filterstate",
+      "label": "FilterState",
+      "degree": 6
+    },
+    {
+      "id": "src_components_modules_executivecockpit_executivecockpitprops",
+      "label": "ExecutiveCockpitProps",
+      "degree": 5
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 4
+    },
+    {
+      "id": "src_types_dashboard_portfolioalert",
+      "label": "PortfolioAlert",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "ExcelUploaderModal()",
+      "target": "xlsx",
+      "source_files": [
+        "src/components/modals/ExcelUploaderModal.tsx",
+        "package.json"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "HeaderProps",
+      "target": "FilterState",
+      "source_files": [
+        "src/components/layout/Header.tsx",
+        "src/types/dashboard.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "peripheral node `HeaderProps` unexpectedly reaches hub `FilterState`"
+    },
+    {
+      "source": "SidebarProps",
+      "target": "ViewMode",
+      "source_files": [
+        "src/components/layout/Sidebar.tsx",
+        "src/types/dashboard.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "peripheral node `SidebarProps` unexpectedly reaches hub `ViewMode`"
+    },
+    {
+      "source": "ExecutiveCockpitProps",
+      "target": "PortfolioKPIs",
+      "source_files": [
+        "src/components/modules/ExecutiveCockpit.tsx",
+        "src/types/dashboard.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "ExecutiveCockpitProps",
+      "target": "ViewMode",
+      "source_files": [
+        "src/components/modules/ExecutiveCockpit.tsx",
+        "src/types/dashboard.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.294) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `ExcelUploaderModal()` connect `dependencies` to `App.tsx`?",
+      "why": "High betweenness centrality (0.278) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `name`, `private`, `version` to the rest of the system?",
+      "why": "43 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `devDependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
