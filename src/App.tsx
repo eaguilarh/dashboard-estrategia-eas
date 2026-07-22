@@ -55,11 +55,11 @@ export function App() {
 
   return (
     <div
-      className={`min-h-screen w-full flex overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-200 ${
+      className={`h-screen w-screen flex overflow-hidden font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-200 ${
         isDark ? 'bg-[#060b14] text-slate-100' : 'bg-slate-100 text-slate-900'
       }`}
     >
-      {/* Executive Sidebar */}
+      {/* Executive Sidebar - Fixed / Immovable Navigation Bar */}
       <Sidebar
         currentView={currentView}
         onSelectView={setCurrentView}
@@ -68,8 +68,8 @@ export function App() {
       />
 
       {/* Main App Workspace */}
-      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
-        {/* Top Executive Header */}
+      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden">
+        {/* Top Executive Header - Fixed / Immovable Header Bar */}
         <Header
           filters={filters}
           onFilterChange={handleFilterChange}
@@ -78,12 +78,12 @@ export function App() {
           onToggleTheme={toggleTheme}
         />
 
-        {/* View Content Area */}
+        {/* View Content Area - ONLY THIS CANVAS SCROLLS VERTICALLY */}
         <main className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-5 min-w-0">
-          {/* Main Full Composite Cockpit View: Restores top 3 modules + Executive Cockpit below! */}
+          {/* Main Cockpit Composite View */}
           {currentView === 'cockpit' && (
             <div className="space-y-6 w-full">
-              {/* Top Section: 3 Module Panels Side-by-Side with responsive spacing */}
+              {/* Top Section: 3 Module Panels Side-by-Side */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start w-full">
                 {/* Module 1 Panel */}
                 <div className="w-full min-w-0">
