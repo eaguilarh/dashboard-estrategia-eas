@@ -79,24 +79,60 @@ export function App() {
         />
 
         {/* View Content Area */}
-        <main className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-4 min-w-0">
-          {/* Main Cockpit View: Clean 5-Panel Layout matching the Reference Image media__1784667123515.png */}
+        <main className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-5 min-w-0">
+          {/* Main Full Composite Cockpit View: Restores top 3 modules + Executive Cockpit below! */}
           {currentView === 'cockpit' && (
-            <div className="w-full">
-              <ExecutiveCockpit
-                kpis={mockKPIs}
-                alerts={mockAlerts}
-                onNavigate={setCurrentView}
-                theme={theme}
-                onDrillDown={setDrillDownItem}
-                filters={filters}
-                onFilterChange={handleFilterChange}
-                lastUpdated={lastUpdated}
-              />
+            <div className="space-y-6 w-full">
+              {/* Top Section: 3 Module Panels Side-by-Side with responsive spacing */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start w-full">
+                {/* Module 1 Panel */}
+                <div className="w-full min-w-0">
+                  <Module1Prioritization
+                    kpis={mockKPIs}
+                    initiatives={mockInitiatives}
+                    theme={theme}
+                    onDrillDown={setDrillDownItem}
+                  />
+                </div>
+
+                {/* Module 2 Panel */}
+                <div className="w-full min-w-0">
+                  <Module2Execution
+                    kpis={mockKPIs}
+                    projects={mockProjects}
+                    theme={theme}
+                    onDrillDown={setDrillDownItem}
+                  />
+                </div>
+
+                {/* Module 3 Panel */}
+                <div className="w-full min-w-0">
+                  <Module3Benefits
+                    kpis={mockKPIs}
+                    closedProjects={mockClosedProjects}
+                    theme={theme}
+                    onDrillDown={setDrillDownItem}
+                  />
+                </div>
+              </div>
+
+              {/* Bottom Section: Consolidated Executive Cockpit 5-Panel Layout */}
+              <div className="w-full min-w-0 pt-2 border-t border-slate-800/80">
+                <ExecutiveCockpit
+                  kpis={mockKPIs}
+                  alerts={mockAlerts}
+                  onNavigate={setCurrentView}
+                  theme={theme}
+                  onDrillDown={setDrillDownItem}
+                  filters={filters}
+                  onFilterChange={handleFilterChange}
+                  lastUpdated={lastUpdated}
+                />
+              </div>
             </div>
           )}
 
-          {/* Focused Module 1 View: Full Width Spacious Prioritization & Matriz */}
+          {/* Focused Module 1 View */}
           {currentView === 'iniciativas' && (
             <div className="w-full">
               <Module1Prioritization
@@ -108,7 +144,7 @@ export function App() {
             </div>
           )}
 
-          {/* Focused Module 2 View: Full Width Pipeline & Gantt Execution */}
+          {/* Focused Module 2 View */}
           {currentView === 'proyectos' && (
             <div className="w-full">
               <Module2Execution
@@ -120,7 +156,7 @@ export function App() {
             </div>
           )}
 
-          {/* Focused Module 3 View: Full Width Benefits Realization & ROI */}
+          {/* Focused Module 3 View */}
           {currentView === 'beneficios' && (
             <div className="w-full">
               <Module3Benefits
