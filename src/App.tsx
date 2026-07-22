@@ -68,7 +68,7 @@ export function App() {
       />
 
       {/* Main App Workspace */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
         {/* Top Executive Header */}
         <Header
           filters={filters}
@@ -79,106 +79,80 @@ export function App() {
         />
 
         {/* View Content Area */}
-        <main className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-4">
-          {/* Main Full Cockpit View: Replicates the reference composite dashboard image! */}
+        <main className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-4 min-w-0">
+          {/* Main Cockpit View: Clean 5-Panel Layout matching the Reference Image media__1784667123515.png */}
           {currentView === 'cockpit' && (
-            <div className="space-y-4">
-              {/* Top Row: 3 Module Columns Side-by-Side matching the Reference Image */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-3.5 items-start">
-                {/* Module 1 Panel */}
-                <div className="w-full">
-                  <Module1Prioritization
-                    kpis={mockKPIs}
-                    initiatives={mockInitiatives}
-                    theme={theme}
-                    onDrillDown={setDrillDownItem}
-                  />
-                </div>
-
-                {/* Module 2 Panel */}
-                <div className="w-full">
-                  <Module2Execution
-                    kpis={mockKPIs}
-                    projects={mockProjects}
-                    theme={theme}
-                    onDrillDown={setDrillDownItem}
-                  />
-                </div>
-
-                {/* Module 3 Panel */}
-                <div className="w-full">
-                  <Module3Benefits
-                    kpis={mockKPIs}
-                    closedProjects={mockClosedProjects}
-                    theme={theme}
-                    onDrillDown={setDrillDownItem}
-                  />
-                </div>
-              </div>
-
-              {/* Bottom Full-Width Panel: Executive Cockpit Consolidated */}
-              <div className="w-full pt-2">
-                <ExecutiveCockpit
-                  kpis={mockKPIs}
-                  alerts={mockAlerts}
-                  onNavigate={setCurrentView}
-                  theme={theme}
-                  onDrillDown={setDrillDownItem}
-                  filters={filters}
-                  onFilterChange={handleFilterChange}
-                  lastUpdated={lastUpdated}
-                />
-              </div>
+            <div className="w-full">
+              <ExecutiveCockpit
+                kpis={mockKPIs}
+                alerts={mockAlerts}
+                onNavigate={setCurrentView}
+                theme={theme}
+                onDrillDown={setDrillDownItem}
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                lastUpdated={lastUpdated}
+              />
             </div>
           )}
 
-          {/* Focused Module 1 View */}
+          {/* Focused Module 1 View: Full Width Spacious Prioritization & Matriz */}
           {currentView === 'iniciativas' && (
-            <Module1Prioritization
-              kpis={mockKPIs}
-              initiatives={mockInitiatives}
-              theme={theme}
-              onDrillDown={setDrillDownItem}
-            />
+            <div className="w-full">
+              <Module1Prioritization
+                kpis={mockKPIs}
+                initiatives={mockInitiatives}
+                theme={theme}
+                onDrillDown={setDrillDownItem}
+              />
+            </div>
           )}
 
-          {/* Focused Module 2 View */}
+          {/* Focused Module 2 View: Full Width Pipeline & Gantt Execution */}
           {currentView === 'proyectos' && (
-            <Module2Execution
-              kpis={mockKPIs}
-              projects={mockProjects}
-              theme={theme}
-              onDrillDown={setDrillDownItem}
-            />
+            <div className="w-full">
+              <Module2Execution
+                kpis={mockKPIs}
+                projects={mockProjects}
+                theme={theme}
+                onDrillDown={setDrillDownItem}
+              />
+            </div>
           )}
 
-          {/* Focused Module 3 View */}
+          {/* Focused Module 3 View: Full Width Benefits Realization & ROI */}
           {currentView === 'beneficios' && (
-            <Module3Benefits
-              kpis={mockKPIs}
-              closedProjects={mockClosedProjects}
-              theme={theme}
-              onDrillDown={setDrillDownItem}
-            />
+            <div className="w-full">
+              <Module3Benefits
+                kpis={mockKPIs}
+                closedProjects={mockClosedProjects}
+                theme={theme}
+                onDrillDown={setDrillDownItem}
+              />
+            </div>
           )}
 
-          {/* NPS & Adoption Dedicated High-Value View */}
+          {/* Dedicated NPS & Adoption View */}
           {currentView === 'nps' && (
-            <Module4NpsAdoption
-              kpis={mockKPIs}
-              closedProjects={mockClosedProjects}
-              theme={theme}
-            />
+            <div className="w-full">
+              <Module4NpsAdoption
+                kpis={mockKPIs}
+                closedProjects={mockClosedProjects}
+                theme={theme}
+              />
+            </div>
           )}
 
           {/* PMO Tab: Interactive Kanban Governance View */}
           {currentView === 'pmo' && (
-            <PMOKanbanView
-              initiatives={mockInitiatives}
-              projects={mockProjects}
-              theme={theme}
-              onDrillDown={setDrillDownItem}
-            />
+            <div className="w-full">
+              <PMOKanbanView
+                initiatives={mockInitiatives}
+                projects={mockProjects}
+                theme={theme}
+                onDrillDown={setDrillDownItem}
+              />
+            </div>
           )}
 
           {/* Settings Tab */}
