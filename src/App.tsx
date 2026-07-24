@@ -259,8 +259,8 @@ export function App() {
           {currentView === 'beneficios' && (
             <div className="w-full">
               <Module3Benefits
-                kpis={mockKPIs}
-                closedProjects={mockClosedProjects}
+                kpis={kpis}
+                closedProjects={closedProjects}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
               />
@@ -271,8 +271,8 @@ export function App() {
           {currentView === 'nps' && (
             <div className="w-full">
               <Module4NpsAdoption
-                kpis={mockKPIs}
-                closedProjects={mockClosedProjects}
+                kpis={kpis}
+                closedProjects={closedProjects}
                 theme={theme}
               />
             </div>
@@ -282,8 +282,8 @@ export function App() {
           {currentView === 'pmo' && (
             <div className="w-full">
               <PMOKanbanView
-                initiatives={mockInitiatives}
-                projects={mockProjects}
+                initiatives={initiatives}
+                projects={projects}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
               />
