@@ -209,25 +209,35 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
           <div className="grid grid-cols-2 gap-3 items-center my-auto">
             <div className={`border rounded-xl p-3 text-center flex flex-col items-center ${isDark ? 'bg-[#091224] border-[#1a2b4e]' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>SPI (Tiempo)</span>
-              <div className="text-xl font-extrabold text-amber-500 my-1">{kpis.portfolioSPI}</div>
-              <span className="text-[9px] text-amber-600 font-medium">Ligero desvío de tiempo</span>
+              <div className="text-xl font-extrabold text-amber-500 my-1">{kpis.portfolioSPI > 0 ? kpis.portfolioSPI : '—'}</div>
+              <span className="text-[9px] text-amber-600 font-medium">
+                {kpis.portfolioSPI <= 0 ? 'Sin datos de proyectos' : kpis.portfolioSPI >= 0.95 ? 'En tiempo' : kpis.portfolioSPI >= 0.85 ? 'Ligero desvío' : 'Atrasado'}
+              </span>
             </div>
 
             <div className={`border rounded-xl p-3 text-center flex flex-col items-center ${isDark ? 'bg-[#091224] border-[#1a2b4e]' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>CPI (Costo)</span>
-              <div className="text-xl font-extrabold text-emerald-500 my-1">{kpis.portfolioCPI}</div>
-              <span className="text-[9px] text-emerald-600 font-medium">Eficiencia en costo (+5%)</span>
+              <div className="text-xl font-extrabold text-emerald-500 my-1">{kpis.portfolioCPI > 0 ? kpis.portfolioCPI : '—'}</div>
+              <span className="text-[9px] text-emerald-600 font-medium">
+                {kpis.portfolioCPI <= 0 ? 'Sin datos de presupuesto' : kpis.portfolioCPI >= 1.0 ? 'Eficiente en costo' : 'Desvío en presupuesto'}
+              </span>
             </div>
           </div>
 
           <div className="mt-3 grid grid-cols-4 gap-1.5 text-center text-xs">
             <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Overall Score</span>
-              <strong className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>87/100</strong>
+              <strong className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                {kpis.avgScore > 0 ? `${kpis.avgScore}/100` : '0/100'}
+              </strong>
             </div>
             <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Desvío Presup.</span>
-              <strong className="text-emerald-500 text-xs font-bold">+8% vs plan</strong>
+              <strong className="text-emerald-500 text-xs font-bold">
+                {kpis.totalApprovedBudgetMXN > 0 && kpis.consumedBudgetMXN > 0
+                  ? `${Math.round(((kpis.consumedBudgetMXN - kpis.totalApprovedBudgetMXN) / kpis.totalApprovedBudgetMXN) * 100)}%`
+                  : '0%'}
+              </strong>
             </div>
             <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Issues Abiertos</span>
