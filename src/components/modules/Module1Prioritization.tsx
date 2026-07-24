@@ -80,8 +80,8 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             </p>
           </div>
         </div>
-        <div className="hidden sm:block text-right">
-          <span className="text-xs bg-blue-950/80 text-cyan-300 border border-blue-400/40 px-2.5 py-1 rounded font-semibold">
+        <div className="text-left mt-1 sm:mt-0">
+          <span className="text-xs bg-blue-950/80 text-cyan-300 border border-blue-400/40 px-2.5 py-1 rounded font-semibold inline-block">
             Forms 1 Ponderado
           </span>
         </div>
@@ -299,7 +299,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
         {/* CARD 3: Distribución Estratégica & Algoritmo de Score */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="flex-1 min-w-0">
               <h3 className={`text-xs font-extrabold tracking-wide uppercase mb-3 pb-2 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
                 DISTRIBUCIÓN ESTRATÉGICA
@@ -343,7 +343,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
               </div>
             </div>
 
-            <div className={`border rounded-xl p-3 flex flex-col justify-center gap-1.5 transition-colors flex-1 max-w-sm ${
+            <div className={`border rounded-xl p-3 flex flex-col justify-center gap-1.5 transition-colors w-full lg:max-w-xs ${
               isDark ? 'bg-[#091224] border-[#1b2c4e]' : 'bg-blue-50/70 border-blue-200'
             }`}>
               <div className="flex items-center space-x-2">
