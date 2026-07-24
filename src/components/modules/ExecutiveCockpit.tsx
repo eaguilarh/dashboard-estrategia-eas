@@ -101,68 +101,66 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
         };
       case 'A3':
         return {
-          recommendation: 'Consolidar métricas de uso diario (DAU/MAU) antes de la sesión ejecutiva de captura de ROI.',
+          recommendation: 'Realizar auditoría financiera del beneficio realizado vs esperado para certificar el ROI.',
           items: [
-            { name: 'CRM 360°', detail: 'Go-Live 15 Ene 2026 - Día 85 de evaluación post-salida', status: 'En Periodo' },
-            { name: 'IA Contact Center', detail: 'Go-Live 28 Feb 2026 - Día 75 de evaluación post-salida', status: 'En Periodo' },
-            { name: 'Automatización SAP', detail: 'Go-Live 10 Mar 2026 - Día 65 de evaluación post-salida', status: 'En Periodo' },
-            { name: 'Portal del Cliente', detail: 'Go-Live 30 Abr 2026 - Día 45 de evaluación post-salida', status: 'En Periodo' },
-            { name: 'App Móvil Clientes', detail: 'Go-Live 20 May 2026 - Día 25 de evaluación post-salida', status: 'En Periodo' },
-            { name: 'Data Analytics', detail: 'Go-Live 10 Jun 2026 - Día 15 de evaluación post-salida', status: 'En Periodo' }
+            { name: 'IA Contact Center', detail: 'Cerrado 15 Feb 2026 - F3 pendiente por comité directivo', status: 'Pendiente' },
+            { name: 'CRM 360°', detail: 'Cerrado 15 Ene 2026 - F3 pendiente por sponsor comercial', status: 'Pendiente' },
+            { name: 'Automatización SAP', detail: 'Cerrado 10 Mar 2026 - F3 programada', status: 'Pendiente' }
           ]
         };
       default:
         return {
-          recommendation: 'Asignar equipo técnico dedicado para liberar bloqueos de alta severidad.',
+          recommendation: 'Seguimiento por parte del PMO Leader en las sesiones de status de los días jueves.',
           items: [
-            { name: 'Infraestructura TI (6 tickets)', detail: 'Latencia en sincronización de servidores de base de datos', status: 'Crítico' },
-            { name: 'Finanzas y Compras (4 tickets)', detail: 'Retraso en orden de pago de licencias de software', status: 'Riesgo' },
-            { name: 'Operaciones UX (5 tickets)', detail: 'Ajustes menores de interfaz solicitados por usuarios', status: 'Pendiente' },
-            { name: 'Compliance Legal (3 tickets)', detail: 'Revisión de cláusulas de confidencialidad de proveedores', status: 'Pendiente' }
+            { name: 'Workflow Legal', detail: '18 minutas de acuerdos pendientes de firma electrónica', status: 'Abierto' },
+            { name: 'IA Contact Center', detail: 'Error en conexión telefónica intermitente', status: 'Abierto' }
           ]
         };
     }
   };
 
-  const handleAlertClick = (alert: PortfolioAlert) => {
+  const mainAlertsList = alerts.map((alert) => {
+    const details = getAlertDetails(alert.id, alert.message);
+    return {
+      ...alert,
+      recommendation: details.recommendation,
+      affectedProjects: details.items
+    };
+  });
+
+  const handleAlertClick = (alert: any) => {
     if (onDrillDown) {
       onDrillDown({
         type: 'alert',
-        title: alert.message,
-        sourceForm: 'Formulario 2 (Brief & Gantt PMO)',
-        data: getAlertDetails(alert.id, alert.message)
+        title: `Alerta: ${alert.message}`,
+        sourceForm: 'Monitoreo de Portafolio PMO',
+        data: alert
       });
     }
   };
 
-  // 5 Alertas Principales matching exact reference image:
-  const mainAlertsList = [
-    { id: 'A1', type: 'warning', message: '6 proyectos en riesgo requieren atención', iconColor: 'text-amber-500' },
-    { id: 'A2', type: 'danger', message: '8 proyectos sin encuesta NPS pendiente', iconColor: 'text-rose-500' },
-    { id: 'A3', type: 'warning', message: '3 proyectos sin medición ROI a 90 días', iconColor: 'text-amber-500' },
-    { id: 'A4', type: 'info', message: '18 issues abiertos requieren seguimiento', iconColor: 'text-cyan-500' },
-  ];
-
   return (
-    <div className="space-y-3 text-left w-full select-none max-w-full overflow-hidden">
-      {/* Top Header Dark Navigation Bar */}
-      <div className="bg-[#09152b] border border-[#1b2f56] rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-white shadow-xl">
+    <div className="space-y-4 text-left w-full select-none max-w-full overflow-hidden">
+      {/* Banner / Header Controls */}
+      <div className={`border rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3 shadow-md transition-colors ${
+        isDark ? 'bg-gradient-to-r from-[#0b1b3d] via-[#102450] to-[#0b1b3d] border-[#1d3363]' : 'bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 border-blue-800 text-white'
+      }`}>
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0e2246] border border-[#1e3c74] flex items-center justify-center text-blue-400 shadow flex-shrink-0">
-            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-extrabold text-white text-base shadow flex-shrink-0">
+            📊
           </div>
           <div>
-            <h1 className="text-sm sm:text-base font-extrabold text-white tracking-tight uppercase">
+            <h2 className="text-sm sm:text-base font-extrabold text-white tracking-tight uppercase">
               EXECUTIVE COCKPIT - VISIÓN INTEGRAL DEL PORTAFOLIO
-            </h1>
-            <p className="text-[11px] sm:text-xs text-slate-300 font-medium">
+            </h2>
+            <p className="text-xs text-blue-200/90 font-medium">
               Del concepto al valor real para el negocio
             </p>
           </div>
         </div>
 
-        {/* Filter Controls Row Inside Header */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Filter: Año */}
           <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
             <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Año</span>
             <select
@@ -182,8 +180,6 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               className="bg-transparent text-white font-bold outline-none cursor-pointer text-xs"
             >
               <option value="Todas" className="bg-[#060e1d]">Todas</option>
-              <option value="Tecnología" className="bg-[#060e1d]">Tecnología</option>
-              <option value="Operaciones" className="bg-[#060e1d]">Operaciones</option>
             </select>
           </div>
 
@@ -217,7 +213,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
       </div>
 
       {/* Main 5 Equal Columns Panel Row (Fluid responsive & zoom-resistant) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 items-stretch w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 items-stretch w-full">
         {/* PANEL 1: RESUMEN EJECUTIVO */}
         <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
@@ -239,7 +235,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
                 <span className="text-xl sm:text-2xl font-black" style={{ color: card.color }}>
                   {card.count}
                 </span>
-                <span className={`text-[9px] sm:text-[10px] font-bold mt-0.5 leading-tight ${
+                <span className={`text-[9px] sm:text-[10px] font-bold mt-0.5 leading-tight whitespace-normal break-words ${
                   isDark ? 'text-slate-300' : 'text-slate-700'
                 }`}>
                   {card.label}

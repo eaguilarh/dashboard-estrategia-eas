@@ -139,7 +139,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
       </div>
 
       {/* SINGLE HORIZONTAL ROW: Matriz Valor vs Esfuerzo | Top 10 Ranking | Distribución Estratégica */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch w-full">
         {/* CARD 1: Matriz Valor vs Esfuerzo */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
@@ -271,7 +271,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                     className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
                   >
                     <td className="py-1 px-1 font-black text-blue-500 text-center w-5 text-[11px]">{item.rank}</td>
-                    <td className={`py-1 px-1 font-bold text-[11px] truncate max-w-[110px] ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>{item.name}</td>
+                    <td className={`py-1 px-1 font-bold text-[11px] whitespace-normal break-words ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>{item.name}</td>
                     <td className="py-1 px-1 text-center">
                       <span className={`px-1.5 py-0.5 rounded text-[10px] font-black ${
                         isDark ? 'bg-blue-950 text-cyan-300 border border-blue-700/50' : 'bg-blue-100 text-blue-900'
@@ -304,11 +304,20 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             <div className="flex flex-col items-center justify-center gap-3">
               <div className="relative w-24 h-24 flex items-center justify-center flex-shrink-0">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                  {/* Background Track */}
                   <path className={isDark ? 'text-slate-800' : 'text-slate-200'} strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path strokeWidth="4" strokeDasharray="40, 100" stroke="#1e68d7" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" />
-                  <path strokeWidth="4" strokeDasharray="25, 100" strokeDashoffset="-40" stroke="#10b981" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" />
-                  <path strokeWidth="4" strokeDasharray="20, 100" strokeDashoffset="-65" stroke="#f59e0b" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" />
-                  <path strokeWidth="4" strokeDasharray="15, 100" strokeDashoffset="-85" stroke="#ef4444" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" />
+                  
+                  {/* Transformación Digital: 40% (Color: #1e68d7) */}
+                  <path strokeWidth="4" strokeDasharray="40 100" strokeDashoffset="0" stroke="#1e68d7" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Customer Experience: 25% (Color: #10b981) */}
+                  <path strokeWidth="4" strokeDasharray="25 100" strokeDashoffset="-40" stroke="#10b981" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Automatización: 20% (Color: #f59e0b) */}
+                  <path strokeWidth="4" strokeDasharray="20 100" strokeDashoffset="-65" stroke="#f59e0b" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Compliance: 15% (Color: #ef4444) */}
+                  <path strokeWidth="4" strokeDasharray="15 100" strokeDashoffset="-85" stroke="#ef4444" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
                 <div className="absolute text-center">
                   <span className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>100%</span>
@@ -321,7 +330,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                   <div key={cat.name} className="flex items-center justify-between text-xs">
                     <div className="flex items-center space-x-2 min-w-0">
                       <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: cat.color }} />
-                      <span className={`truncate text-[11px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{cat.name}</span>
+                      <span className={`whitespace-normal break-words text-[11px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{cat.name}</span>
                     </div>
                     <span className={`font-black text-xs ml-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>{cat.pct}%</span>
                   </div>
@@ -330,7 +339,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             </div>
           </div>
 
-          <div className={`mt-3 border rounded-xl p-3 flex items-center justify-between transition-colors ${
+          <div className={`mt-3 border rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-2 transition-colors ${
             isDark ? 'bg-[#091224] border-[#1b2c4e]' : 'bg-blue-50/70 border-blue-200'
           }`}>
             <div className="flex items-center space-x-2.5">
@@ -341,12 +350,12 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                 <h4 className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Score Final de 0 a 100
                 </h4>
-                <p className={`text-[9px] leading-tight ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-[9px] leading-tight whitespace-normal ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Mayor score = Mayor prioridad (Forms 1).
                 </p>
               </div>
             </div>
-            <span className={`text-[9px] font-bold px-2 py-0.5 rounded border whitespace-nowrap ${
+            <span className={`text-[9px] font-bold px-2 py-0.5 rounded border ${
               isDark ? 'bg-blue-950 text-cyan-400 border-blue-500/40' : 'bg-white text-blue-800 border-blue-300 shadow-sm'
             }`}>
               Algoritmo Activo

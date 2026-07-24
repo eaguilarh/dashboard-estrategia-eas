@@ -69,7 +69,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onSelectView, onO
               >
                 {item.icon}
               </div>
-              <span className="text-[8px] sm:text-[10px] font-medium tracking-tight mt-0.5 sm:mt-1 text-center line-clamp-1">
+              <span className="text-[8px] sm:text-[10px] font-medium tracking-tight mt-0.5 sm:mt-1 text-center whitespace-normal break-words leading-tight">
                 {item.label}
               </span>
             </button>
