@@ -12,11 +12,27 @@ interface Module3Props {
 export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, theme = 'dark', onDrillDown }) => {
   const isDark = theme === 'dark';
 
-  const benefitAreas = [
-    { area: 'Finanzas', pct: 38, color: '#1e68d7' },
-    { area: 'Ventas', pct: 32, color: '#10b981' },
-    { area: 'Operaciones', pct: 20, color: '#f59e0b' },
-    { area: 'RRHH', pct: 10, color: '#8b5cf6' },
+  // Dynamically calculate closed projects area distribution percentages
+  const areaCounts = closedProjects.reduce((acc, p) => {
+    acc[p.area] = (acc[p.area] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const totalClosed = closedProjects.length;
+  const colorsList = ['#1e68d7', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'];
+  const benefitAreas = Object.keys(areaCounts).map((area, idx) => {
+    const count = areaCounts[area];
+    const pct = totalClosed > 0 ? Math.round((count / totalClosed) * 100) : 0;
+    return {
+      area,
+      pct,
+      color: colorsList[idx % colorsList.length]
+    };
+  });
+
+  // Default fallback if closedProjects is empty
+  const displayBenefitAreas = benefitAreas.length > 0 ? benefitAreas : [
+    { area: 'Sin datos de proyectos', pct: 0, color: '#94a3b8' }
   ];
 
   const handleRowClick = (prj: ClosedProject) => {
@@ -200,10 +216,10 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
           <div className="relative w-32 h-32 my-2 flex items-center justify-center">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
               <path className={isDark ? 'text-slate-800' : 'text-slate-200'} strokeWidth="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-              <path strokeWidth="3.5" strokeDasharray="94, 100" stroke="#10b981" strokeLinecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <path strokeWidth="3.5" strokeDasharray={`${kpis.benefitCompliancePct}, 100`} stroke="#10b981" strokeLinecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
             </svg>
             <div className="absolute text-center">
-              <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>94%</span>
+              <span className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.benefitCompliancePct}%</span>
               <span className="block text-[9px] text-slate-400">Captura Real</span>
             </div>
           </div>
@@ -215,7 +231,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
             </div>
             <div>
               <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Comprometidos</span>
-              <strong className={`text-xs font-bold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>${kpis.promisedBenefitMXN}M MXN</strong>
+              <strong className="text-[#10b981] text-xs font-bold">${kpis.promisedBenefitMXN}M MXN</strong>
             </div>
           </div>
         </div>
@@ -234,10 +250,10 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
             }`}>
               <div>
                 <span className={`text-[9px] uppercase font-bold block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS PROMEDIO</span>
-                <span className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>74 <span className="text-xs text-slate-400 font-normal">/ 100</span></span>
+                <span className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgNPS} <span className="text-xs text-slate-400 font-normal">/ 100</span></span>
               </div>
               <div className="w-10 h-10 rounded-full border-2 border-emerald-500 flex items-center justify-center text-emerald-500 font-bold text-sm bg-emerald-500/10 flex-shrink-0">
-                74
+                {kpis.avgNPS}
               </div>
             </div>
 
@@ -247,9 +263,6 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
               <span className={`text-[9px] uppercase font-bold block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>INCIDENTES POST GO-LIVE</span>
               <div className="mt-1.5 flex items-baseline justify-between">
                 <span className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.totalPostGoLiveIncidents}</span>
-                <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                  ↓ 60% vs anterior
-                </span>
               </div>
             </div>
           </div>
@@ -264,7 +277,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
           </h3>
 
           <div className="space-y-2.5 my-auto">
-            {benefitAreas.map((item) => (
+            {displayBenefitAreas.map((item) => (
               <div key={item.area} className="space-y-1">
                 <div className="flex items-center justify-between text-xs font-semibold">
                   <div className="flex items-center space-x-2 min-w-0">

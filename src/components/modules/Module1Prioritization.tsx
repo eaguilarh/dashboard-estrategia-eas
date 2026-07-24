@@ -13,11 +13,18 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
   const isDark = theme === 'dark';
   const [selectedQuadrant, setSelectedQuadrant] = useState<string | null>(null);
 
+  // Calculate dynamic strategic distribution categories based on real initiatives
+  const categoryCounts = initiatives.reduce((acc, init) => {
+    acc[init.category] = (acc[init.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const totalInits = initiatives.length;
   const categories = [
-    { name: 'Transformación Digital', pct: 40, color: '#1e68d7' },
-    { name: 'Customer Experience', pct: 25, color: '#10b981' },
-    { name: 'Automatización', pct: 20, color: '#f59e0b' },
-    { name: 'Compliance', pct: 15, color: '#ef4444' },
+    { name: 'Transformación Digital', pct: totalInits > 0 ? Math.round(((categoryCounts['Transformación Digital'] || 0) / totalInits) * 100) : 0, color: '#1e68d7' },
+    { name: 'Customer Experience', pct: totalInits > 0 ? Math.round(((categoryCounts['Customer Experience'] || 0) / totalInits) * 100) : 0, color: '#10b981' },
+    { name: 'Automatización', pct: totalInits > 0 ? Math.round(((categoryCounts['Automatización'] || 0) / totalInits) * 100) : 0, color: '#f59e0b' },
+    { name: 'Compliance', pct: totalInits > 0 ? Math.round(((categoryCounts['Compliance'] || 0) / totalInits) * 100) : 0, color: '#ef4444' },
   ];
 
   const filteredInitiatives = selectedQuadrant
@@ -35,31 +42,42 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
     }
   };
 
-  // Strictly bounded scatter dot coordinates (x%, y%)
-  const scatterDots = [
-    // Quick Wins (Top-Left, X: 14-42%, Y: 18-42%) - Green
-    { initId: '1', name: 'IA Contact Center', score: 96, quadrant: 'Quick Wins', x: 24, y: 26, color: '#16a34a' },
-    { initId: '4', name: 'Data Analytics', score: 87, quadrant: 'Quick Wins', x: 38, y: 36, color: '#16a34a' },
+  // Dynamically map real initiatives to coordinates inside the Matriz quadrant grid
+  const scatterDots = initiatives.map((init) => {
+    // Determine target coordinates based on quadrants
+    let x = 50;
+    let y = 50;
+    let color = '#2563eb'; // Default
 
-    // Apuestas Estratégicas (Top-Right, X: 58-86%, Y: 18-42%) - Blue
-    { initId: '2', name: 'CRM 360°', score: 93, quadrant: 'Apuestas Estratégicas', x: 68, y: 18, color: '#2563eb' },
-    { initId: '3', name: 'Automatización SAP', score: 89, quadrant: 'Apuestas Estratégicas', x: 58, y: 28, color: '#2563eb' },
-    { initId: '8', name: 'App Móvil Clientes', score: 76, quadrant: 'Apuestas Estratégicas', x: 78, y: 34, color: '#2563eb' },
-    { initId: '5', name: 'Portal del Cliente', score: 84, quadrant: 'Apuestas Estratégicas', x: 66, y: 42, color: '#2563eb' },
+    if (init.quadrant === 'Quick Wins') {
+      x = 15 + ((init.score - 70) / 30) * 30; // 15% to 45%
+      y = 15 + (1 - (init.score - 70) / 30) * 30; // 15% to 45%
+      color = '#16a34a';
+    } else if (init.quadrant === 'Apuestas Estratégicas') {
+      x = 55 + ((init.score - 70) / 30) * 30; // 55% to 85%
+      y = 15 + (1 - (init.score - 70) / 30) * 30; // 15% to 45%
+      color = '#2563eb';
+    } else if (init.quadrant === 'Relleno') {
+      x = 15 + (init.score / 70) * 30; // 15% to 45%
+      y = 55 + (1 - init.score / 70) * 30; // 55% to 85%
+      color = '#ca8a04';
+    } else {
+      // Baja Prioridad
+      x = 55 + (init.score / 70) * 30; // 55% to 85%
+      y = 55 + (1 - init.score / 70) * 30; // 55% to 85%
+      color = '#dc2626';
+    }
 
-    // Relleno (Bottom-Left, X: 14-42%, Y: 58-82%) - Yellow/Amber
-    { initId: '6', name: 'Gestión Documental', score: 81, quadrant: 'Relleno', x: 20, y: 64, color: '#ca8a04' },
-    { initId: '7', name: 'Firma Electrónica', score: 78, quadrant: 'Relleno', x: 34, y: 58, color: '#ca8a04' },
-    { initId: '9', name: 'Chatbot IA', score: 74, quadrant: 'Relleno', x: 26, y: 74, color: '#ca8a04' },
-    { initId: '11', name: 'Workflow Legal', score: 70, quadrant: 'Relleno', x: 38, y: 82, color: '#ca8a04' },
-
-    // Baja Prioridad (Bottom-Right, X: 58-86%, Y: 58-82%) - Red
-    { initId: '10', name: 'Gobierno de Datos', score: 72, quadrant: 'Baja Prioridad', x: 66, y: 58, color: '#dc2626' },
-    { initId: '12', name: 'Legacy Migration', score: 68, quadrant: 'Baja Prioridad', x: 80, y: 64, color: '#dc2626' },
-    { initId: '13', name: 'Hardware Upgrade', score: 65, quadrant: 'Baja Prioridad', x: 58, y: 72, color: '#dc2626' },
-    { initId: '14', name: 'Encuesta Clima', score: 60, quadrant: 'Baja Prioridad', x: 72, y: 78, color: '#dc2626' },
-    { initId: '15', name: 'Rediseño Intranet', score: 55, quadrant: 'Baja Prioridad', x: 64, y: 83, color: '#dc2626' },
-  ];
+    return {
+      initId: init.id,
+      name: init.name,
+      score: init.score,
+      quadrant: init.quadrant,
+      x: Math.max(8, Math.min(92, x)),
+      y: Math.max(8, Math.min(92, y)),
+      color
+    };
+  });
 
   return (
     <div className="space-y-4 text-left w-full select-none max-w-full overflow-hidden">
