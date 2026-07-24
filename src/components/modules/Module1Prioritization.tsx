@@ -328,20 +328,32 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                   {/* Background Track */}
                   <path className={isDark ? 'text-slate-800' : 'text-slate-200'} strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                   
-                  {/* Transformación Digital: 40% (Color: #1e68d7) */}
-                  <path strokeWidth="4" strokeDasharray="40 100" strokeDashoffset="0" stroke="#1e68d7" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  
-                  {/* Customer Experience: 25% (Color: #10b981) */}
-                  <path strokeWidth="4" strokeDasharray="25 100" strokeDashoffset="-40" stroke="#10b981" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  
-                  {/* Automatización: 20% (Color: #f59e0b) */}
-                  <path strokeWidth="4" strokeDasharray="20 100" strokeDashoffset="-65" stroke="#f59e0b" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  
-                  {/* Compliance: 15% (Color: #ef4444) */}
-                  <path strokeWidth="4" strokeDasharray="15 100" strokeDashoffset="-85" stroke="#ef4444" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  {/* Dynamic Category Segments */}
+                  {(() => {
+                    let accumulatedOffset = 0;
+                    return categories.map((cat, idx) => {
+                      if (cat.pct <= 0) return null;
+                      const strokeDasharray = `${cat.pct} 100`;
+                      const strokeDashoffset = -accumulatedOffset;
+                      accumulatedOffset += cat.pct;
+                      return (
+                        <path
+                          key={idx}
+                          strokeWidth="4"
+                          strokeDasharray={strokeDasharray}
+                          strokeDashoffset={strokeDashoffset}
+                          stroke={cat.color}
+                          fill="none"
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        />
+                      );
+                    });
+                  })()}
                 </svg>
                 <div className="absolute text-center">
-                  <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>100%</span>
+                  <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    {totalInits > 0 ? '100%' : '0%'}
+                  </span>
                   <span className="block text-[8px] text-slate-400 font-semibold">Categorías</span>
                 </div>
               </div>
