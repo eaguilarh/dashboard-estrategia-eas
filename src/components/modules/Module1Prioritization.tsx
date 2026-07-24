@@ -299,51 +299,49 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
         {/* CARD 3: Distribución Estratégica & Algoritmo de Score */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <h3 className={`text-xs font-extrabold tracking-wide uppercase mb-3 pb-2 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
-                DISTRIBUCIÓN ESTRATÉGICA
-              </h3>
+          <div className="flex flex-col gap-4">
+            <h3 className={`text-xs font-extrabold tracking-wide uppercase pb-2 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
+              DISTRIBUCIÓN ESTRATÉGICA
+            </h3>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <div className="relative w-24 h-24 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                    {/* Background Track */}
-                    <path className={isDark ? 'text-slate-800' : 'text-slate-200'} strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    
-                    {/* Transformación Digital: 40% (Color: #1e68d7) */}
-                    <path strokeWidth="4" strokeDasharray="40 100" strokeDashoffset="0" stroke="#1e68d7" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    
-                    {/* Customer Experience: 25% (Color: #10b981) */}
-                    <path strokeWidth="4" strokeDasharray="25 100" strokeDashoffset="-40" stroke="#10b981" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    
-                    {/* Automatización: 20% (Color: #f59e0b) */}
-                    <path strokeWidth="4" strokeDasharray="20 100" strokeDashoffset="-65" stroke="#f59e0b" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    
-                    {/* Compliance: 15% (Color: #ef4444) */}
-                    <path strokeWidth="4" strokeDasharray="15 100" strokeDashoffset="-85" stroke="#ef4444" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  </svg>
-                  <div className="absolute text-center">
-                    <span className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>100%</span>
-                    <span className="block text-[8px] text-slate-400 font-semibold">Categorías</span>
-                  </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                  {/* Background Track */}
+                  <path className={isDark ? 'text-slate-800' : 'text-slate-200'} strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Transformación Digital: 40% (Color: #1e68d7) */}
+                  <path strokeWidth="4" strokeDasharray="40 100" strokeDashoffset="0" stroke="#1e68d7" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Customer Experience: 25% (Color: #10b981) */}
+                  <path strokeWidth="4" strokeDasharray="25 100" strokeDashoffset="-40" stroke="#10b981" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Automatización: 20% (Color: #f59e0b) */}
+                  <path strokeWidth="4" strokeDasharray="20 100" strokeDashoffset="-65" stroke="#f59e0b" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  
+                  {/* Compliance: 15% (Color: #ef4444) */}
+                  <path strokeWidth="4" strokeDasharray="15 100" strokeDashoffset="-85" stroke="#ef4444" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div className="absolute text-center">
+                  <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>100%</span>
+                  <span className="block text-[8px] text-slate-400 font-semibold">Categorías</span>
                 </div>
+              </div>
 
-                <div className="space-y-1.5 flex-1 w-full">
-                  {categories.map((cat) => (
-                    <div key={cat.name} className="flex items-center justify-between text-xs">
-                      <div className="flex items-center space-x-2 min-w-0">
-                        <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: cat.color }} />
-                        <span className={`whitespace-normal break-words font-semibold text-[11px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{cat.name}</span>
-                      </div>
-                      <span className={`font-black text-xs ml-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>{cat.pct}%</span>
+              <div className="space-y-2 flex-1 w-full">
+                {categories.map((cat) => (
+                  <div key={cat.name} className="flex items-center justify-between text-xs">
+                    <div className="flex items-center space-x-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: cat.color }} />
+                      <span className={`whitespace-normal break-words font-semibold text-[11px] ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{cat.name}</span>
                     </div>
-                  ))}
-                </div>
+                    <span className={`font-black text-xs ml-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>{cat.pct}%</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className={`border rounded-xl p-3 flex flex-col justify-center gap-1.5 transition-colors w-full lg:max-w-xs ${
+            <div className={`border rounded-xl p-3 flex flex-col justify-center gap-1.5 transition-colors w-full ${
               isDark ? 'bg-[#091224] border-[#1b2c4e]' : 'bg-blue-50/70 border-blue-200'
             }`}>
               <div className="flex items-center space-x-2">
