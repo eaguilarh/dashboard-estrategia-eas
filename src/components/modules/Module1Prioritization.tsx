@@ -99,23 +99,23 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Inversión Requerida</span>
-          <div className="mt-1">
+          <div className="mt-1 flex flex-wrap items-baseline gap-0.5">
             <span className="text-base sm:text-xl font-extrabold text-emerald-500">${kpis.totalInvestmentRequired}M</span>
-            <span className={`text-[9px] sm:text-[10px] ml-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
+            <span className={`text-[8px] sm:text-[9px] font-bold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
           </div>
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Beneficio Potencial</span>
-          <div className="mt-1">
+          <div className="mt-1 flex flex-wrap items-baseline gap-0.5">
             <span className="text-base sm:text-xl font-extrabold text-purple-500">${kpis.totalPotentialBenefit}M</span>
-            <span className={`text-[9px] sm:text-[10px] ml-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
+            <span className={`text-[8px] sm:text-[9px] font-bold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
           </div>
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>ROI Esperado</span>
-          <div className="mt-1 flex items-baseline justify-between">
+          <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
             <span className="text-lg sm:text-2xl font-black text-amber-500">{kpis.avgExpectedROI}%</span>
             <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 flex-shrink-0" />
           </div>
@@ -123,17 +123,17 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Score Promedio</span>
-          <div className="mt-1 flex items-baseline">
+          <div className="mt-1 flex flex-wrap items-baseline gap-0.5">
             <span className="text-lg sm:text-2xl font-black text-cyan-500">{kpis.avgScore}</span>
-            <span className={`text-[10px] sm:text-[11px] ml-1 font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>/100</span>
+            <span className={`text-[9px] sm:text-[10px] font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>/100</span>
           </div>
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Time To Value</span>
-          <div className="mt-1 flex items-baseline justify-between">
+          <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
             <span className={`text-lg sm:text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgTimeToValueMonths}</span>
-            <span className={`text-[9px] sm:text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>meses</span>
+            <span className={`text-[8px] sm:text-[9px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>meses</span>
           </div>
         </div>
       </div>
