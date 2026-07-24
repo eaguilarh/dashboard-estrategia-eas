@@ -59,7 +59,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
       {/* KPI Cards Row (6 Metric Cards in horizontal row) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-2.5">
         <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos Cerrados</span>
+          <span className={`text-[10px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Proyectos Cerrados</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className={`text-lg sm:text-xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.closedProjectsCount}</span>
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
@@ -67,7 +67,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
         </div>
 
         <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Realizado</span>
+          <span className={`text-[10px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Beneficio Realizado</span>
           <div className="mt-1">
             <span className="text-base sm:text-lg font-extrabold text-emerald-500">${kpis.realizedBenefitMXN}M</span>
             <span className={`text-[9px] ml-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
@@ -75,7 +75,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
         </div>
 
         <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>ROI 90D Promedio</span>
+          <span className={`text-[10px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>ROI 90D Promedio</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="text-lg sm:text-xl font-extrabold text-emerald-500">{kpis.avgROI90DaysPct}%</span>
             <TrendingUp className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
@@ -83,14 +83,14 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
         </div>
 
         <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Cumpl. Beneficios</span>
+          <span className={`text-[10px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Cumpl. Beneficios</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="text-lg sm:text-xl font-extrabold text-cyan-500">{kpis.benefitCompliancePct}%</span>
           </div>
         </div>
 
         <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
+          <span className={`text-[10px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>NPS Promedio</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className={`text-lg sm:text-xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgNPS}</span>
             <HeartHandshake className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
@@ -98,7 +98,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
         </div>
 
         <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Adopción Promed.</span>
+          <span className={`text-[10px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Adopción Promed.</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="text-lg sm:text-xl font-extrabold text-purple-500">{kpis.avgAdoptionPct}%</span>
           </div>
@@ -135,7 +135,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
                       <span className="text-[8px] font-bold text-white">{prj.roiReal90DaysPct}%</span>
                     </div>
                   </div>
-                  <span className={`text-[9px] font-semibold text-center truncate w-full group-hover:text-cyan-400 ${isDark ? 'text-slate-300' : 'text-slate-700'}`} title={prj.name}>
+                  <span className={`text-[9px] font-semibold text-center whitespace-normal break-words leading-tight w-full group-hover:text-cyan-400 ${isDark ? 'text-slate-300' : 'text-slate-700'}`} title={prj.name}>
                     {prj.name}
                   </span>
                 </div>
@@ -169,7 +169,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
                     onClick={() => handleRowClick(prj)}
                     className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
                   >
-                    <td className={`py-1.5 px-1.5 font-bold text-[11px] truncate max-w-[120px] ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</td>
+                    <td className={`py-1.5 px-1.5 font-bold text-[11px] whitespace-normal break-words ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</td>
                     <td className={`py-1.5 px-1.5 text-center text-[10px] ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{prj.deliveryDate}</td>
                     <td className="py-1.5 px-1.5 text-center font-bold text-emerald-500 text-[11px]">{prj.roiReal90DaysPct}%</td>
                     <td className="py-1.5 px-1.5 text-center font-bold text-cyan-500 text-[11px]">{prj.nps > 0 ? prj.nps : '—'}</td>

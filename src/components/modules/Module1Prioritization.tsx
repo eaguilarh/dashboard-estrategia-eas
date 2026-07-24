@@ -90,7 +90,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
       {/* KPI Cards Row (6 Metric Cards in horizontal row) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-2.5">
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] sm:text-[11px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Total Iniciativas</span>
+          <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Total Iniciativas</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className={`text-lg sm:text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.totalInitiatives}</span>
             <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 flex-shrink-0" />
@@ -98,7 +98,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] sm:text-[11px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Requerida</span>
+          <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Inversión Requerida</span>
           <div className="mt-1">
             <span className="text-base sm:text-xl font-extrabold text-emerald-500">${kpis.totalInvestmentRequired}M</span>
             <span className={`text-[9px] sm:text-[10px] ml-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
@@ -106,7 +106,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] sm:text-[11px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Potencial</span>
+          <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Beneficio Potencial</span>
           <div className="mt-1">
             <span className="text-base sm:text-xl font-extrabold text-purple-500">${kpis.totalPotentialBenefit}M</span>
             <span className={`text-[9px] sm:text-[10px] ml-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>MXN</span>
@@ -114,7 +114,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] sm:text-[11px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>ROI Esperado</span>
+          <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>ROI Esperado</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="text-lg sm:text-2xl font-black text-amber-500">{kpis.avgExpectedROI}%</span>
             <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 flex-shrink-0" />
@@ -122,7 +122,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] sm:text-[11px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Score Promedio</span>
+          <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Score Promedio</span>
           <div className="mt-1 flex items-baseline">
             <span className="text-lg sm:text-2xl font-black text-cyan-500">{kpis.avgScore}</span>
             <span className={`text-[10px] sm:text-[11px] ml-1 font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>/100</span>
@@ -130,7 +130,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
 
         <div className={`p-2.5 sm:p-3 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <span className={`text-[10px] sm:text-[11px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Time To Value</span>
+          <span className={`text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 block leading-tight break-words`}>Time To Value</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className={`text-lg sm:text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgTimeToValueMonths}</span>
             <span className={`text-[9px] sm:text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>meses</span>
