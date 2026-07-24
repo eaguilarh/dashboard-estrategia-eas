@@ -138,8 +138,8 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
       </div>
 
-      {/* ROW 1: Matriz Valor vs Esfuerzo & Top 10 Ranking (2 cards side-by-side) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch w-full">
+      {/* ROW 1: Matriz Valor vs Esfuerzo (Full width at top) */}
+      <div className="w-full">
         {/* CARD 1: Matriz Valor vs Esfuerzo */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
@@ -238,7 +238,10 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             <span>Alto</span>
           </div>
         </div>
+      </div>
 
+      {/* ROW 2: Top 10 Ranking Table & Distribución Estratégica (2 cards side-by-side) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch w-full">
         {/* CARD 2: Top 10 Ranking Table */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <div className={`flex items-center justify-between mb-2 pb-2 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>
@@ -293,20 +296,17 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             Ponderación basada en ahorro de tiempo e impacto
           </div>
         </div>
-      </div>
 
-      {/* ROW 2: Distribución Estratégica & Algoritmo (Placed below the first row at full proportion) */}
-      <div className="w-full">
         {/* CARD 3: Distribución Estratégica & Algoritmo de Score */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
             <div className="flex-1 min-w-0">
               <h3 className={`text-xs font-extrabold tracking-wide uppercase mb-3 pb-2 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
                 DISTRIBUCIÓN ESTRATÉGICA
               </h3>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div className="relative w-24 h-24 flex items-center justify-center flex-shrink-0">
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                     {/* Background Track */}
                     <path className={isDark ? 'text-slate-800' : 'text-slate-200'} strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
@@ -324,12 +324,12 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                     <path strokeWidth="4" strokeDasharray="15 100" strokeDashoffset="-85" stroke="#ef4444" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                   </svg>
                   <div className="absolute text-center">
-                    <span className={`text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>100%</span>
+                    <span className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>100%</span>
                     <span className="block text-[8px] text-slate-400 font-semibold">Categorías</span>
                   </div>
                 </div>
 
-                <div className="space-y-2 flex-1 w-full">
+                <div className="space-y-1.5 flex-1 w-full">
                   {categories.map((cat) => (
                     <div key={cat.name} className="flex items-center justify-between text-xs">
                       <div className="flex items-center space-x-2 min-w-0">
@@ -343,15 +343,15 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
               </div>
             </div>
 
-            <div className={`border rounded-xl p-4 flex flex-col justify-center gap-2 transition-colors flex-1 max-w-md ${
+            <div className={`border rounded-xl p-3 flex flex-col justify-center gap-1.5 transition-colors flex-1 max-w-sm ${
               isDark ? 'bg-[#091224] border-[#1b2c4e]' : 'bg-blue-50/70 border-blue-200'
             }`}>
-              <div className="flex items-center space-x-2.5">
-                <div className={`p-1.5 rounded-full border flex-shrink-0 ${isDark ? 'bg-blue-900/50 text-cyan-300 border-blue-500/30' : 'bg-blue-100 text-blue-700 border-blue-300'}`}>
-                  <HelpCircle className="w-4 h-4" />
+              <div className="flex items-center space-x-2">
+                <div className={`p-1 rounded-full border flex-shrink-0 ${isDark ? 'bg-blue-900/50 text-cyan-300 border-blue-500/30' : 'bg-blue-100 text-blue-700 border-blue-300'}`}>
+                  <HelpCircle className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <h4 className={`text-[11px] font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <h4 className={`text-[10px] font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     Score Final de 0 a 100
                   </h4>
                   <p className={`text-[9px] leading-tight whitespace-normal ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -359,9 +359,9 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-700/30">
-                <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Estado de Priorización</span>
-                <span className={`text-[9px] font-bold px-2 py-0.5 rounded border ${
+              <div className="flex items-center justify-between mt-1.5 pt-1.5 border-t border-slate-700/30">
+                <span className={`text-[9px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Priorización</span>
+                <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${
                   isDark ? 'bg-blue-950 text-cyan-400 border-blue-500/40' : 'bg-white text-blue-800 border-blue-300 shadow-sm'
                 }`}>
                   Algoritmo Activo
