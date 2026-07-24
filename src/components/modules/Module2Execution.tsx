@@ -198,10 +198,10 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
         </div>
       </div>
 
-      {/* SINGLE HORIZONTAL ROW WITH 2 CARDS: Desempeño del Portafolio & Semáforo de Salud */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch w-full">
-        {/* CARD 1: Desempeño del Portafolio */}
-        <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
+      {/* TWO SEPARATE ROWS FOR WIDGETS: Desempeño del Portafolio & Semáforo de Salud */}
+      <div className="flex flex-col gap-4 w-full">
+        {/* ROW 1: Desempeño del Portafolio */}
+        <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 w-full ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <h3 className={`text-xs font-bold tracking-wide uppercase mb-3 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
             DESEMPEÑO DEL PORTAFOLIO
           </h3>
@@ -240,8 +240,8 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
           </div>
         </div>
 
-        {/* CARD 2: Semáforo de Salud por Proyecto */}
-        <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
+        {/* ROW 2: Semáforo de Salud por Proyecto */}
+        <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 w-full ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <h3 className={`text-xs font-bold tracking-wide uppercase mb-3 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
             SEMÁFORO DE SALUD POR PROYECTO
           </h3>

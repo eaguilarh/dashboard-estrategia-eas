@@ -304,7 +304,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
               DISTRIBUCIÓN ESTRATÉGICA
             </h3>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="flex flex-col items-center justify-center gap-4">
               <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                   {/* Background Track */}
@@ -328,7 +328,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                 </div>
               </div>
 
-              <div className="space-y-2 flex-1 w-full">
+              <div className="space-y-2 w-full max-w-sm">
                 {categories.map((cat) => (
                   <div key={cat.name} className="flex items-center justify-between text-xs">
                     <div className="flex items-center space-x-2 min-w-0">
