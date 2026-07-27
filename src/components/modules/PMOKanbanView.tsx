@@ -13,18 +13,20 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
   const isDark = theme === 'dark';
 
   // Local state for internal PMO transition simulator
-  const [selectedInitiativeId, setSelectedInitiativeId] = useState<string>('10');
+  const [selectedInitiativeId, setSelectedInitiativeId] = useState<string>('');
   const [startDate, setStartDate] = useState<string>('2026-08-03');
   const [durationWeeks, setDurationWeeks] = useState<number>(8);
   const [pmName, setPmName] = useState<string>('Ing. TBD');
-  const [transitionStatus, setTransitionStatus] = useState<string | null>(
-    '¡Iniciativa "Gobierno de Datos" promovida a Proyecto Activo! Fecha Fin SLA: 27 sep 2026 (8 semanas).'
-  );
+  const [transitionStatus, setTransitionStatus] = useState<string | null>(null);
 
   const selectedInitiative = initiatives.find((i) => i.id === selectedInitiativeId) || initiatives[0];
 
   const handleCreateProjectSLA = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedInitiative) {
+      setTransitionStatus('Por favor, selecciona una iniciativa válida para promover.');
+      return;
+    }
     const start = new Date(startDate);
     const endDate = new Date(start.getTime() + durationWeeks * 7 * 24 * 60 * 60 * 1000);
     const endDateFormatted = endDate.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -33,6 +35,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
       `¡Iniciativa "${selectedInitiative.name}" promovida a Proyecto Activo! Fecha Fin SLA: ${endDateFormatted} (${durationWeeks} semanas).`
     );
   };
+
+  // Derive stage counters dynamically from real arrays
+  const backlogInitiatives = initiatives.filter(i => i.score >= 70);
+  const planningProjects = projects.filter(p => p.statusGantt === 'Sin Iniciar' || p.progressRealPct === 0);
+  const constructionProjects = projects.filter(p => p.statusGantt !== 'Sin Iniciar' && p.progressRealPct > 0);
+  const completedProjectsCount = projects.filter(p => p.progressRealPct === 100).length;
 
   return (
     <div className="space-y-4 text-left w-full select-none">
@@ -90,6 +98,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 isDark ? 'bg-[#081022] border-[#1f3460] text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
               }`}
             >
+              <option value="" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>Selecciona iniciativa...</option>
               {initiatives.map((init) => (
                 <option key={init.id} value={init.id} className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>
                   {init.rank}. {init.name} (Score: {init.score})
@@ -173,12 +182,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-blue-500/40">
             <span className="font-extrabold text-blue-600 dark:text-blue-400 uppercase text-[11px]">1. Aprobadas / Backlog</span>
             <span className="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              10
+              {backlogInitiatives.length}
             </span>
           </div>
 
           <div className="space-y-2">
-            {initiatives.slice(0, 4).map((item) => (
+            {backlogInitiatives.map((item) => (
               <div
                 key={item.id}
                 onClick={() => onDrillDown({ type: 'initiative', title: item.name, sourceForm: 'Formulario 1 (Ingreso de Iniciativas)', data: item })}
@@ -198,6 +207,11 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 </div>
               </div>
             ))}
+            {backlogInitiatives.length === 0 && (
+              <div className="text-center py-6 text-slate-500 text-[11px]">
+                Sin iniciativas aprobadas.
+              </div>
+            )}
           </div>
         </div>
 
@@ -208,12 +222,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-cyan-500/40">
             <span className="font-extrabold text-cyan-600 dark:text-cyan-400 uppercase text-[11px]">2. Planificación SLA</span>
             <span className="bg-cyan-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              3
+              {planningProjects.length}
             </span>
           </div>
 
           <div className="space-y-2">
-            {projects.slice(4, 7).map((prj) => (
+            {planningProjects.map((prj) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'project', title: prj.name, sourceForm: 'Formulario 2 (Brief & Gantt PMO)', data: prj })}
@@ -233,6 +247,11 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 </div>
               </div>
             ))}
+            {planningProjects.length === 0 && (
+              <div className="text-center py-6 text-slate-500 text-[11px]">
+                Sin proyectos en planificación.
+              </div>
+            )}
           </div>
         </div>
 
@@ -243,12 +262,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-amber-500/40">
             <span className="font-extrabold text-amber-600 dark:text-amber-400 uppercase text-[11px]">3. En Construcción (Gantt)</span>
             <span className="bg-amber-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              7
+              {constructionProjects.length}
             </span>
           </div>
 
           <div className="space-y-2">
-            {projects.slice(0, 4).map((prj) => (
+            {constructionProjects.map((prj) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'project', title: prj.name, sourceForm: 'Formulario 2 (Brief & Gantt PMO)', data: prj })}
@@ -270,6 +289,11 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 </div>
               </div>
             ))}
+            {constructionProjects.length === 0 && (
+              <div className="text-center py-6 text-slate-500 text-[11px]">
+                Sin proyectos activos en construcción.
+              </div>
+            )}
           </div>
         </div>
 
@@ -280,12 +304,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-emerald-500/40">
             <span className="font-extrabold text-emerald-600 dark:text-emerald-400 uppercase text-[11px]">4. Productivo / ROI 90D</span>
             <span className="bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              24
+              {completedProjectsCount}
             </span>
           </div>
 
           <div className="space-y-2">
-            {projects.slice(0, 3).map((prj) => (
+            {projects.filter(p => p.progressRealPct === 100).map((prj) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'closedProject', title: prj.name, sourceForm: 'Formulario 3 (NPS & ROI 90 Días)', data: { ...prj, deliveryDate: '15 Ene 2026', roiReal90DaysPct: 28, nps: 82, npsStatus: 'Excelente', adoptionPct: 92, realBenefitMXN: 32, promisedBenefitMXN: 30 } })}
@@ -301,10 +325,15 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 </div>
                 <div className="text-[11px] flex items-center justify-between font-semibold">
                   <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Forms 3 Certificado</span>
-                  <span className="font-black text-emerald-600 dark:text-emerald-400">94% Benefit</span>
+                  <span className="font-black text-emerald-600 dark:text-emerald-400">Avance 100%</span>
                 </div>
               </div>
             ))}
+            {completedProjectsCount === 0 && (
+              <div className="text-center py-6 text-slate-500 text-[11px]">
+                Sin proyectos productivos finalizados.
+              </div>
+            )}
           </div>
         </div>
       </div>

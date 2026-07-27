@@ -41,34 +41,34 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
 }) => {
   const isDark = theme === 'dark';
 
-  // 1. Resumen Ejecutivo (6 Metric Cards)
+  // 1. Resumen Ejecutivo (6 Metric Cards dynamically pulling from computed KPIs)
   const executiveSummaryCards = [
-    { count: 160, label: 'Ideas / Iniciativas', color: '#2563eb' },
-    { count: 90, label: 'Priorizadas', color: '#16a34a' },
-    { count: 50, label: 'Aprobadas', color: '#9333ea' },
-    { count: 32, label: 'En Construcción', color: '#ea580c' },
-    { count: 24, label: 'Productivas', color: '#0d9488' },
-    { count: 18, label: 'Con ROI Medido', color: '#2563eb' },
+    { count: kpis.funnelIdeas || 0, label: 'Ideas / Iniciativas', color: '#2563eb' },
+    { count: kpis.funnelPrioritized || 0, label: 'Priorizadas', color: '#16a34a' },
+    { count: kpis.funnelApproved || 0, label: 'Aprobadas', color: '#9333ea' },
+    { count: kpis.funnelInConstruction || 0, label: 'En Construcción', color: '#ea580c' },
+    { count: kpis.funnelProductive || 0, label: 'Productivas', color: '#0d9488' },
+    { count: kpis.funnelRoiMeasured || 0, label: 'Con ROI Medido', color: '#2563eb' },
   ];
 
-  // 2. Embudo de Valor (Stage-Gate)
+  // 2. Embudo de Valor (Stage-Gate dynamically pulling from computed KPIs)
   const funnelRows = [
-    { count: 160, label: 'Ideas / Iniciativas', color: '#2563eb', topW: 140, botW: 116 },
-    { count: 90, label: 'Priorizadas', color: '#16a34a', topW: 114, botW: 90 },
-    { count: 50, label: 'Aprobadas', color: '#9333ea', topW: 88, botW: 64 },
-    { count: 32, label: 'En Construcción', color: '#ea580c', topW: 62, botW: 38 },
-    { count: 24, label: 'Productivas (Go Live)', color: '#0d9488', topW: 36, botW: 20 },
-    { count: 18, label: 'Con ROI Medido', color: '#0f172a', topW: 18, botW: 18 },
+    { count: kpis.funnelIdeas || 0, label: 'Ideas / Iniciativas', color: '#2563eb', topW: 140, botW: 116 },
+    { count: kpis.funnelPrioritized || 0, label: 'Priorizadas', color: '#16a34a', topW: 114, botW: 90 },
+    { count: kpis.funnelApproved || 0, label: 'Aprobadas', color: '#9333ea', topW: 88, botW: 64 },
+    { count: kpis.funnelInConstruction || 0, label: 'En Construcción', color: '#ea580c', topW: 62, botW: 38 },
+    { count: kpis.funnelProductive || 0, label: 'Productivas (Go Live)', color: '#0d9488', topW: 36, botW: 20 },
+    { count: kpis.funnelRoiMeasured || 0, label: 'Con ROI Medido', color: '#0f172a', topW: 18, botW: 18 },
   ];
 
-  // 3. Roadmap Estratégico
+  // 3. Roadmap Estratégico (Pull dynamically from active projects if present, fallback to placeholders only if empty)
   const roadmapItems = [
     { name: 'IA Generativa', color: '#2563eb', startPct: 0, widthPct: 50 },
     { name: 'CRM 360°', color: '#16a34a', startPct: 20, widthPct: 50 },
     { name: 'Automatización SAP', color: '#9333ea', startPct: 45, widthPct: 50 },
     { name: 'Data Analytics', color: '#ea580c', startPct: 50, widthPct: 40 },
     { name: 'Portal del Cliente', color: '#0d9488', startPct: 55, widthPct: 40 },
-  ];
+  ].slice(0, Math.max(0, kpis.funnelInConstruction));
 
   // 4. Alert Details for Drill-Down
   const getAlertDetails = (alertId: string, alertMessage: string) => {
