@@ -166,27 +166,30 @@ export function App() {
         }
       };
 
-      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba)
+      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba, y filas vacías o sin nombre de iniciativa)
       const validRows = rows.filter((row: any, idx: number) => {
         const idKey = Object.keys(row).find(k => k.toUpperCase() === 'ID' || k.toUpperCase() === 'ITEM' || k.toUpperCase() === 'NÚMERO' || k.toUpperCase() === 'NUMERO');
         const rawId = idKey ? row[idKey] : row.id || row.Id || row.ID || row.Item || '';
         const idStr = String(rawId).trim();
         
-        // Exclude row with ID '2'. If no ID found, exclude second index row (index 1) to block item 2.
-        if (idStr) {
-          return idStr !== '2';
-        }
-        return idx !== 1;
+        // Exclude row with ID '2'.
+        if (idStr === '2') return false;
+
+        const nameVal = String(valByCol(row, 'F') || '').trim();
+        if (!nameVal) return false; // Exclude empty initiative rows
+
+        return true;
       });
 
-      console.log('Filtradas filas válidas (excluyendo item 2):', validRows);
+      console.log('Filtradas filas válidas (excluyendo item 2 y vacías):', validRows);
 
       // Map Forms 1 fields to Initiatives applying dynamic scoring qualifiers
       const mapped = validRows.map((row: any, idx: number) => {
         // Extract basic identification fields from columns
-        const nameVal = valByCol(row, 'F') || row['Nombre de Iniciativa'] || row['Iniciativa'] || 'Iniciativa sin nombre';
-        const areaVal = valByCol(row, 'I') || row['Área'] || row['Area'] || 'Operaciones';
-        const idVal = row.id || row.Id || row.ID || row['Item'] || String(idx + 1);
+        const nameVal = valByCol(row, 'F') || 'Iniciativa sin nombre';
+        const areaVal = valByCol(row, 'I') || 'Operaciones';
+        const idKey = Object.keys(row).find(k => k.toUpperCase() === 'ID' || k.toUpperCase() === 'ITEM' || k.toUpperCase() === 'NÚMERO' || k.toUpperCase() === 'NUMERO');
+        const idVal = idKey ? row[idKey] : row.id || row.Id || row.ID || row['Item'] || String(idx + 1);
 
         // Sum qualifiers scores dynamically
         let rawScore = 0;
@@ -197,6 +200,19 @@ export function App() {
 
         // Convert the raw score to a standard 1-100 score layout representation
         const score = Math.max(10, Math.min(100, Math.round(rawScore * 10)));
+
+        // Map Category based on Area to feed strategic distribution chart
+        let finalCategory = 'Transformación Digital';
+        const areaLower = String(areaVal).toLowerCase();
+        if (areaLower.includes('cliente') || areaLower.includes('experiencia') || areaLower.includes('cx')) {
+          finalCategory = 'Customer Experience';
+        } else if (areaLower.includes('automatización') || areaLower.includes('ti') || areaLower.includes('sistemas') || areaLower.includes('it')) {
+          finalCategory = 'Automatización';
+        } else if (areaLower.includes('cumplimiento') || areaLower.includes('compliance') || areaLower.includes('legal')) {
+          finalCategory = 'Compliance';
+        } else if (areaLower.includes('administración') || areaLower.includes('operaciones') || areaLower.includes('soporte')) {
+          finalCategory = 'Automatización'; // Operaciones/Administración default to Automation / Digitalization
+        }
 
         return {
           id: String(idVal),
@@ -212,7 +228,7 @@ export function App() {
           effort: row.effort || (score > 50 ? 'Alto' : 'Bajo'),
           value: row.value || (score > 40 ? 'Alto' : 'Bajo'),
           quadrant: score >= 50 ? 'PROYECTOS CLAVE' : 'OPTIMIZACIÓN',
-          category: row.category || row['Categoría'] || 'Estratégica',
+          category: finalCategory,
         };
       });
 
