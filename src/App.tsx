@@ -166,13 +166,17 @@ export function App() {
         }
       };
 
-      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba, y admitir cualquier fila con ID 1 o 3)
-      const validRows = rows.filter((row: any) => {
-        // Look up ID fields dynamically in the parsed row
+      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba)
+      const validRows = rows.filter((row: any, idx: number) => {
         const idKey = Object.keys(row).find(k => k.toUpperCase() === 'ID' || k.toUpperCase() === 'ITEM' || k.toUpperCase() === 'NÚMERO' || k.toUpperCase() === 'NUMERO');
         const rawId = idKey ? row[idKey] : row.id || row.Id || row.ID || row.Item || '';
         const idStr = String(rawId).trim();
-        return idStr !== '2' && idStr !== '';
+        
+        // Exclude row with ID '2'. If no ID found, exclude second index row (index 1) to block item 2.
+        if (idStr) {
+          return idStr !== '2';
+        }
+        return idx !== 1;
       });
 
       console.log('Filtradas filas válidas (excluyendo item 2):', validRows);
