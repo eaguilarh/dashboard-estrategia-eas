@@ -21,10 +21,11 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
     '¡Iniciativa "Gobierno de Datos" promovida a Proyecto Activo! Fecha Fin SLA: 27 sep 2026 (8 semanas).'
   );
 
-  const selectedInitiative = initiatives.find((i) => i.id === selectedInitiativeId) || initiatives[0];
+  const selectedInitiative = initiatives.find((i) => i.id === selectedInitiativeId) || initiatives[0] || null;
 
   const handleCreateProjectSLA = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedInitiative) return;
     const start = new Date(startDate);
     const endDate = new Date(start.getTime() + durationWeeks * 7 * 24 * 60 * 60 * 1000);
     const endDateFormatted = endDate.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -173,7 +174,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-blue-500/40">
             <span className="font-extrabold text-blue-600 dark:text-blue-400 uppercase text-[11px]">1. Aprobadas / Backlog</span>
             <span className="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              10
+              {initiatives.length}
             </span>
           </div>
 
@@ -208,12 +209,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-cyan-500/40">
             <span className="font-extrabold text-cyan-600 dark:text-cyan-400 uppercase text-[11px]">2. Planificación SLA</span>
             <span className="bg-cyan-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              3
+              {projects.filter(p => p.statusGantt === 'Sin Iniciar').length}
             </span>
           </div>
 
           <div className="space-y-2">
-            {projects.slice(4, 7).map((prj) => (
+            {projects.filter(p => p.statusGantt === 'Sin Iniciar').slice(0, 4).map((prj) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'project', title: prj.name, sourceForm: 'Formulario 2 (Brief & Gantt PMO)', data: prj })}
@@ -243,12 +244,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-amber-500/40">
             <span className="font-extrabold text-amber-600 dark:text-amber-400 uppercase text-[11px]">3. En Construcción (Gantt)</span>
             <span className="bg-amber-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              7
+              {projects.filter(p => p.statusGantt !== 'Sin Iniciar' && p.statusGantt !== 'Completado').length}
             </span>
           </div>
 
           <div className="space-y-2">
-            {projects.slice(0, 4).map((prj) => (
+            {projects.filter(p => p.statusGantt !== 'Sin Iniciar' && p.statusGantt !== 'Completado').slice(0, 4).map((prj) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'project', title: prj.name, sourceForm: 'Formulario 2 (Brief & Gantt PMO)', data: prj })}
@@ -280,12 +281,12 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           <div className="flex items-center justify-between border-b pb-1.5 border-emerald-500/40">
             <span className="font-extrabold text-emerald-600 dark:text-emerald-400 uppercase text-[11px]">4. Productivo / ROI 90D</span>
             <span className="bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded font-black">
-              24
+              {projects.filter(p => p.statusGantt === 'Completado').length}
             </span>
           </div>
 
           <div className="space-y-2">
-            {projects.slice(0, 3).map((prj) => (
+            {projects.filter(p => p.statusGantt === 'Completado').slice(0, 4).map((prj) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'closedProject', title: prj.name, sourceForm: 'Formulario 3 (NPS & ROI 90 Días)', data: { ...prj, deliveryDate: '15 Ene 2026', roiReal90DaysPct: 28, nps: 82, npsStatus: 'Excelente', adoptionPct: 92, realBenefitMXN: 32, promisedBenefitMXN: 30 } })}
