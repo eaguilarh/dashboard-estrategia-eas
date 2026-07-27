@@ -7,9 +7,10 @@ interface Module1Props {
   initiatives: Initiative[];
   theme?: 'dark' | 'light';
   onDrillDown?: (item: any) => void;
+  isCockpit?: boolean;
 }
 
-export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiatives, theme = 'dark', onDrillDown }) => {
+export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiatives, theme = 'dark', onDrillDown, isCockpit = false }) => {
   const isDark = theme === 'dark';
   const [selectedQuadrant, setSelectedQuadrant] = useState<string | null>(null);
 
@@ -156,10 +157,12 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
       </div>
 
-      {/* Main Widgets Row: Matriz, Top 10 & Distribución Estratégica in same horizontal line */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch w-full">
+      {/* Main Widgets Row: Stacked in Cockpit tab, side-by-side in Iniciativas tab */}
+      <div className={isCockpit ? "space-y-4 w-full" : "grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch w-full"}>
         {/* CARD 1: Matriz Valor vs Esfuerzo */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${
+          isCockpit ? "w-full" : ""
+        } ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
           <h3 className={`text-center text-xs sm:text-sm font-extrabold tracking-wide uppercase mb-2 ${isDark ? 'text-white' : 'text-[#0f172a]'}`}>

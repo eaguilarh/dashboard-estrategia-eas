@@ -92,6 +92,7 @@ export function App() {
                     initiatives={mockInitiatives}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
+                    isCockpit={true}
                   />
                 </div>
 
@@ -102,6 +103,7 @@ export function App() {
                     projects={mockProjects}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
+                    isCockpit={true}
                   />
                 </div>
 
