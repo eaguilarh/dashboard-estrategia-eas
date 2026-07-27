@@ -14,6 +14,8 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState<string>('');
 
+  const [parsedData, setParsedData] = useState<any[] | null>(null);
+
   if (!isOpen) return null;
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +33,9 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws);
 
+        setParsedData(data);
         setStatus('success');
         setMessage(`¡Archivo "${file.name}" leído exitosamente! Se procesaron ${data.length} registros.`);
-        onDataLoaded({ module: selectedModule, rows: data });
       } catch (err) {
         setStatus('error');
         setMessage('Error al leer el archivo Excel. Asegúrate de cargar un formato válido (.xlsx).');
@@ -41,6 +43,18 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
     };
 
     reader.readAsBinaryString(file);
+  };
+
+  const handleApply = () => {
+    if (parsedData) {
+      onDataLoaded({ module: selectedModule, rows: parsedData });
+      setStatus('success');
+      setMessage('Datos recalculados y aplicados con éxito.');
+      setTimeout(onClose, 800);
+    } else {
+      setStatus('error');
+      setMessage('Por favor, selecciona y carga un archivo Excel primero.');
+    }
   };
 
   return (
@@ -65,7 +79,7 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
         {/* Module Selector Tabs */}
         <div className="grid grid-cols-3 gap-2 text-xs font-semibold">
           <button
-            onClick={() => setSelectedModule('forms1')}
+            onClick={() => { setSelectedModule('forms1'); setParsedData(null); setFileName(null); setStatus('idle'); }}
             className={`py-2 px-2 rounded-lg border text-center transition-all ${
               selectedModule === 'forms1'
                 ? 'bg-blue-600 text-white border-cyan-400 shadow-md shadow-blue-900/50'
@@ -76,7 +90,7 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
           </button>
 
           <button
-            onClick={() => setSelectedModule('forms2')}
+            onClick={() => { setSelectedModule('forms2'); setParsedData(null); setFileName(null); setStatus('idle'); }}
             className={`py-2 px-2 rounded-lg border text-center transition-all ${
               selectedModule === 'forms2'
                 ? 'bg-cyan-600 text-white border-cyan-300 shadow-md shadow-cyan-900/50'
@@ -87,7 +101,7 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
           </button>
 
           <button
-            onClick={() => setSelectedModule('forms3')}
+            onClick={() => { setSelectedModule('forms3'); setParsedData(null); setFileName(null); setStatus('idle'); }}
             className={`py-2 px-2 rounded-lg border text-center transition-all ${
               selectedModule === 'forms3'
                 ? 'bg-emerald-600 text-white border-emerald-300 shadow-md shadow-emerald-900/50'
@@ -144,11 +158,7 @@ export const ExcelUploaderModal: React.FC<ExcelUploaderModalProps> = ({ isOpen, 
             Cerrar
           </button>
           <button
-            onClick={() => {
-              setStatus('success');
-              setMessage('Datos recalculados con éxito.');
-              setTimeout(onClose, 800);
-            }}
+            onClick={handleApply}
             className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white text-xs font-semibold rounded-lg shadow-md shadow-blue-950 transition-all"
           >
             Aplicar y Recalcular
