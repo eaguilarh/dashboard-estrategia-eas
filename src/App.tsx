@@ -11,7 +11,6 @@ import { PMOKanbanView } from './components/modules/PMOKanbanView';
 import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
-import { mapExcelToInitiatives, mapExcelToProjects, mapExcelToClosedProjects } from './services/excelMapper';
 
 export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
@@ -19,13 +18,6 @@ export function App() {
   const [drillDownItem, setDrillDownItem] = useState<DrillDownItem | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('20 Jul 2026 08:30 AM');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-
-  // Excel loaded state management
-  const [kpis, setKpis] = useState(mockKPIs);
-  const [initiatives, setInitiatives] = useState(mockInitiatives);
-  const [projects, setProjects] = useState(mockProjects);
-  const [closedProjects, setClosedProjects] = useState(mockClosedProjects);
-  const [alerts, setAlerts] = useState(mockAlerts);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -48,102 +40,11 @@ export function App() {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleDataLoaded = (data: { module: 'forms1' | 'forms2' | 'forms3'; rows: any[] }) => {
-    console.log('Processed upload data for:', data.module, data.rows);
+  const handleDataLoaded = (data: any) => {
+    console.log('Processed upload data:', data);
     setLastUpdated(
       new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' })
     );
-
-    if (data.module === 'forms1') {
-      const mappedInits = mapExcelToInitiatives(data.rows);
-      setInitiatives(mappedInits);
-
-      // Recalculate KPIs for Module 1
-      const totalInits = mappedInits.length;
-      const totalInv = mappedInits.reduce((sum, item) => sum + item.investmentRequired, 0);
-      const totalBen = mappedInits.reduce((sum, item) => sum + item.potentialBenefit, 0);
-      const avgRoi = totalInv > 0 ? Math.round((totalBen / totalInv) * 100) : 0;
-      const avgScore = totalInits > 0 ? Math.round(mappedInits.reduce((sum, item) => sum + item.score, 0) / totalInits) : 0;
-      const avgTimeToValue = totalInits > 0 ? Math.round(mappedInits.reduce((sum, item) => sum + item.timeToValueMonths, 0) / totalInits) : 0;
-
-      setKpis(prev => ({
-        ...prev,
-        totalInitiatives: totalInits,
-        totalInvestmentRequired: totalInv,
-        totalPotentialBenefit: totalBen,
-        avgExpectedROI: avgRoi,
-        avgScore,
-        avgTimeToValueMonths: avgTimeToValue,
-        funnelIdeas: totalInits + 35,
-        funnelPrioritized: totalInits,
-      }));
-    } else if (data.module === 'forms2') {
-      const mappedPrjs = mapExcelToProjects(data.rows);
-      setProjects(mappedPrjs);
-
-      // Recalculate KPIs for Module 2
-      const active = mappedPrjs.filter(p => p.statusGantt !== 'Sin Iniciar' && p.statusGantt !== 'Completado').length;
-      const onTrack = mappedPrjs.filter(p => p.statusGantt === 'On Track').length;
-      const delayed = mappedPrjs.filter(p => p.statusGantt === 'Atrasado').length;
-      const inRisk = mappedPrjs.filter(p => p.statusGantt === 'En Riesgo').length;
-      const pctOnTrack = active > 0 ? Math.round((onTrack / active) * 100) : 100;
-      const avgProgress = mappedPrjs.length > 0 ? Math.round(mappedPrjs.reduce((sum, p) => sum + p.progressRealPct, 0) / mappedPrjs.length) : 0;
-
-      const spent = mappedPrjs.reduce((sum, p) => sum + p.budgetSpent, 0);
-      const approved = mappedPrjs.reduce((sum, p) => sum + p.budgetApproved, 0);
-
-      // Average SPI and CPI
-      const avgSpi = mappedPrjs.length > 0 ? Number((mappedPrjs.reduce((sum, p) => sum + p.spi, 0) / mappedPrjs.length).toFixed(2)) : 1.0;
-      const avgCpi = mappedPrjs.length > 0 ? Number((mappedPrjs.reduce((sum, p) => sum + p.cpi, 0) / mappedPrjs.length).toFixed(2)) : 1.0;
-
-      setKpis(prev => ({
-        ...prev,
-        activeProjects: active,
-        pctOnTrack,
-        projectsInRisk: inRisk,
-        projectsDelayed: delayed,
-        avgProgressPct: avgProgress,
-        consumedBudgetMXN: spent,
-        totalApprovedBudgetMXN: approved,
-        portfolioSPI: avgSpi,
-        portfolioCPI: avgCpi,
-        funnelApproved: approved > 0 ? Math.round(approved * 0.8) : prev.funnelApproved,
-        funnelInConstruction: active,
-      }));
-
-      // Update alert counters dynamically
-      setAlerts(prev => prev.map(alert => {
-        if (alert.message.includes('riesgo')) {
-          return { ...alert, count: inRisk, message: `${inRisk} proyectos en riesgo requieren atención inmediata de la PMO` };
-        }
-        return alert;
-      }));
-    } else if (data.module === 'forms3') {
-      const mappedClosed = mapExcelToClosedProjects(data.rows);
-      setClosedProjects(mappedClosed);
-
-      // Recalculate KPIs for Module 3
-      const count = mappedClosed.length;
-      const realBenefit = mappedClosed.reduce((sum, p) => sum + p.realBenefitMXN, 0);
-      const promisedBenefit = mappedClosed.reduce((sum, p) => sum + p.promisedBenefitMXN, 0);
-      const compliance = promisedBenefit > 0 ? Math.round((realBenefit / promisedBenefit) * 100) : 100;
-      const avgRoi90 = count > 0 ? Math.round(mappedClosed.reduce((sum, p) => sum + p.roiReal90DaysPct, 0) / count) : 0;
-      const avgNps = count > 0 ? Math.round(mappedClosed.reduce((sum, p) => sum + p.nps, 0) / count) : 0;
-      const avgAdoption = count > 0 ? Math.round(mappedClosed.reduce((sum, p) => sum + p.adoptionPct, 0) / count) : 0;
-
-      setKpis(prev => ({
-        ...prev,
-        closedProjectsCount: count,
-        realizedBenefitMXN: realBenefit,
-        promisedBenefitMXN: promisedBenefit,
-        benefitCompliancePct: compliance,
-        avgROI90DaysPct: avgRoi90,
-        avgNPS: avgNps,
-        avgAdoptionPct: avgAdoption,
-        funnelProductive: count,
-        funnelRoiMeasured: count,
-      }));
-    }
   };
 
   const toggleTheme = () => {
@@ -187,8 +88,8 @@ export function App() {
                 {/* Module 1 Panel */}
                 <div className="w-full min-w-0">
                   <Module1Prioritization
-                    kpis={kpis}
-                    initiatives={initiatives}
+                    kpis={mockKPIs}
+                    initiatives={mockInitiatives}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
                   />
@@ -197,8 +98,8 @@ export function App() {
                 {/* Module 2 Panel */}
                 <div className="w-full min-w-0">
                   <Module2Execution
-                    kpis={kpis}
-                    projects={projects}
+                    kpis={mockKPIs}
+                    projects={mockProjects}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
                   />
@@ -207,8 +108,8 @@ export function App() {
                 {/* Module 3 Panel */}
                 <div className="w-full min-w-0">
                   <Module3Benefits
-                    kpis={kpis}
-                    closedProjects={closedProjects}
+                    kpis={mockKPIs}
+                    closedProjects={mockClosedProjects}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
                   />
@@ -218,8 +119,8 @@ export function App() {
               {/* Bottom Section: Consolidated Executive Cockpit 5-Panel Layout */}
               <div className="w-full min-w-0 pt-2 border-t border-slate-800/80">
                 <ExecutiveCockpit
-                  kpis={kpis}
-                  alerts={alerts}
+                  kpis={mockKPIs}
+                  alerts={mockAlerts}
                   onNavigate={setCurrentView}
                   theme={theme}
                   onDrillDown={setDrillDownItem}
@@ -235,8 +136,8 @@ export function App() {
           {currentView === 'iniciativas' && (
             <div className="w-full">
               <Module1Prioritization
-                kpis={kpis}
-                initiatives={initiatives}
+                kpis={mockKPIs}
+                initiatives={mockInitiatives}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
               />
@@ -247,8 +148,8 @@ export function App() {
           {currentView === 'proyectos' && (
             <div className="w-full">
               <Module2Execution
-                kpis={kpis}
-                projects={projects}
+                kpis={mockKPIs}
+                projects={mockProjects}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
               />
@@ -259,8 +160,8 @@ export function App() {
           {currentView === 'beneficios' && (
             <div className="w-full">
               <Module3Benefits
-                kpis={kpis}
-                closedProjects={closedProjects}
+                kpis={mockKPIs}
+                closedProjects={mockClosedProjects}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
               />
@@ -271,8 +172,8 @@ export function App() {
           {currentView === 'nps' && (
             <div className="w-full">
               <Module4NpsAdoption
-                kpis={kpis}
-                closedProjects={closedProjects}
+                kpis={mockKPIs}
+                closedProjects={mockClosedProjects}
                 theme={theme}
               />
             </div>
@@ -282,8 +183,8 @@ export function App() {
           {currentView === 'pmo' && (
             <div className="w-full">
               <PMOKanbanView
-                initiatives={initiatives}
-                projects={projects}
+                initiatives={mockInitiatives}
+                projects={mockProjects}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
               />
