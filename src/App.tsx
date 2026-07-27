@@ -130,12 +130,16 @@ export function App() {
             if (text.includes('significativa') || text.includes('mayor al 50%')) return 0.75;
             if (text.includes('casi total') || text.includes('completamente automatizado')) return 1.00;
             return 0;
-          case 'M':
-            // Cada opción agregada que se seleccione sumar .2
-            return 0.20;
-          case 'N':
-            // Cada opción agregada que se seleccione sumar .15
-            return 0.15;
+          case 'M': {
+            // Cada opción agregada (separada por ";") que se seleccione sumar .2
+            const items = text.split(';').map(s => s.trim()).filter(Boolean);
+            return items.length * 0.20;
+          }
+          case 'N': {
+            // Cada opción agregada (separada por ";") que se seleccione sumar .15
+            const items = text.split(';').map(s => s.trim()).filter(Boolean);
+            return items.length * 0.15;
+          }
           case 'O':
             if (text.includes('menos de 3')) return 0.25;
             if (text.includes('3-5') || text.includes('3 a 5')) return 0.50;
