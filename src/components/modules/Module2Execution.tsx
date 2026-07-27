@@ -48,7 +48,7 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
   return (
     <div className="space-y-4 text-left w-full max-w-full overflow-hidden select-none">
       {/* Module Banner Header */}
-      <div className={`border rounded-xl p-3 flex items-center justify-between shadow-md transition-colors ${
+      <div className={`border rounded-xl p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-md transition-colors ${
         isDark ? 'bg-gradient-to-r from-[#0b1b3d] via-[#102450] to-[#0b1b3d] border-[#1d3363]' : 'bg-gradient-to-r from-cyan-900 via-blue-900 to-cyan-900 border-cyan-800 text-white'
       }`}>
         <div className="flex items-center space-x-2.5">
@@ -64,8 +64,8 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
             </p>
           </div>
         </div>
-        <div className="hidden sm:block text-right">
-          <span className="text-[10px] bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 px-2 py-0.5 rounded font-semibold">
+        <div className="text-left sm:text-right mt-1 sm:mt-0">
+          <span className="text-xs bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 px-2.5 py-1 rounded font-semibold inline-block">
             Forms 2 & PMO
           </span>
         </div>
@@ -198,8 +198,8 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
         </div>
       </div>
 
-      {/* TWO SEPARATE ROWS FOR WIDGETS: Desempeño del Portafolio & Semáforo de Salud */}
-      <div className="flex flex-col gap-4 w-full">
+      {/* ONE ROW FOR WIDGETS: Desempeño del Portafolio & Semáforo de Salud on same horizontal row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
         {/* ROW 1: Desempeño del Portafolio */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 w-full ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <h3 className={`text-xs font-bold tracking-wide uppercase mb-3 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>

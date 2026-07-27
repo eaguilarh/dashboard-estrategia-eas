@@ -53,11 +53,11 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
       x = 15 + ((init.score - 70) / 30) * 30; // 15% to 45%
       y = 15 + (1 - (init.score - 70) / 30) * 30; // 15% to 45%
       color = '#16a34a';
-    } else if (init.quadrant === 'Apuestas Estratégicas') {
+    } else if (init.quadrant === 'Apuestas Estratégicas' || init.quadrant === 'Proyectos Clave') {
       x = 55 + ((init.score - 70) / 30) * 30; // 55% to 85%
       y = 15 + (1 - (init.score - 70) / 30) * 30; // 15% to 45%
       color = '#2563eb';
-    } else if (init.quadrant === 'Relleno') {
+    } else if (init.quadrant === 'Relleno' || init.quadrant === 'Optimización') {
       x = 15 + (init.score / 70) * 30; // 15% to 45%
       y = 55 + (1 - init.score / 70) * 30; // 55% to 85%
       color = '#ca8a04';
@@ -156,8 +156,8 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
         </div>
       </div>
 
-      {/* ROW 1: Matriz Valor vs Esfuerzo (Full width at top) */}
-      <div className="w-full">
+      {/* Main Widgets Row: Matriz, Top 10 & Distribución Estratégica in same horizontal line */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch w-full">
         {/* CARD 1: Matriz Valor vs Esfuerzo */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
@@ -193,13 +193,13 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
 
               <div className="absolute top-2 right-2 z-0 pointer-events-none text-right">
                 <span className="font-black text-[9px] sm:text-[10px] text-[#2563eb] uppercase tracking-wide whitespace-nowrap">
-                  Apuestas Estratégicas
+                  Proyectos Clave
                 </span>
               </div>
 
               <div className="absolute bottom-2 left-2 z-0 pointer-events-none">
                 <span className="font-black text-[9px] sm:text-[10px] text-[#ca8a04] uppercase tracking-wide whitespace-nowrap">
-                  Relleno
+                  Optimización
                 </span>
               </div>
 
@@ -256,10 +256,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
             <span>Alto</span>
           </div>
         </div>
-      </div>
 
-      {/* ROW 2: Top 10 Ranking Table & Distribución Estratégica (2 cards side-by-side) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch w-full">
         {/* CARD 2: Top 10 Ranking Table */}
         <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
           <div className={`flex items-center justify-between mb-2 pb-2 border-b ${isDark ? 'border-[#1d2d4f]' : 'border-slate-200'}`}>

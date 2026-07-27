@@ -49,7 +49,7 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
   return (
     <div className="space-y-4 text-left w-full max-w-full overflow-hidden select-none">
       {/* Module Banner Header */}
-      <div className={`border rounded-xl p-3 flex items-center justify-between shadow-md transition-colors ${
+      <div className={`border rounded-xl p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-md transition-colors ${
         isDark ? 'bg-gradient-to-r from-[#0b1b3d] via-[#102450] to-[#0b1b3d] border-[#1d3363]' : 'bg-gradient-to-r from-emerald-900 via-teal-900 to-emerald-900 border-emerald-800 text-white'
       }`}>
         <div className="flex items-center space-x-2.5">
@@ -65,8 +65,8 @@ export const Module3Benefits: React.FC<Module3Props> = ({ kpis, closedProjects, 
             </p>
           </div>
         </div>
-        <div className="hidden sm:block text-right">
-          <span className="text-[10px] bg-emerald-950/80 text-emerald-300 border border-emerald-400/40 px-2 py-0.5 rounded font-semibold">
+        <div className="text-left sm:text-right mt-1 sm:mt-0">
+          <span className="text-xs bg-emerald-950/80 text-emerald-300 border border-emerald-400/40 px-2.5 py-1 rounded font-semibold inline-block">
             Forms 3 Cierre (90 Días)
           </span>
         </div>
