@@ -76,11 +76,24 @@ export function App() {
         const emptyKey = `__EMPTY_${colIdx}`;
         if (row[emptyKey] !== undefined) return row[emptyKey];
 
-        // Positional fallback
+        // Positional fallback: extract by actual key order index
         const keys = Object.keys(row);
         if (colIdx >= 0 && colIdx < keys.length) {
+          // If keys are parsed directly as headers, we find the column by index
           return row[keys[colIdx]];
         }
+        
+        // Final fallback: look up header names matching common Forms headers by index position
+        // A=Id, B=Start time, C=Completion time, D=Email, E=Name, F=Nombre de la iniciativa, I=Area de pertenencia
+        if (colLetterUpper === 'F') {
+          const nameKey = Object.keys(row).find(k => k.toLowerCase().includes('iniciativa') || k.toLowerCase().includes('proyecto') || k.toLowerCase().includes('nombre'));
+          if (nameKey) return row[nameKey];
+        }
+        if (colLetterUpper === 'I') {
+          const areaKey = Object.keys(row).find(k => k.toLowerCase().includes('área') || k.toLowerCase().includes('area') || k.toLowerCase().includes('pertenece') || k.toLowerCase().includes('departamento'));
+          if (areaKey) return row[areaKey];
+        }
+
         return '';
       };
 
@@ -149,11 +162,16 @@ export function App() {
         }
       };
 
-      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba)
+      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba, y admitir cualquier fila con ID 1 o 3)
       const validRows = rows.filter((row: any) => {
-        const idVal = String(row.id || row.Id || row.ID || row['Item'] || row['item'] || '');
-        return idVal !== '2';
+        // Look up ID fields dynamically in the parsed row
+        const idKey = Object.keys(row).find(k => k.toUpperCase() === 'ID' || k.toUpperCase() === 'ITEM' || k.toUpperCase() === 'NÚMERO' || k.toUpperCase() === 'NUMERO');
+        const rawId = idKey ? row[idKey] : row.id || row.Id || row.ID || row.Item || '';
+        const idStr = String(rawId).trim();
+        return idStr !== '2' && idStr !== '';
       });
+
+      console.log('Filtradas filas válidas (excluyendo item 2):', validRows);
 
       // Map Forms 1 fields to Initiatives applying dynamic scoring qualifiers
       const mapped = validRows.map((row: any, idx: number) => {
