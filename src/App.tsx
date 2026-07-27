@@ -173,9 +173,9 @@ export function App() {
           investmentRequired: Number(row.investmentRequired || row['Inversión Requerida'] || row['Inversion'] || 5),
           potentialBenefit: Number(row.potentialBenefit || row['Beneficio Potencial'] || row['Beneficio'] || 12),
           timeToValueMonths: Number(row.timeToValueMonths || row['Time to Value'] || row['Meses'] || 6),
-          effort: row.effort || (score > 70 ? 'Alto' : 'Bajo'),
-          value: row.value || (score > 60 ? 'Alto' : 'Bajo'),
-          quadrant: score > 75 ? 'PROYECTOS CLAVE' : 'OPTIMIZACIÓN',
+          effort: row.effort || (score > 50 ? 'Alto' : 'Bajo'),
+          value: row.value || (score > 40 ? 'Alto' : 'Bajo'),
+          quadrant: score >= 50 ? 'PROYECTOS CLAVE' : 'OPTIMIZACIÓN',
           category: row.category || row['Categoría'] || 'Estratégica',
         };
       });

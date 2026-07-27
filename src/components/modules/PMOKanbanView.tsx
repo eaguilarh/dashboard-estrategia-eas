@@ -37,7 +37,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
   };
 
   // Derive stage counters dynamically from real arrays
-  const backlogInitiatives = initiatives.filter(i => i.score >= 70);
+  const backlogInitiatives = initiatives.filter(i => i.score >= 10);
   const planningProjects = projects.filter(p => p.statusGantt === 'Sin Iniciar' || p.progressRealPct === 0);
   const constructionProjects = projects.filter(p => p.statusGantt !== 'Sin Iniciar' && p.progressRealPct > 0);
   const completedProjectsCount = projects.filter(p => p.progressRealPct === 100).length;
