@@ -50,22 +50,24 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
     let y = 50;
     let color = '#2563eb'; // Default
 
-    if (init.quadrant === 'Quick Wins') {
+    const quad = String(init.quadrant || '').toUpperCase();
+
+    if (quad === 'QUICK WINS') {
       x = 15 + ((init.score - 70) / 30) * 30; // 15% to 45%
       y = 15 + (1 - (init.score - 70) / 30) * 30; // 15% to 45%
       color = '#16a34a';
-    } else if (init.quadrant === 'Apuestas Estratégicas' || init.quadrant === 'Proyectos Clave') {
-      x = 55 + ((init.score - 70) / 30) * 30; // 55% to 85%
-      y = 15 + (1 - (init.score - 70) / 30) * 30; // 15% to 45%
+    } else if (quad === 'APUESTAS ESTRATÉGICAS' || quad === 'PROYECTOS CLAVE') {
+      x = 55 + ((init.score - 50) / 50) * 30; // 55% to 85%
+      y = 15 + (1 - (init.score - 50) / 50) * 30; // 15% to 45%
       color = '#2563eb';
-    } else if (init.quadrant === 'Relleno' || init.quadrant === 'Optimización') {
-      x = 15 + (init.score / 70) * 30; // 15% to 45%
-      y = 55 + (1 - init.score / 70) * 30; // 55% to 85%
+    } else if (quad === 'RELLENO' || quad === 'OPTIMIZACIÓN') {
+      x = 15 + (init.score / 50) * 30; // 15% to 45%
+      y = 55 + (1 - init.score / 50) * 30; // 55% to 85%
       color = '#ca8a04';
     } else {
       // Baja Prioridad
-      x = 55 + (init.score / 70) * 30; // 55% to 85%
-      y = 55 + (1 - init.score / 70) * 30; // 55% to 85%
+      x = 55 + (init.score / 50) * 30; // 55% to 85%
+      y = 55 + (1 - init.score / 50) * 30; // 55% to 85%
       color = '#dc2626';
     }
 

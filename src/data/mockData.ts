@@ -48,8 +48,8 @@ export const calculateKPIs = (
 
   // Cockpit Stage-Gate Funnel
   const funnelIdeas = totalInitiatives; 
-  const funnelPrioritized = initiatives.filter(i => i.score >= 70).length;
-  const funnelApproved = Math.round(totalInitiatives * 0.4); 
+  const funnelPrioritized = initiatives.filter(i => i.score >= 50).length;
+  const funnelApproved = Math.round(totalInitiatives * 0.5); 
   const funnelInConstruction = activeProjects; 
   const funnelProductive = closedProjectsCount; 
   const funnelRoiMeasured = closedProjects.filter(p => p.roiReal90DaysPct > 0).length;
