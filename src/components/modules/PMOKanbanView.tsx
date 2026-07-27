@@ -13,13 +13,11 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
   const isDark = theme === 'dark';
 
   // Local state for internal PMO transition simulator
-  const [selectedInitiativeId, setSelectedInitiativeId] = useState<string>('10');
+  const [selectedInitiativeId, setSelectedInitiativeId] = useState<string>('');
   const [startDate, setStartDate] = useState<string>('2026-08-03');
   const [durationWeeks, setDurationWeeks] = useState<number>(8);
   const [pmName, setPmName] = useState<string>('Ing. TBD');
-  const [transitionStatus, setTransitionStatus] = useState<string | null>(
-    '¡Iniciativa "Gobierno de Datos" promovida a Proyecto Activo! Fecha Fin SLA: 27 sep 2026 (8 semanas).'
-  );
+  const [transitionStatus, setTransitionStatus] = useState<string | null>(null);
 
   const selectedInitiative = initiatives.find((i) => i.id === selectedInitiativeId) || initiatives[0] || null;
 
@@ -91,11 +89,17 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 isDark ? 'bg-[#081022] border-[#1f3460] text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
               }`}
             >
-              {initiatives.map((init) => (
-                <option key={init.id} value={init.id} className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>
-                  {init.rank}. {init.name} (Score: {init.score})
+              {initiatives.length > 0 ? (
+                initiatives.map((init) => (
+                  <option key={init.id} value={init.id} className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>
+                    {init.rank}. {init.name} (Score: {init.score})
+                  </option>
+                ))
+              ) : (
+                <option value="" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>
+                  Sin iniciativas cargadas
                 </option>
-              ))}
+              )}
             </select>
           </div>
 
