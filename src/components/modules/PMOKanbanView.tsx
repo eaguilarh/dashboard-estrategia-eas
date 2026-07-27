@@ -16,7 +16,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
   const [selectedInitiativeId, setSelectedInitiativeId] = useState<string>('');
   const [startDate, setStartDate] = useState<string>('2026-08-03');
   const [durationWeeks, setDurationWeeks] = useState<number>(8);
-  const [pmName, setPmName] = useState<string>('Ing. TBD');
+  const [pmName, setPmName] = useState<string>('Enrique Aguilar');
   const [transitionStatus, setTransitionStatus] = useState<string | null>(null);
 
   const selectedInitiative = initiatives.find((i) => i.id === selectedInitiativeId) || initiatives[0];

@@ -56,17 +56,27 @@ export function App() {
     if (module === 'forms1') {
       // Helper function to extract cell value by Excel column letter
       const valByCol = (row: any, colLetter: string) => {
-        // First try direct lookup by letter
+        // Direct match
         if (row[colLetter] !== undefined) return row[colLetter];
-        // Next try finding keys matching pattern like "Columna I" or "Pregunta I"
-        const matchedKey = Object.keys(row).find(key => 
-          key.toUpperCase() === colLetter.toUpperCase() ||
-          key.toUpperCase().startsWith(`COLUMNA ${colLetter.toUpperCase()}`) ||
-          key.toUpperCase().endsWith(` ${colLetter.toUpperCase()}`)
-        );
+        
+        const colLetterUpper = colLetter.toUpperCase();
+
+        // Match keys like "Columna I", "Pregunta I", or "I"
+        const matchedKey = Object.keys(row).find(key => {
+          const kUpper = key.toUpperCase();
+          return kUpper === colLetterUpper ||
+                 kUpper.startsWith(`COLUMNA ${colLetterUpper}`) ||
+                 kUpper.endsWith(` ${colLetterUpper}`);
+        });
         if (matchedKey) return row[matchedKey];
-        // Fallback to position index based mapping: A=0, B=1... F=5, I=8 etc
-        const colIdx = colLetter.charCodeAt(0) - 65;
+
+        // Resolve generic Excel Column names from XLSX parser (e.g. __EMPTY, __EMPTY_1 etc)
+        const colIdx = colLetterUpper.charCodeAt(0) - 65; // A=0, B=1, F=5, I=8 etc
+        if (colIdx === 0 && row['__EMPTY'] !== undefined) return row['__EMPTY'];
+        const emptyKey = `__EMPTY_${colIdx}`;
+        if (row[emptyKey] !== undefined) return row[emptyKey];
+
+        // Positional fallback
         const keys = Object.keys(row);
         if (colIdx >= 0 && colIdx < keys.length) {
           return row[keys[colIdx]];
