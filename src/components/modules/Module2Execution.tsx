@@ -199,57 +199,100 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
         </div>
       </div>
 
-      {/* Conditional Widgets Render: Renders only Semáforo de Salud in Cockpit view, otherwise renders both side-by-side */}
+      {/* Conditional Widgets Render: Stacked inside Cockpit view (Semáforo on top, Desempeño below), side-by-side in Proyectos tab */}
       {isCockpit ? (
-        /* Render ONLY Semáforo de Salud by Project inside Cockpit View */
-        <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 w-full ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <h3 className={`text-xs font-bold tracking-wide uppercase mb-3 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
-            SEMÁFORO DE SALUD POR PROYECTO
-          </h3>
+        /* Cockpit View Layout: Stacked vertically */
+        <div className="space-y-4 w-full">
+          {/* CARD 1: Semáforo de Salud por Proyecto */}
+          <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 w-full ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <h3 className={`text-xs font-bold tracking-wide uppercase mb-3 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
+              SEMÁFORO DE SALUD POR PROYECTO
+            </h3>
 
-          <div className="overflow-x-auto my-auto w-full">
-            <table className="w-full text-left text-xs min-w-[280px]">
-              <thead>
-                <tr className={`border-b text-[9px] uppercase ${isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                  <th className="py-1.5 px-2">Proyecto</th>
-                  <th className="py-1.5 px-2 text-center">Tiempo</th>
-                  <th className="py-1.5 px-2 text-center">Coste</th>
-                  <th className="py-1.5 px-2 text-center">Alcance</th>
-                  <th className="py-1.5 px-2 text-center">Riesgos</th>
-                </tr>
-              </thead>
-              <tbody className={`divide-y ${isDark ? 'divide-[#152342]' : 'divide-slate-100'}`}>
-                {projects.slice(0, 6).map((prj) => (
-                  <tr
-                    key={prj.id}
-                    onClick={() => handleRowClick(prj)}
-                    className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
-                  >
-                    <td className={`py-1.5 px-2 font-semibold text-[11px] ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</td>
-                    <td className="py-1.5 px-2 text-center">
-                      <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.timeHealth)}`} />
-                    </td>
-                    <td className="py-1.5 px-2 text-center">
-                      <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.costHealth)}`} />
-                    </td>
-                    <td className="py-1.5 px-2 text-center">
-                      <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.scopeHealth)}`} />
-                    </td>
-                    <td className="py-1.5 px-2 text-center">
-                      <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.riskHealth)}`} />
-                    </td>
+            <div className="overflow-x-auto my-auto w-full">
+              <table className="w-full text-left text-xs min-w-[280px]">
+                <thead>
+                  <tr className={`border-b text-[9px] uppercase ${isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                    <th className="py-1.5 px-2">Proyecto</th>
+                    <th className="py-1.5 px-2 text-center">Tiempo</th>
+                    <th className="py-1.5 px-2 text-center">Coste</th>
+                    <th className="py-1.5 px-2 text-center">Alcance</th>
+                    <th className="py-1.5 px-2 text-center">Riesgos</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className={`divide-y ${isDark ? 'divide-[#152342]' : 'divide-slate-100'}`}>
+                  {projects.slice(0, 6).map((prj) => (
+                    <tr
+                      key={prj.id}
+                      onClick={() => handleRowClick(prj)}
+                      className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
+                    >
+                      <td className={`py-1.5 px-2 font-semibold text-[11px] ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</td>
+                      <td className="py-1.5 px-2 text-center">
+                        <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.timeHealth)}`} />
+                      </td>
+                      <td className="py-1.5 px-2 text-center">
+                        <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.costHealth)}`} />
+                      </td>
+                      <td className="py-1.5 px-2 text-center">
+                        <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.scopeHealth)}`} />
+                      </td>
+                      <td className="py-1.5 px-2 text-center">
+                        <span className={`inline-block w-2.5 h-2.5 rounded-full shadow ${getDotColor(prj.riskHealth)}`} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className={`mt-3 flex items-center justify-center space-x-4 text-[9px] pt-2 border-t ${
+              isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'
+            }`}>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> En tiempo</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Riesgo</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span> Atrasado</span>
+            </div>
           </div>
 
-          <div className={`mt-3 flex items-center justify-center space-x-4 text-[9px] pt-2 border-t ${
-            isDark ? 'border-[#1d2d4f] text-slate-400' : 'border-slate-200 text-slate-500'
-          }`}>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> En tiempo</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Riesgo</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span> Atrasado</span>
+          {/* CARD 2: Desempeño del Portafolio */}
+          <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col justify-between transition-colors min-w-0 w-full ${isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <h3 className={`text-xs font-bold tracking-wide uppercase mb-3 pb-1.5 border-b ${isDark ? 'border-[#1d2d4f] text-white' : 'border-slate-200 text-slate-900'}`}>
+              DESEMPEÑO DEL PORTAFOLIO
+            </h3>
+
+            <div className="grid grid-cols-2 gap-3 items-center my-auto">
+              <div className={`border rounded-xl p-3 text-center flex flex-col items-center ${isDark ? 'bg-[#091224] border-[#1a2b4e]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>SPI (Tiempo)</span>
+                <div className="text-xl font-extrabold text-amber-500 my-1">{kpis.portfolioSPI}</div>
+                <span className="text-[9px] text-amber-600 font-medium">Ligero desvío de tiempo</span>
+              </div>
+
+              <div className={`border rounded-xl p-3 text-center flex flex-col items-center ${isDark ? 'bg-[#091224] border-[#1a2b4e]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>CPI (Costo)</span>
+                <div className="text-xl font-extrabold text-emerald-500 my-1">{kpis.portfolioCPI}</div>
+                <span className="text-[9px] text-emerald-600 font-medium">Eficiencia en costo (+5%)</span>
+              </div>
+            </div>
+
+            <div className="mt-3 grid grid-cols-4 gap-1.5 text-center text-xs">
+              <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Overall Score</span>
+                <strong className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>87/100</strong>
+              </div>
+              <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Desvío Presup.</span>
+                <strong className="text-emerald-500 text-xs font-bold">+8% vs plan</strong>
+              </div>
+              <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Issues Abiertos</span>
+                <strong className="text-amber-500 text-xs font-bold">{kpis.openIssuesCount}</strong>
+              </div>
+              <div className={`p-1.5 rounded-lg border ${isDark ? 'bg-[#0b162c] border-[#1a2948]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-[9px] block ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Dependencias</span>
+                <strong className="text-rose-500 text-xs font-bold">{kpis.criticalDependenciesCount}</strong>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
