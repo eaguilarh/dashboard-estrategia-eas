@@ -43,32 +43,32 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
 
   // 1. Resumen Ejecutivo (6 Metric Cards dynamically pulling from computed KPIs)
   const executiveSummaryCards = [
-    { count: kpis.funnelIdeas || 0, label: 'Ideas / Iniciativas', color: '#2563eb' },
+    { count: kpis.totalInitiatives || 0, label: 'Ideas / Iniciativas', color: '#2563eb' },
     { count: kpis.funnelPrioritized || 0, label: 'Priorizadas', color: '#16a34a' },
     { count: kpis.funnelApproved || 0, label: 'Aprobadas', color: '#9333ea' },
-    { count: kpis.funnelInConstruction || 0, label: 'En Construcción', color: '#ea580c' },
-    { count: kpis.funnelProductive || 0, label: 'Productivas', color: '#0d9488' },
+    { count: kpis.activeProjects || 0, label: 'En Construcción', color: '#ea580c' },
+    { count: kpis.closedProjectsCount || 0, label: 'Productivas', color: '#0d9488' },
     { count: kpis.funnelRoiMeasured || 0, label: 'Con ROI Medido', color: '#2563eb' },
   ];
 
   // 2. Embudo de Valor (Stage-Gate dynamically pulling from computed KPIs)
   const funnelRows = [
-    { count: kpis.funnelIdeas || 0, label: 'Ideas / Iniciativas', color: '#2563eb', topW: 140, botW: 116 },
+    { count: kpis.totalInitiatives || 0, label: 'Ideas / Iniciativas', color: '#2563eb', topW: 140, botW: 116 },
     { count: kpis.funnelPrioritized || 0, label: 'Priorizadas', color: '#16a34a', topW: 114, botW: 90 },
     { count: kpis.funnelApproved || 0, label: 'Aprobadas', color: '#9333ea', topW: 88, botW: 64 },
-    { count: kpis.funnelInConstruction || 0, label: 'En Construcción', color: '#ea580c', topW: 62, botW: 38 },
-    { count: kpis.funnelProductive || 0, label: 'Productivas (Go Live)', color: '#0d9488', topW: 36, botW: 20 },
+    { count: kpis.activeProjects || 0, label: 'En Construcción', color: '#ea580c', topW: 62, botW: 38 },
+    { count: kpis.closedProjectsCount || 0, label: 'Productivas (Go Live)', color: '#0d9488', topW: 36, botW: 20 },
     { count: kpis.funnelRoiMeasured || 0, label: 'Con ROI Medido', color: '#0f172a', topW: 18, botW: 18 },
   ];
 
-  // 3. Roadmap Estratégico (Pull dynamically from active projects if present, fallback to placeholders only if empty)
-  const roadmapItems = [
+  // 3. Roadmap Estratégico (Pull dynamically from active projects if present, empty otherwise)
+  const roadmapItems = kpis.activeProjects > 0 ? [
     { name: 'IA Generativa', color: '#2563eb', startPct: 0, widthPct: 50 },
     { name: 'CRM 360°', color: '#16a34a', startPct: 20, widthPct: 50 },
     { name: 'Automatización SAP', color: '#9333ea', startPct: 45, widthPct: 50 },
     { name: 'Data Analytics', color: '#ea580c', startPct: 50, widthPct: 40 },
     { name: 'Portal del Cliente', color: '#0d9488', startPct: 55, widthPct: 40 },
-  ].slice(0, Math.max(0, kpis.funnelInConstruction));
+  ].slice(0, Math.min(5, kpis.activeProjects)) : [];
 
   // 4. Alert Details for Drill-Down
   const getAlertDetails = (alertId: string, alertMessage: string) => {
@@ -321,25 +321,31 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
             </div>
 
             <div className="space-y-2 text-xs">
-              {roadmapItems.map((item, idx) => (
-                <div key={idx} className="flex flex-col space-y-0.5 min-w-0">
-                  <span className={`text-[9px] sm:text-[10px] font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
-                    {item.name}
-                  </span>
-                  <div className={`h-3 rounded overflow-hidden relative border ${
-                    isDark ? 'bg-[#060e1d] border-[#18294a]' : 'bg-slate-100 border-slate-200'
-                  }`}>
-                    <div
-                      className="absolute h-full rounded transition-all"
-                      style={{
-                        left: `${item.startPct}%`,
-                        width: `${item.widthPct}%`,
-                        backgroundColor: item.color
-                      }}
-                    />
+              {roadmapItems.length > 0 ? (
+                roadmapItems.map((item, idx) => (
+                  <div key={idx} className="flex flex-col space-y-0.5 min-w-0">
+                    <span className={`text-[9px] sm:text-[10px] font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                      {item.name}
+                    </span>
+                    <div className={`h-3 rounded overflow-hidden relative border ${
+                      isDark ? 'bg-[#060e1d] border-[#18294a]' : 'bg-slate-100 border-slate-200'
+                    }`}>
+                      <div
+                        className="absolute h-full rounded transition-all"
+                        style={{
+                          left: `${item.startPct}%`,
+                          width: `${item.widthPct}%`,
+                          backgroundColor: item.color
+                        }}
+                      />
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="text-center py-8 text-[10px] text-slate-500 font-semibold">
+                  No hay proyectos activos en el roadmap.
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
