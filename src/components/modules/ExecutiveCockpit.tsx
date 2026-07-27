@@ -443,7 +443,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
                   isDark ? 'bg-[#081020] border-[#172848] hover:bg-[#112140]' : 'bg-slate-50 border-slate-200 hover:bg-amber-50/50'
                 }`}
               >
-                <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${alert.iconColor || 'text-amber-500'}`} />
+                <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${alert.iconColor}`} />
                 <span className={`text-[10px] sm:text-[11px] font-semibold leading-snug ${
                   isDark ? 'text-slate-200' : 'text-slate-800'
                 }`}>
