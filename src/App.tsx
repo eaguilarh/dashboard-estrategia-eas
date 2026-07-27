@@ -54,23 +54,132 @@ export function App() {
     const { module, rows } = data;
 
     if (module === 'forms1') {
-      // Map Forms 1 fields to Initiatives
-      const mapped = rows.map((row: any, idx: number) => ({
-        id: row.id || String(idx + 1),
-        rank: row.rank || idx + 1,
-        name: row.name || row['Nombre de Iniciativa'] || row['Iniciativa'] || 'Iniciativa sin nombre',
-        area: row.area || row['Área'] || row['Area'] || 'Operaciones',
-        sponsor: row.sponsor || row['Sponsor'] || 'Dirección General',
-        score: Number(row.score || row['Score'] || row['Puntaje'] || 0),
-        roiExpected: Number(row.roiExpected || row['ROI Esperado'] || row['ROI'] || 0),
-        investmentRequired: Number(row.investmentRequired || row['Inversión Requerida'] || row['Inversion'] || 0),
-        potentialBenefit: Number(row.potentialBenefit || row['Beneficio Potencial'] || row['Beneficio'] || 0),
-        timeToValueMonths: Number(row.timeToValueMonths || row['Time to Value'] || row['Meses'] || 6),
-        effort: row.effort || row['Esfuerzo'] || 'Bajo',
-        value: row.value || row['Valor'] || 'Alto',
-        quadrant: row.quadrant || row['Cuadrante'] || 'Quick Wins',
-        category: row.category || row['Categoría'] || row['Categoria'] || 'Estratégica',
-      }));
+      // Helper function to extract cell value by Excel column letter
+      const valByCol = (row: any, colLetter: string) => {
+        // First try direct lookup by letter
+        if (row[colLetter] !== undefined) return row[colLetter];
+        // Next try finding keys matching pattern like "Columna I" or "Pregunta I"
+        const matchedKey = Object.keys(row).find(key => 
+          key.toUpperCase() === colLetter.toUpperCase() ||
+          key.toUpperCase().startsWith(`COLUMNA ${colLetter.toUpperCase()}`) ||
+          key.toUpperCase().endsWith(` ${colLetter.toUpperCase()}`)
+        );
+        if (matchedKey) return row[matchedKey];
+        // Fallback to position index based mapping: A=0, B=1... F=5, I=8 etc
+        const colIdx = colLetter.charCodeAt(0) - 65;
+        const keys = Object.keys(row);
+        if (colIdx >= 0 && colIdx < keys.length) {
+          return row[keys[colIdx]];
+        }
+        return '';
+      };
+
+      // Helper function to score column answers based on user's qualifiers sheet
+      const getScoreForCol = (val: any, colLetter: string): number => {
+        const text = String(val || '').trim().toLowerCase();
+        if (!text) return 0;
+
+        switch (colLetter) {
+          case 'I':
+            // Si es administrativo o backoffice es gasto
+            if (text.includes('administrativo') || text.includes('backoffice') || text.includes('gasto')) {
+              return 2.0;
+            }
+            return 0;
+          case 'J':
+            if (text.includes('nulo')) return 0;
+            if (text.includes('bajo')) return 0.25;
+            if (text.includes('medio')) return 0.50;
+            if (text.includes('alto')) return 0.75;
+            if (text.includes('crítico') || text.includes('critico')) return 1.00;
+            return 0;
+          case 'K':
+            if (text.includes('nulo')) return 0;
+            if (text.includes('bajo')) return 0.25;
+            if (text.includes('medio')) return 0.50;
+            if (text.includes('alto')) return 0.75;
+            if (text.includes('crítico') || text.includes('critico')) return 1.00;
+            if (text.includes('sin información') || text.includes('sin informacion')) return 1.00;
+            return 0;
+          case 'L':
+            if (text.includes('ligera') || text.includes('20%')) return 0.25;
+            if (text.includes('moderada') || text.includes('50%')) return 0.50;
+            if (text.includes('significativa') || text.includes('mayor al 50%')) return 0.75;
+            if (text.includes('casi total') || text.includes('completamente automatizado')) return 1.00;
+            return 0;
+          case 'M':
+            // Cada opción agregada que se seleccione sumar .2
+            return 0.20;
+          case 'N':
+            // Cada opción agregada que se seleccione sumar .15
+            return 0.15;
+          case 'O':
+            if (text.includes('menos de 3')) return 0.25;
+            if (text.includes('3-5') || text.includes('3 a 5')) return 0.50;
+            if (text.includes('5-10') || text.includes('5 a 10')) return 0.75;
+            if (text.includes('más de 10') || text.includes('mas de 10')) return 1.00;
+            return 0;
+          case 'P':
+            if (text.includes('idea general')) return 0.25;
+            if (text.includes('parcialmente definido')) return 0.25;
+            if (text.includes('definido')) return 0.50;
+            if (text.includes('totalmente definido')) return 0.75; // case claro, lógica de solución
+            return 0;
+          case 'Q':
+            if (text.includes('no disponible')) return -2.00;
+            if (text.includes('parcial')) return 0.25;
+            if (text.includes('mayormente disponible')) return 0.75;
+            if (text.includes('completa')) return 1.00;
+            return 0;
+          case 'R':
+            // Flujo del proceso documentado, definición clara, reglas, responsable: suma 0.25
+            return 0.25;
+          default:
+            return 0;
+        }
+      };
+
+      // Filter: Sólo items 1 y 3 (excluir Item/Id 2 que fue de prueba)
+      const validRows = rows.filter((row: any) => {
+        const idVal = String(row.id || row.Id || row.ID || row['Item'] || row['item'] || '');
+        return idVal !== '2';
+      });
+
+      // Map Forms 1 fields to Initiatives applying dynamic scoring qualifiers
+      const mapped = validRows.map((row: any, idx: number) => {
+        // Extract basic identification fields from columns
+        const nameVal = valByCol(row, 'F') || row['Nombre de Iniciativa'] || row['Iniciativa'] || 'Iniciativa sin nombre';
+        const areaVal = valByCol(row, 'I') || row['Área'] || row['Area'] || 'Operaciones';
+        const idVal = row.id || row.Id || row.ID || row['Item'] || String(idx + 1);
+
+        // Sum qualifiers scores dynamically
+        let rawScore = 0;
+        ['I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'].forEach(col => {
+          const val = valByCol(row, col);
+          rawScore += getScoreForCol(val, col);
+        });
+
+        // Convert the raw score to a standard 1-100 score layout representation
+        const score = Math.max(10, Math.min(100, Math.round(rawScore * 10)));
+
+        return {
+          id: String(idVal),
+          rank: idx + 1,
+          name: String(nameVal),
+          area: String(areaVal),
+          sponsor: row.sponsor || row['Sponsor'] || 'Dirección General',
+          score: score,
+          roiExpected: Number(row.roiExpected || row['ROI Esperado'] || row['ROI'] || 150),
+          investmentRequired: Number(row.investmentRequired || row['Inversión Requerida'] || row['Inversion'] || 5),
+          potentialBenefit: Number(row.potentialBenefit || row['Beneficio Potencial'] || row['Beneficio'] || 12),
+          timeToValueMonths: Number(row.timeToValueMonths || row['Time to Value'] || row['Meses'] || 6),
+          effort: row.effort || (score > 70 ? 'Alto' : 'Bajo'),
+          value: row.value || (score > 60 ? 'Alto' : 'Bajo'),
+          quadrant: score > 75 ? 'PROYECTOS CLAVE' : 'OPTIMIZACIÓN',
+          category: row.category || row['Categoría'] || 'Estratégica',
+        };
+      });
+
       setInitiatives(mapped);
     } else if (module === 'forms2') {
       // Map Forms 2 fields to active projects
