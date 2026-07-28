@@ -382,6 +382,7 @@ export function App() {
                     theme={theme}
                     onDrillDown={setDrillDownItem}
                     isCockpit={true}
+                    isLightVersion={filters.direction === 'CH' || filters.direction === 'TQS'}
                   />
                 </div>
 
@@ -431,6 +432,7 @@ export function App() {
                 initiatives={initiatives}
                 theme={theme}
                 onDrillDown={setDrillDownItem}
+                isLightVersion={filters.direction === 'CH' || filters.direction === 'TQS'}
               />
             </div>
           )}
