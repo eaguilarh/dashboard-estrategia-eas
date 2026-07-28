@@ -162,35 +162,21 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Client Switcher Toggle Button */}
-        <div
-          className={`flex items-center space-x-1 border rounded-lg px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs transition-colors ${
-            isDark
-              ? 'bg-[#0f2444] border-cyan-500/30 text-cyan-300'
-              : 'bg-blue-50 border-blue-200 text-blue-800'
+        <button
+          onClick={() => {
+            const isLight = filters.direction === 'CH';
+            onFilterChange('direction', isLight ? 'Todas' : 'CH');
+          }}
+          title={filters.direction === 'CH' ? 'Mostrar Versión Completa' : 'Cambiar a Versión Light (CH/TQS)'}
+          className={`flex items-center space-x-1.5 font-semibold text-xs px-2.5 py-1 sm:py-1.5 rounded-lg shadow-sm border transition-all cursor-pointer ${
+            filters.direction === 'CH'
+              ? 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
+              : 'bg-slate-500/10 hover:bg-slate-500/20 text-slate-400 border-[#1d2d4f]'
           }`}
         >
-          <span className="font-bold">Cliente:</span>
-          <select
-            value={filters.direction === 'CH' ? 'CH' : filters.direction === 'TQS' ? 'TQS' : 'EAS'}
-            onChange={(e) => {
-              const val = e.target.value;
-              if (val === 'CH') {
-                onFilterChange('direction', 'CH');
-              } else if (val === 'TQS') {
-                onFilterChange('direction', 'TQS');
-              } else {
-                onFilterChange('direction', 'Todas');
-              }
-            }}
-            className={`bg-transparent font-bold outline-none cursor-pointer ${
-              isDark ? 'text-white' : 'text-slate-900'
-            }`}
-          >
-            <option value="EAS" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>EAS Consulting</option>
-            <option value="CH" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>CH (Versión Light)</option>
-            <option value="TQS" className={isDark ? 'bg-[#0b1328]' : 'bg-white'}>TQS (Versión Light)</option>
-          </select>
-        </div>
+          <span className={`w-2 h-2 rounded-full ${filters.direction === 'CH' ? 'bg-cyan-400 animate-pulse' : 'bg-slate-500'}`} />
+          <span>Versión Light</span>
+        </button>
 
         {/* Theme Toggle Button (Light/Dark mode) */}
         <button

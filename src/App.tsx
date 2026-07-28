@@ -372,55 +372,70 @@ export function App() {
           {/* Main Cockpit Composite View */}
           {currentView === 'cockpit' && (
             <div className="space-y-6 w-full">
-              {/* Top Section: 3 Module Panels Side-by-Side */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-start w-full">
-                {/* Module 1 Panel */}
-                <div className="w-full min-w-0">
+              {/* Top Row: M1 Prioritization (Only this is shown in Version Light) */}
+              {filters.direction === 'CH' ? (
+                <div className="w-full">
                   <Module1Prioritization
                     kpis={kpis}
                     initiatives={initiatives}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
                     isCockpit={true}
-                    isLightVersion={filters.direction === 'CH' || filters.direction === 'TQS'}
+                    isLightVersion={true}
                   />
                 </div>
+              ) : (
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch w-full">
+                  {/* Module 1 Panel */}
+                  <div className="w-full min-w-0">
+                    <Module1Prioritization
+                      kpis={kpis}
+                      initiatives={initiatives}
+                      theme={theme}
+                      onDrillDown={setDrillDownItem}
+                      isCockpit={true}
+                      isLightVersion={false}
+                    />
+                  </div>
 
-                {/* Module 2 Panel */}
-                <div className="w-full min-w-0">
-                  <Module2Execution
+                  {/* Module 2 Panel */}
+                  <div className="w-full min-w-0">
+                    <Module2Execution
+                      kpis={kpis}
+                      projects={projects}
+                      theme={theme}
+                      onDrillDown={setDrillDownItem}
+                      isCockpit={true}
+                    />
+                  </div>
+
+                  {/* Module 3 Panel */}
+                  <div className="w-full min-w-0">
+                    <Module3Benefits
+                      kpis={kpis}
+                      closedProjects={closedProjects}
+                      theme={theme}
+                      onDrillDown={setDrillDownItem}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Section: Consolidated Executive Cockpit 5-Panel Layout (Hidden in Version Light) */}
+              {filters.direction !== 'CH' && (
+                <div className="w-full min-w-0 pt-2 border-t border-slate-800/80">
+                  <ExecutiveCockpit
                     kpis={kpis}
-                    projects={projects}
+                    alerts={alerts}
+                    onNavigate={setCurrentView}
                     theme={theme}
                     onDrillDown={setDrillDownItem}
-                    isCockpit={true}
+                    filters={filters}
+                    onFilterChange={handleFilterChange}
+                    lastUpdated={lastUpdated}
                   />
                 </div>
-
-                {/* Module 3 Panel */}
-                <div className="w-full min-w-0">
-                  <Module3Benefits
-                    kpis={kpis}
-                    closedProjects={closedProjects}
-                    theme={theme}
-                    onDrillDown={setDrillDownItem}
-                  />
-                </div>
-              </div>
-
-              {/* Bottom Section: Consolidated Executive Cockpit 5-Panel Layout */}
-              <div className="w-full min-w-0 pt-2 border-t border-slate-800/80">
-                <ExecutiveCockpit
-                  kpis={kpis}
-                  alerts={alerts}
-                  onNavigate={setCurrentView}
-                  theme={theme}
-                  onDrillDown={setDrillDownItem}
-                  filters={filters}
-                  onFilterChange={handleFilterChange}
-                  lastUpdated={lastUpdated}
-                />
-              </div>
+              )}
             </div>
           )}
 
