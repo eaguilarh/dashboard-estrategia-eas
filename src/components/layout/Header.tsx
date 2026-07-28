@@ -170,8 +170,10 @@ export const Header: React.FC<HeaderProps> = ({
           title={filters.direction === 'CH' ? 'Mostrar Versión Completa' : 'Cambiar a Versión Light (CH/TQS)'}
           className={`flex items-center space-x-1.5 font-semibold text-xs px-2.5 py-1 sm:py-1.5 rounded-lg shadow-sm border transition-all cursor-pointer ${
             filters.direction === 'CH'
-              ? 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-              : 'bg-slate-500/10 hover:bg-slate-500/20 text-slate-400 border-[#1d2d4f]'
+              ? isDark
+                ? 'bg-[#0f2444] text-cyan-300 border-cyan-500/30'
+                : 'bg-blue-50 text-blue-800 border-blue-200'
+              : 'bg-slate-500/10 hover:bg-slate-500/20 text-slate-400 border-slate-700/30 dark:border-[#1d2d4f]'
           }`}
         >
           <span className={`w-2 h-2 rounded-full ${filters.direction === 'CH' ? 'bg-cyan-400 animate-pulse' : 'bg-slate-500'}`} />

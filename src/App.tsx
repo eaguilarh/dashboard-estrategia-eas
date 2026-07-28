@@ -348,13 +348,15 @@ export function App() {
         isDark ? 'bg-[#060b14] text-slate-100' : 'bg-slate-100 text-slate-900'
       }`}
     >
-      {/* Executive Sidebar - Fixed / Immovable Navigation Bar */}
-      <Sidebar
-        currentView={currentView}
-        onSelectView={setCurrentView}
-        onOpenUploadModal={() => setIsModalOpen(true)}
-        theme={theme}
-      />
+      {/* Executive Sidebar - Hidden in Version Light */}
+      {filters.direction !== 'CH' && (
+        <Sidebar
+          currentView={currentView}
+          onSelectView={setCurrentView}
+          onOpenUploadModal={() => setIsModalOpen(true)}
+          theme={theme}
+        />
+      )}
 
       {/* Main App Workspace */}
       <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden">
