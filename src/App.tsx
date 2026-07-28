@@ -16,17 +16,74 @@ export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [drillDownItem, setDrillDownItem] = useState<DrillDownItem | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<string>('27 Jul 2026 00:00 AM');
+  // React state for real-time Excel integration and dynamic calculations with localStorage persistence
+  const [initiatives, setInitiatives] = useState<any[]>(() => {
+    try {
+      const saved = localStorage.getItem('eas_initiatives');
+      return saved ? JSON.parse(saved) : mockInitiatives;
+    } catch {
+      return mockInitiatives;
+    }
+  });
+
+  const [projects, setProjects] = useState<any[]>(() => {
+    try {
+      const saved = localStorage.getItem('eas_projects');
+      return saved ? JSON.parse(saved) : mockProjects;
+    } catch {
+      return mockProjects;
+    }
+  });
+
+  const [closedProjects, setClosedProjects] = useState<any[]>(() => {
+    try {
+      const saved = localStorage.getItem('eas_closedProjects');
+      return saved ? JSON.parse(saved) : mockClosedProjects;
+    } catch {
+      return mockClosedProjects;
+    }
+  });
+
+  const [lastUpdated, setLastUpdated] = useState<string>(() => {
+    return localStorage.getItem('eas_lastUpdated') || '27 Jul 2026 00:00 AM';
+  });
+
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
-  // React state for real-time Excel integration and dynamic calculations
-  const [initiatives, setInitiatives] = useState<any[]>(mockInitiatives);
-  const [projects, setProjects] = useState<any[]>(mockProjects);
-  const [closedProjects, setClosedProjects] = useState<any[]>(mockClosedProjects);
+  // React state for alerts
   const [alerts, setAlerts] = useState<any[]>(mockAlerts);
 
   // Compute KPIs dynamically whenever datasets are modified
   const kpis = calculateKPIs(initiatives, projects, closedProjects);
+
+  // Persistence side effects
+  useEffect(() => {
+    try {
+      localStorage.setItem('eas_initiatives', JSON.stringify(initiatives));
+    } catch (e) {
+      console.error('Error writing initiatives to localStorage', e);
+    }
+  }, [initiatives]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('eas_projects', JSON.stringify(projects));
+    } catch (e) {
+      console.error('Error writing projects to localStorage', e);
+    }
+  }, [projects]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('eas_closedProjects', JSON.stringify(closedProjects));
+    } catch (e) {
+      console.error('Error writing closedProjects to localStorage', e);
+    }
+  }, [closedProjects]);
+
+  useEffect(() => {
+    localStorage.setItem('eas_lastUpdated', lastUpdated);
+  }, [lastUpdated]);
 
   useEffect(() => {
     if (theme === 'dark') {
