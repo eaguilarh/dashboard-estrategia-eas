@@ -149,14 +149,14 @@ export function App() {
     type: 'Todos',
   });
 
-  // Effect to guarantee "Reclutamiento de Funcionales OTC" is registered
+  // Effect to guarantee "1. Reclutamiento de Funcionales OTC" is registered
   useEffect(() => {
-    const hasInit = initiatives.some(i => i.name.includes("OTC") || i.name.includes("Reclutamiento"));
+    const hasInit = initiatives.some(i => i.name.includes("OTC") && i.name.startsWith("1."));
     if (!hasInit) {
       const otcInit = {
         id: "OTC-INIT-3",
-        rank: initiatives.length + 1,
-        name: "Reclutamiento de Funcionales OTC",
+        rank: 1,
+        name: "1. Reclutamiento de Funcionales OTC",
         area: "Operaciones",
         sponsor: "Enrique Aguilar",
         score: 85,
@@ -169,15 +169,15 @@ export function App() {
         quadrant: "Quick Wins" as const,
         category: "Transformación Digital" as const
       };
-      setInitiatives(prev => [...prev.filter(i => i.id !== "OTC-INIT-3"), otcInit]);
+      setInitiatives(prev => [otcInit, ...prev.filter(i => !i.name.includes("OTC"))]);
     }
 
-    const hasProj = projects.some(p => p.name.includes("OTC") || p.name.includes("Reclutamiento"));
+    const hasProj = projects.some(p => p.name.includes("OTC") && p.name.startsWith("1."));
     if (!hasProj) {
       const otcProj = {
         id: "OTC-PROJ-3",
         initiativeId: "OTC-INIT-3",
-        name: "Reclutamiento de Funcionales OTC",
+        name: "1. Reclutamiento de Funcionales OTC",
         area: "Operaciones",
         sponsor: "Enrique Aguilar",
         pm: "Enrique Aguilar",
@@ -195,7 +195,7 @@ export function App() {
         spi: 1.88, // 75% / 40%
         cpi: 1.0,
       };
-      setProjects(prev => [...prev.filter(p => p.id !== "OTC-PROJ-3"), otcProj]);
+      setProjects(prev => [otcProj, ...prev.filter(p => !p.name.includes("OTC"))]);
       setLastUpdated(new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }));
     }
   }, []);

@@ -174,18 +174,50 @@ export const Module2Execution: React.FC<Module2Props> = ({ kpis, projects, theme
                     <div className={`relative h-3.5 w-full rounded-full overflow-hidden border ${
                       isDark ? 'bg-[#081021] border-[#16274a]' : 'bg-slate-100 border-slate-200'
                     }`}>
-                      <div
-                        className={`absolute top-0 bottom-0 rounded-full shadow transition-all ${
-                          prj.statusGantt === 'On Track' ? 'bg-gradient-to-r from-emerald-600 to-emerald-400' :
-                          prj.statusGantt === 'En Riesgo' ? 'bg-gradient-to-r from-amber-600 to-amber-400' :
-                          prj.statusGantt === 'Atrasado' ? 'bg-gradient-to-r from-rose-600 to-rose-400' :
-                          'bg-slate-400'
-                        }`}
-                        style={{
-                          left: `${idx * 8 + 4}%`,
-                          width: `${prj.statusGantt === 'Sin Iniciar' ? 15 : 45}%`
-                        }}
-                      />
+                      {(() => {
+                        // Helper to estimate percentage offset based on "DD MMM"
+                        const getMonthOffset = (dateStr: string): number => {
+                          const str = String(dateStr || '').toLowerCase();
+                          const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+                          let monthIdx = 6; // default Jul
+                          let day = 15;
+                          
+                          // Try matching day number
+                          const dayMatch = str.match(/\d+/);
+                          if (dayMatch) day = parseInt(dayMatch[0]);
+
+                          for (let i = 0; i < months.length; i++) {
+                            if (str.includes(months[i])) {
+                              monthIdx = i;
+                              break;
+                            }
+                          }
+                          
+                          // Proportional progress through 12 months
+                          const monthPct = (monthIdx / 12) * 100;
+                          const dayOffsetPct = (day / 30) * (100 / 12);
+                          return monthPct + dayOffsetPct;
+                        };
+
+                        const startPct = Math.max(0, Math.min(95, getMonthOffset(prj.startDatePlan)));
+                        const endPct = Math.max(startPct + 4, Math.min(100, getMonthOffset(prj.endDatePlan)));
+                        const widthPct = Math.max(5, endPct - startPct);
+
+                        return (
+                          <div
+                            className={`absolute top-0 bottom-0 rounded-full shadow transition-all ${
+                              prj.statusGantt === 'On Track' ? 'bg-gradient-to-r from-emerald-600 to-emerald-400' :
+                              prj.statusGantt === 'En Riesgo' ? 'bg-gradient-to-r from-amber-600 to-amber-400' :
+                              prj.statusGantt === 'Atrasado' ? 'bg-gradient-to-r from-rose-600 to-rose-400' :
+                              'bg-slate-400'
+                            }`}
+                            style={{
+                              left: `${startPct}%`,
+                              width: `${widthPct}%`
+                            }}
+                          />
+                        );
+                      })()}
                     </div>
                   </td>
 
