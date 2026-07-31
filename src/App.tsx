@@ -20,18 +20,65 @@ export function App() {
   const [initiatives, setInitiatives] = useState<any[]>(() => {
     try {
       const saved = localStorage.getItem('eas_initiatives');
-      return saved ? JSON.parse(saved) : mockInitiatives;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.length > 0) return parsed;
+      }
+      return [
+        {
+          id: "3",
+          rank: 1,
+          name: "Reclutamiento de Funcionales OTC",
+          area: "Operaciones",
+          sponsor: "Enrique Aguilar",
+          score: 85,
+          roiExpected: 150,
+          investmentRequired: 0.03, // 30,000 MXN in Millions
+          potentialBenefit: 0.08,
+          timeToValueMonths: 1,
+          effort: "Bajo",
+          value: "Alto",
+          quadrant: "Quick Wins",
+          category: "Transformación Digital"
+        }
+      ];
     } catch {
-      return mockInitiatives;
+      return [];
     }
   });
 
   const [projects, setProjects] = useState<any[]>(() => {
     try {
       const saved = localStorage.getItem('eas_projects');
-      return saved ? JSON.parse(saved) : mockProjects;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.length > 0) return parsed;
+      }
+      return [
+        {
+          id: "P1",
+          initiativeId: "3",
+          name: "Reclutamiento de Funcionales OTC",
+          area: "Operaciones",
+          sponsor: "Enrique Aguilar",
+          pm: "Enrique Aguilar",
+          startDatePlan: "24 Jul",
+          endDatePlan: "14 Ago",
+          budgetApproved: 0.03, // 30,000 MXN in Millions
+          budgetSpent: 0.00, // No consumido reportado
+          progressPlanPct: 40,
+          progressRealPct: 75,
+          statusGantt: "On Track",
+          timeHealth: "Verde",
+          costHealth: "Verde",
+          scopeHealth: "Verde",
+          riskHealth: "Verde",
+          spi: 1.875, // 75% / 40%
+          cpi: 1.0,
+        }
+      ];
     } catch {
-      return mockProjects;
+      return [];
     }
   });
 
@@ -101,6 +148,57 @@ export function App() {
     sponsor: 'Todos',
     type: 'Todos',
   });
+
+  // Effect to guarantee "Reclutamiento de Funcionales OTC" is registered
+  useEffect(() => {
+    const hasInit = initiatives.some(i => i.name.includes("OTC") || i.name.includes("Reclutamiento"));
+    if (!hasInit) {
+      const otcInit = {
+        id: "OTC-INIT-3",
+        rank: initiatives.length + 1,
+        name: "Reclutamiento de Funcionales OTC",
+        area: "Operaciones",
+        sponsor: "Enrique Aguilar",
+        score: 85,
+        roiExpected: 150,
+        investmentRequired: 0.03, // 30,000 MXN / 1,000,000 = 0.03M
+        potentialBenefit: 0.08, // 80,000 MXN potential
+        timeToValueMonths: 1,
+        effort: "Bajo" as const,
+        value: "Alto" as const,
+        quadrant: "Quick Wins" as const,
+        category: "Transformación Digital" as const
+      };
+      setInitiatives(prev => [...prev.filter(i => i.id !== "OTC-INIT-3"), otcInit]);
+    }
+
+    const hasProj = projects.some(p => p.name.includes("OTC") || p.name.includes("Reclutamiento"));
+    if (!hasProj) {
+      const otcProj = {
+        id: "OTC-PROJ-3",
+        initiativeId: "OTC-INIT-3",
+        name: "Reclutamiento de Funcionales OTC",
+        area: "Operaciones",
+        sponsor: "Enrique Aguilar",
+        pm: "Enrique Aguilar",
+        startDatePlan: "24 Jul",
+        endDatePlan: "14 Ago",
+        budgetApproved: 0.03, // 30,000 MXN in Millions
+        budgetSpent: 0.00, // 0 consumed reportado
+        progressPlanPct: 40,
+        progressRealPct: 75,
+        statusGantt: "On Track" as const,
+        timeHealth: "Verde" as const,
+        costHealth: "Verde" as const,
+        scopeHealth: "Verde" as const,
+        riskHealth: "Verde" as const,
+        spi: 1.88, // 75% / 40%
+        cpi: 1.0,
+      };
+      setProjects(prev => [...prev.filter(p => p.id !== "OTC-PROJ-3"), otcProj]);
+      setLastUpdated(new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }));
+    }
+  }, []);
 
   const handleFilterChange = (key: keyof FilterState, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
