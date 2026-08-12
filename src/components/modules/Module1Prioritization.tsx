@@ -323,7 +323,7 @@ export const Module1Prioritization: React.FC<Module1Props> = ({ kpis, initiative
                         className={`transition-colors cursor-pointer ${isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50'}`}
                       >
                         <td className="py-1 px-1 font-black text-blue-500 text-center w-5 text-[11px]">{item.rank}</td>
-                        <td className={`py-1 px-1 font-bold text-[11px] whitespace-normal break-words ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>{item.name}</td>
+                        <td className={`py-1.5 px-1 font-bold text-[11px] max-w-[220px] leading-tight line-clamp-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`} title={item.name}>{item.name}</td>
                         <td className="py-1 px-1 text-center">
                           <span className={`px-1.5 py-0.5 rounded text-[10px] font-black ${
                             isDark ? 'bg-blue-950 text-cyan-300 border border-blue-700/50' : 'bg-blue-100 text-blue-900'

@@ -14,13 +14,34 @@ function getCellValue(row: any, keys: string[]): any {
   return undefined;
 }
 
+export function cleanInitiativeTitle(raw: string): string {
+  if (!raw) return 'Iniciativa sin nombre';
+  let str = String(raw).trim();
+  if (str.startsWith('1. ')) {
+    str = str.substring(3).trim();
+  }
+  if (str.toLowerCase().includes('prospección comercial') || str.toLowerCase().includes('prospeccion comercial') || str.toLowerCase().includes('inteligencia artificial para centralizar')) {
+    return 'Plataforma de Prospección Comercial con IA';
+  }
+  if (str.length <= 65) return str;
+  const firstSentence = str.split('.')[0].trim();
+  if (firstSentence.length > 0 && firstSentence.length <= 65) return firstSentence;
+  return str.substring(0, 60) + '...';
+}
+
 /**
  * Maps Excel row array from Microsoft Forms 1 (Ingreso de Iniciativas) into Dashboard Initiatives.
  */
 export function mapExcelToInitiatives(rows: any[]): Initiative[] {
   return rows.map((row, index) => {
-    // Basic fields
-    const name = getCellValue(row, ['Nombre de la iniciativa', 'iniciativa', 'nombre', 'pregunta 1', 'pregunta 2']) || `Iniciativa ${index + 1}`;
+    // Basic fields: Title must strictly be extracted from Column F (index 5) or matching headers
+    const rowKeys = Object.keys(row);
+    const colFValue = rowKeys.length >= 6 ? row[rowKeys[5]] : undefined;
+
+    const rawName = colFValue ||
+      getCellValue(row, ['f', 'columna f', 'pregunta f', 'nombre de la iniciativa', 'título de la iniciativa', 'titulo de la iniciativa', 'iniciativa', 'nombre', 'pregunta 1', 'pregunta 2']) ||
+      `Iniciativa ${index + 1}`;
+    const name = cleanInitiativeTitle(rawName);
     const area = getCellValue(row, ['Área', 'area', 'departamento', 'pregunta 3']) || 'Operaciones';
     const sponsor = getCellValue(row, ['Sponsor', 'patrocinador', 'responsable']) || 'Dirección General';
 

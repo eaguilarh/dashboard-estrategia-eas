@@ -12,49 +12,100 @@ import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
 
+function sanitizeInitiativeItem(init: any): any {
+  if (!init) return init;
+  let name = String(init.name || '').trim();
+
+  if (name.startsWith('1. ')) {
+    name = name.substring(3).trim();
+  }
+  if (name.startsWith('3. ')) {
+    name = name.substring(3).trim();
+  }
+
+  if (
+    name.includes('Desarrollar una solución') ||
+    name.toLowerCase().includes('prospección') ||
+    name.toLowerCase().includes('prospeccion') ||
+    name.length > 70
+  ) {
+    name = 'Plataforma de Prospección Comercial con IA';
+  }
+
+  const category = (name.includes('Prospección') || name.includes('Prospeccion'))
+    ? 'Transformación Digital'
+    : (init.category || 'Transformación Digital');
+
+  return {
+    ...init,
+    name,
+    category
+  };
+}
+
+function sanitizeProjectItem(proj: any): any {
+  if (!proj) return proj;
+  let name = String(proj.name || '').trim();
+  if (name.startsWith('1. ')) {
+    name = name.substring(3).trim();
+  }
+  if (name.includes('Atlas') || proj.id === 'P2-ATLAS' || proj.id === '2') {
+    return {
+      ...proj,
+      name: 'Atlas SAP Operation Suite',
+      startDatePlan: '10/08/2026',
+      endDatePlan: '31/08/2026',
+    };
+  }
+  return { ...proj, name };
+}
+
 export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [drillDownItem, setDrillDownItem] = useState<DrillDownItem | null>(null);
+  
   // React state for real-time Excel integration and dynamic calculations with localStorage persistence
   const [initiatives, setInitiatives] = useState<any[]>(() => {
     try {
       const saved = localStorage.getItem('eas_initiatives');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.length > 0) return parsed;
+        if (parsed.length > 0) return parsed.map(sanitizeInitiativeItem);
       }
-      return [
-        {
-          id: "3",
-          rank: 1,
-          name: "Reclutamiento de Funcionales OTC",
-          area: "Operaciones",
-          sponsor: "Enrique Aguilar",
-          score: 85,
-          roiExpected: 150,
-          investmentRequired: 0.03, // 30,000 MXN in Millions
-          potentialBenefit: 0.08,
-          timeToValueMonths: 1,
-          effort: "Bajo",
-          value: "Alto",
-          quadrant: "Quick Wins",
-          category: "Transformación Digital"
-        }
-      ];
-    } catch {
-      return [];
-    }
+    } catch {}
+    return [
+      {
+        id: "3",
+        rank: 1,
+        name: "Reclutamiento de Funcionales OTC",
+        area: "Operaciones",
+        sponsor: "Enrique Aguilar",
+        score: 85,
+        roiExpected: 150,
+        investmentRequired: 0.03,
+        potentialBenefit: 0.08,
+        timeToValueMonths: 1,
+        effort: "Bajo",
+        value: "Alto",
+        quadrant: "Quick Wins",
+        category: "Transformación Digital"
+      }
+    ];
   });
 
   const [projects, setProjects] = useState<any[]>(() => {
+    let list: any[] = [];
     try {
       const saved = localStorage.getItem('eas_projects');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.length > 0) return parsed;
+        if (parsed.length > 0) list = parsed.map(sanitizeProjectItem);
       }
-      return [
+    } catch {}
+
+    if (list.length === 0) {
+      list = [
         {
           id: "P1",
           initiativeId: "3",
@@ -64,8 +115,8 @@ export function App() {
           pm: "Enrique Aguilar",
           startDatePlan: "24 Jul",
           endDatePlan: "14 Ago",
-          budgetApproved: 0.03, // 30,000 MXN in Millions
-          budgetSpent: 0.00, // No consumido reportado
+          budgetApproved: 0.03,
+          budgetSpent: 0.00,
           progressPlanPct: 40,
           progressRealPct: 75,
           statusGantt: "On Track",
@@ -73,13 +124,38 @@ export function App() {
           costHealth: "Verde",
           scopeHealth: "Verde",
           riskHealth: "Verde",
-          spi: 1.875, // 75% / 40%
+          spi: 1.875,
           cpi: 1.0,
         }
       ];
-    } catch {
-      return [];
     }
+
+    const hasAtlas = list.some((p: any) => p.name.includes("Atlas"));
+    if (!hasAtlas) {
+      list.push({
+        id: "P2-ATLAS",
+        initiativeId: "2",
+        name: "Atlas SAP Operation Suite",
+        area: "Operaciones",
+        sponsor: "Enrique Aguilar",
+        pm: "Carlos Ruiz",
+        startDatePlan: "10/08/2026",
+        endDatePlan: "31/08/2026",
+        budgetApproved: 0.15,
+        budgetSpent: 0.03,
+        progressPlanPct: 33,
+        progressRealPct: 35,
+        statusGantt: "On Track",
+        timeHealth: "Verde",
+        costHealth: "Verde",
+        scopeHealth: "Verde",
+        riskHealth: "Verde",
+        spi: 1.06,
+        cpi: 1.0
+      });
+    }
+
+    return list;
   });
 
   const [closedProjects, setClosedProjects] = useState<any[]>(() => {
@@ -106,7 +182,7 @@ export function App() {
   // Persistence side effects
   useEffect(() => {
     try {
-      localStorage.setItem('eas_initiatives', JSON.stringify(initiatives));
+      localStorage.setItem('eas_initiatives', JSON.stringify(initiatives.map(sanitizeInitiativeItem)));
     } catch (e) {
       console.error('Error writing initiatives to localStorage', e);
     }
@@ -114,7 +190,7 @@ export function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('eas_projects', JSON.stringify(projects));
+      localStorage.setItem('eas_projects', JSON.stringify(projects.map(sanitizeProjectItem)));
     } catch (e) {
       console.error('Error writing projects to localStorage', e);
     }
@@ -149,55 +225,49 @@ export function App() {
     type: 'Todos',
   });
 
-  // Effect to guarantee "1. Reclutamiento de Funcionales OTC" is registered
+  // Force clean up local state on mount
   useEffect(() => {
-    const hasInit = initiatives.some(i => i.name.includes("OTC") && i.name.startsWith("1."));
-    if (!hasInit) {
-      const otcInit = {
-        id: "OTC-INIT-3",
-        rank: 1,
-        name: "1. Reclutamiento de Funcionales OTC",
-        area: "Operaciones",
-        sponsor: "Enrique Aguilar",
-        score: 85,
-        roiExpected: 150,
-        investmentRequired: 0.03, // 30,000 MXN / 1,000,000 = 0.03M
-        potentialBenefit: 0.08, // 80,000 MXN potential
-        timeToValueMonths: 1,
-        effort: "Bajo" as const,
-        value: "Alto" as const,
-        quadrant: "Quick Wins" as const,
-        category: "Transformación Digital" as const
-      };
-      setInitiatives(prev => [otcInit, ...prev.filter(i => !i.name.includes("OTC"))]);
-    }
+    setInitiatives((prev) => {
+      const cleaned = prev.map(sanitizeInitiativeItem);
+      try {
+        localStorage.setItem('eas_initiatives', JSON.stringify(cleaned));
+      } catch (e) {}
+      return cleaned;
+    });
 
-    const hasProj = projects.some(p => p.name.includes("OTC") && p.name.startsWith("1."));
-    if (!hasProj) {
-      const otcProj = {
-        id: "OTC-PROJ-3",
-        initiativeId: "OTC-INIT-3",
-        name: "1. Reclutamiento de Funcionales OTC",
-        area: "Operaciones",
-        sponsor: "Enrique Aguilar",
-        pm: "Enrique Aguilar",
-        startDatePlan: "24 Jul",
-        endDatePlan: "14 Ago",
-        budgetApproved: 0.03, // 30,000 MXN in Millions
-        budgetSpent: 0.00, // 0 consumed reportado
-        progressPlanPct: 40,
-        progressRealPct: 75,
-        statusGantt: "On Track" as const,
-        timeHealth: "Verde" as const,
-        costHealth: "Verde" as const,
-        scopeHealth: "Verde" as const,
-        riskHealth: "Verde" as const,
-        spi: 1.88, // 75% / 40%
-        cpi: 1.0,
-      };
-      setProjects(prev => [otcProj, ...prev.filter(p => !p.name.includes("OTC"))]);
-      setLastUpdated(new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }));
-    }
+    setProjects((prev) => {
+      let cleaned = prev.map(sanitizeProjectItem);
+      const hasAtlas = cleaned.some((p: any) => p.name.includes("Atlas"));
+      if (!hasAtlas) {
+        cleaned.push({
+          id: "P2-ATLAS",
+          initiativeId: "2",
+          name: "Atlas SAP Operation Suite",
+          area: "Operaciones",
+          sponsor: "Enrique Aguilar",
+          pm: "Carlos Ruiz",
+          startDatePlan: "10/08/2026",
+          endDatePlan: "31/08/2026",
+          budgetApproved: 0.15,
+          budgetSpent: 0.03,
+          progressPlanPct: 33,
+          progressRealPct: 35,
+          statusGantt: "On Track" as const,
+          timeHealth: "Verde" as const,
+          costHealth: "Verde" as const,
+          scopeHealth: "Verde" as const,
+          riskHealth: "Verde" as const,
+          spi: 1.06,
+          cpi: 1.0,
+        });
+      }
+      try {
+        localStorage.setItem('eas_projects', JSON.stringify(cleaned));
+      } catch (e) {}
+      return cleaned;
+    });
+
+    setLastUpdated(new Date().toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' }));
   }, []);
 
   const handleFilterChange = (key: keyof FilterState, value: string) => {
@@ -208,7 +278,20 @@ export function App() {
     console.log('Processed upload data:', data);
     const { module, rows } = data;
 
-    if (module === 'forms1') {
+    if (module === 'live_initiatives') {
+      const liveList = data.data || [];
+      if (liveList.length > 0) {
+        setInitiatives((prev) => {
+          const existingNames = new Set(prev.map((i: any) => i.name.toLowerCase().trim()));
+          const existingIds = new Set(prev.map((i: any) => String(i.id)));
+          const newItems = liveList.filter((i: any) => 
+            !existingIds.has(String(i.id)) && 
+            !existingNames.has(i.name.toLowerCase().trim())
+          );
+          return [...prev, ...newItems];
+        });
+      }
+    } else if (module === 'forms1') {
       // Helper function to extract cell value by Excel column letter
       const valByCol = (row: any, colLetter: string) => {
         // Direct match
@@ -240,8 +323,20 @@ export function App() {
         
         // Final fallback: look up header names matching common Forms headers by index position
         // A=Id, B=Start time, C=Completion time, D=Email, E=Name, F=Nombre de la iniciativa, I=Area de pertenencia
+        // Explicit handling for Column F (Initiative Title from Forms 1 Column F / Index 5)
         if (colLetterUpper === 'F') {
-          const nameKey = Object.keys(row).find(k => k.toLowerCase().includes('iniciativa') || k.toLowerCase().includes('proyecto') || k.toLowerCase().includes('nombre'));
+          // Check position 5 (6th column A=0, B=1, C=2, D=3, E=4, F=5)
+          const keys = Object.keys(row);
+          if (keys.length >= 6 && row[keys[5]] !== undefined && String(row[keys[5]]).trim() !== '') {
+            return row[keys[5]];
+          }
+          const nameKey = Object.keys(row).find(k => 
+            k.toLowerCase().includes('iniciativa') || 
+            k.toLowerCase().includes('título') || 
+            k.toLowerCase().includes('titulo') || 
+            k.toLowerCase().includes('proyecto') || 
+            k.toLowerCase().includes('nombre')
+          );
           if (nameKey) return row[nameKey];
         }
         if (colLetterUpper === 'I') {
@@ -387,7 +482,15 @@ export function App() {
         };
       });
 
-      setInitiatives(mapped);
+      setInitiatives((prev) => {
+        const existingNames = new Set(prev.map((i: any) => i.name.toLowerCase().trim()));
+        const existingIds = new Set(prev.map((i: any) => String(i.id)));
+        const brandNewInitiatives = mapped.filter((m: any) => 
+          !existingNames.has(m.name.toLowerCase().trim()) && 
+          !existingIds.has(String(m.id))
+        );
+        return [...prev, ...brandNewInitiatives];
+      });
     } else if (module === 'forms2') {
       // Map Forms 2 fields to active projects
       const mapped = rows.map((row: any, idx: number) => ({
