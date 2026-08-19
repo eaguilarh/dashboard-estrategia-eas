@@ -13,7 +13,7 @@ import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
 
-const APP_VERSION = 'v1.3_gantt_dates_fix';
+const APP_VERSION = 'v1.4_quadrants_projects_fix';
 if (typeof window !== 'undefined') {
   try {
     const savedVer = localStorage.getItem('eas_app_version');
@@ -80,12 +80,12 @@ function sanitizeProjectItem(proj: any): any {
       endDatePlan: '31 Ago',
     };
   }
-  if (name.includes('Prospección') || name.includes('Prospeccion') || proj.id === 'P3-PROSPEC' || proj.id === '3') {
+  if (name.includes('Portal') || proj.id === 'P3-PORTAL' || proj.id === '3') {
     return {
       ...proj,
-      name: 'Plataforma de Prospección Comercial con IA',
-      startDatePlan: '01 Sep',
-      endDatePlan: '15 Oct',
+      name: 'Portal Autoservicio de Clientes CX',
+      startDatePlan: '15 Ago',
+      endDatePlan: '30 Sep',
     };
   }
   return { ...proj, name, startDatePlan, endDatePlan };
@@ -107,8 +107,24 @@ export function App() {
     } catch {}
     return [
       {
-        id: "3",
+        id: "1",
         rank: 1,
+        name: "Plataforma de Prospección Comercial con IA",
+        area: "Comercial",
+        sponsor: "Enrique Aguilar",
+        score: 92,
+        roiExpected: 240,
+        investmentRequired: 0.08,
+        potentialBenefit: 0.27,
+        timeToValueMonths: 3,
+        effort: "Alto",
+        value: "Alto",
+        quadrant: "PROYECTOS CLAVE",
+        category: "Transformación Digital"
+      },
+      {
+        id: "2",
+        rank: 2,
         name: "Reclutamiento de Funcionales OTC",
         area: "Operaciones",
         sponsor: "Enrique Aguilar",
@@ -119,7 +135,103 @@ export function App() {
         timeToValueMonths: 1,
         effort: "Bajo",
         value: "Alto",
-        quadrant: "Quick Wins",
+        quadrant: "QUICK WINS",
+        category: "Transformación Digital"
+      },
+      {
+        id: "3",
+        rank: 3,
+        name: "Atlas SAP Operation Suite",
+        area: "Operaciones",
+        sponsor: "Enrique Aguilar",
+        score: 78,
+        roiExpected: 180,
+        investmentRequired: 0.15,
+        potentialBenefit: 0.42,
+        timeToValueMonths: 4,
+        effort: "Alto",
+        value: "Alto",
+        quadrant: "PROYECTOS CLAVE",
+        category: "Automatización"
+      },
+      {
+        id: "4",
+        rank: 4,
+        name: "Portal Autoservicio de Clientes CX",
+        area: "Atención a Clientes",
+        sponsor: "Mariana López",
+        score: 74,
+        roiExpected: 160,
+        investmentRequired: 0.05,
+        potentialBenefit: 0.13,
+        timeToValueMonths: 2,
+        effort: "Bajo",
+        value: "Alto",
+        quadrant: "QUICK WINS",
+        category: "Customer Experience"
+      },
+      {
+        id: "5",
+        rank: 5,
+        name: "Automatización de Facturación y Cobranza",
+        area: "Finanzas",
+        sponsor: "Carlos Ruiz",
+        score: 68,
+        roiExpected: 140,
+        investmentRequired: 0.04,
+        potentialBenefit: 0.10,
+        timeToValueMonths: 2,
+        effort: "Bajo",
+        value: "Bajo",
+        quadrant: "OPTIMIZACIÓN",
+        category: "Automatización"
+      },
+      {
+        id: "6",
+        rank: 6,
+        name: "Sistema de Gobierno de Datos y Compliance",
+        area: "Legal & TI",
+        sponsor: "Laura Gomez",
+        score: 62,
+        roiExpected: 110,
+        investmentRequired: 0.06,
+        potentialBenefit: 0.13,
+        timeToValueMonths: 5,
+        effort: "Bajo",
+        value: "Bajo",
+        quadrant: "OPTIMIZACIÓN",
+        category: "Compliance"
+      },
+      {
+        id: "7",
+        rank: 7,
+        name: "Motor de Análisis Predictivo de Churn",
+        area: "Comercial",
+        sponsor: "Mariana López",
+        score: 55,
+        roiExpected: 120,
+        investmentRequired: 0.07,
+        potentialBenefit: 0.15,
+        timeToValueMonths: 6,
+        effort: "Alto",
+        value: "Bajo",
+        quadrant: "BAJA PRIORIDAD",
+        category: "Customer Experience"
+      },
+      {
+        id: "8",
+        rank: 8,
+        name: "Plataforma E-Learning y Capacitación Interna",
+        area: "Recursos Humanos",
+        sponsor: "Enrique Aguilar",
+        score: 45,
+        roiExpected: 90,
+        investmentRequired: 0.02,
+        potentialBenefit: 0.04,
+        timeToValueMonths: 3,
+        effort: "Alto",
+        value: "Bajo",
+        quadrant: "BAJA PRIORIDAD",
         category: "Transformación Digital"
       }
     ];
@@ -138,7 +250,7 @@ export function App() {
     const defaultProjects = [
       {
         id: "P1",
-        initiativeId: "3",
+        initiativeId: "2",
         name: "Reclutamiento de Funcionales OTC",
         area: "Operaciones",
         sponsor: "Enrique Aguilar",
@@ -159,7 +271,7 @@ export function App() {
       },
       {
         id: "P2-ATLAS",
-        initiativeId: "2",
+        initiativeId: "3",
         name: "Atlas SAP Operation Suite",
         area: "Operaciones",
         sponsor: "Enrique Aguilar",
@@ -179,15 +291,15 @@ export function App() {
         cpi: 1.00,
       },
       {
-        id: "P3-PROSPEC",
-        initiativeId: "1",
-        name: "Plataforma de Prospección Comercial con IA",
-        area: "Comercial / Ventas",
-        sponsor: "Enrique Aguilar",
+        id: "P3-PORTAL",
+        initiativeId: "4",
+        name: "Portal Autoservicio de Clientes CX",
+        area: "Atención a Clientes",
+        sponsor: "Mariana López",
         pm: "Mariana López",
-        startDatePlan: "01 Sep",
-        endDatePlan: "15 Oct",
-        budgetApproved: 0.08,
+        startDatePlan: "15 Ago",
+        endDatePlan: "30 Sep",
+        budgetApproved: 0.05,
         budgetSpent: 0.01,
         progressPlanPct: 20,
         progressRealPct: 25,
@@ -196,7 +308,7 @@ export function App() {
         costHealth: "Verde",
         scopeHealth: "Verde",
         riskHealth: "Verde",
-        spi: 1.25,
+        spi: 1.15,
         cpi: 1.00,
       }
     ];

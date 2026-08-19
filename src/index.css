@@ -3,9 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  html.light, html.light body {
+    background-color: #f1f5f9;
+    color: #0f172a;
+  }
+  html.dark, html.dark body {
     background-color: #060b14;
     color: #e2e8f0;
+  }
+  body {
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
 
