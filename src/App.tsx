@@ -91,6 +91,137 @@ function sanitizeProjectItem(proj: any): any {
   return { ...proj, name, startDatePlan, endDatePlan };
 }
 
+const defaultInitiatives = [
+  {
+    id: "1",
+    rank: 1,
+    name: "Plataforma de Prospección Comercial con IA",
+    area: "Comercial",
+    sponsor: "Enrique Aguilar",
+    score: 92,
+    roiExpected: 240,
+    investmentRequired: 0.08,
+    potentialBenefit: 0.27,
+    timeToValueMonths: 3,
+    effort: "Alto",
+    value: "Alto",
+    quadrant: "PROYECTOS CLAVE",
+    category: "Transformación Digital"
+  },
+  {
+    id: "2",
+    rank: 2,
+    name: "Reclutamiento de Funcionales OTC",
+    area: "Operaciones",
+    sponsor: "Enrique Aguilar",
+    score: 85,
+    roiExpected: 150,
+    investmentRequired: 0.03,
+    potentialBenefit: 0.08,
+    timeToValueMonths: 1,
+    effort: "Bajo",
+    value: "Alto",
+    quadrant: "QUICK WINS",
+    category: "Transformación Digital"
+  },
+  {
+    id: "3",
+    rank: 3,
+    name: "Atlas SAP Operation Suite",
+    area: "Operaciones",
+    sponsor: "Enrique Aguilar",
+    score: 78,
+    roiExpected: 180,
+    investmentRequired: 0.15,
+    potentialBenefit: 0.42,
+    timeToValueMonths: 4,
+    effort: "Alto",
+    value: "Alto",
+    quadrant: "PROYECTOS CLAVE",
+    category: "Automatización"
+  },
+  {
+    id: "4",
+    rank: 4,
+    name: "Portal Autoservicio de Clientes CX",
+    area: "Atención a Clientes",
+    sponsor: "Mariana López",
+    score: 74,
+    roiExpected: 160,
+    investmentRequired: 0.05,
+    potentialBenefit: 0.13,
+    timeToValueMonths: 2,
+    effort: "Bajo",
+    value: "Alto",
+    quadrant: "QUICK WINS",
+    category: "Customer Experience"
+  },
+  {
+    id: "5",
+    rank: 5,
+    name: "Automatización de Facturación y Cobranza",
+    area: "Finanzas",
+    sponsor: "Carlos Ruiz",
+    score: 68,
+    roiExpected: 140,
+    investmentRequired: 0.04,
+    potentialBenefit: 0.10,
+    timeToValueMonths: 2,
+    effort: "Bajo",
+    value: "Bajo",
+    quadrant: "OPTIMIZACIÓN",
+    category: "Automatización"
+  },
+  {
+    id: "6",
+    rank: 6,
+    name: "Sistema de Gobierno de Datos y Compliance",
+    area: "Legal & TI",
+    sponsor: "Laura Gomez",
+    score: 62,
+    roiExpected: 110,
+    investmentRequired: 0.06,
+    potentialBenefit: 0.13,
+    timeToValueMonths: 5,
+    effort: "Bajo",
+    value: "Bajo",
+    quadrant: "OPTIMIZACIÓN",
+    category: "Compliance"
+  },
+  {
+    id: "7",
+    rank: 7,
+    name: "Motor de Análisis Predictivo de Churn",
+    area: "Comercial",
+    sponsor: "Mariana López",
+    score: 55,
+    roiExpected: 120,
+    investmentRequired: 0.07,
+    potentialBenefit: 0.15,
+    timeToValueMonths: 6,
+    effort: "Alto",
+    value: "Bajo",
+    quadrant: "BAJA PRIORIDAD",
+    category: "Customer Experience"
+  },
+  {
+    id: "8",
+    rank: 8,
+    name: "Plataforma E-Learning y Capacitación Interna",
+    area: "Recursos Humanos",
+    sponsor: "Enrique Aguilar",
+    score: 45,
+    roiExpected: 90,
+    investmentRequired: 0.02,
+    potentialBenefit: 0.04,
+    timeToValueMonths: 3,
+    effort: "Alto",
+    value: "Bajo",
+    quadrant: "BAJA PRIORIDAD",
+    category: "Transformación Digital"
+  }
+];
+
 export function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('cockpit');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -98,143 +229,24 @@ export function App() {
   
   // React state for real-time Excel integration and dynamic calculations with localStorage persistence
   const [initiatives, setInitiatives] = useState<any[]>(() => {
+    let list: any[] = [];
     try {
       const saved = localStorage.getItem('eas_initiatives');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.length > 0) return parsed.map(sanitizeInitiativeItem);
+        if (Array.isArray(parsed)) list = parsed;
       }
     } catch {}
-    return [
-      {
-        id: "1",
-        rank: 1,
-        name: "Plataforma de Prospección Comercial con IA",
-        area: "Comercial",
-        sponsor: "Enrique Aguilar",
-        score: 92,
-        roiExpected: 240,
-        investmentRequired: 0.08,
-        potentialBenefit: 0.27,
-        timeToValueMonths: 3,
-        effort: "Alto",
-        value: "Alto",
-        quadrant: "PROYECTOS CLAVE",
-        category: "Transformación Digital"
-      },
-      {
-        id: "2",
-        rank: 2,
-        name: "Reclutamiento de Funcionales OTC",
-        area: "Operaciones",
-        sponsor: "Enrique Aguilar",
-        score: 85,
-        roiExpected: 150,
-        investmentRequired: 0.03,
-        potentialBenefit: 0.08,
-        timeToValueMonths: 1,
-        effort: "Bajo",
-        value: "Alto",
-        quadrant: "QUICK WINS",
-        category: "Transformación Digital"
-      },
-      {
-        id: "3",
-        rank: 3,
-        name: "Atlas SAP Operation Suite",
-        area: "Operaciones",
-        sponsor: "Enrique Aguilar",
-        score: 78,
-        roiExpected: 180,
-        investmentRequired: 0.15,
-        potentialBenefit: 0.42,
-        timeToValueMonths: 4,
-        effort: "Alto",
-        value: "Alto",
-        quadrant: "PROYECTOS CLAVE",
-        category: "Automatización"
-      },
-      {
-        id: "4",
-        rank: 4,
-        name: "Portal Autoservicio de Clientes CX",
-        area: "Atención a Clientes",
-        sponsor: "Mariana López",
-        score: 74,
-        roiExpected: 160,
-        investmentRequired: 0.05,
-        potentialBenefit: 0.13,
-        timeToValueMonths: 2,
-        effort: "Bajo",
-        value: "Alto",
-        quadrant: "QUICK WINS",
-        category: "Customer Experience"
-      },
-      {
-        id: "5",
-        rank: 5,
-        name: "Automatización de Facturación y Cobranza",
-        area: "Finanzas",
-        sponsor: "Carlos Ruiz",
-        score: 68,
-        roiExpected: 140,
-        investmentRequired: 0.04,
-        potentialBenefit: 0.10,
-        timeToValueMonths: 2,
-        effort: "Bajo",
-        value: "Bajo",
-        quadrant: "OPTIMIZACIÓN",
-        category: "Automatización"
-      },
-      {
-        id: "6",
-        rank: 6,
-        name: "Sistema de Gobierno de Datos y Compliance",
-        area: "Legal & TI",
-        sponsor: "Laura Gomez",
-        score: 62,
-        roiExpected: 110,
-        investmentRequired: 0.06,
-        potentialBenefit: 0.13,
-        timeToValueMonths: 5,
-        effort: "Bajo",
-        value: "Bajo",
-        quadrant: "OPTIMIZACIÓN",
-        category: "Compliance"
-      },
-      {
-        id: "7",
-        rank: 7,
-        name: "Motor de Análisis Predictivo de Churn",
-        area: "Comercial",
-        sponsor: "Mariana López",
-        score: 55,
-        roiExpected: 120,
-        investmentRequired: 0.07,
-        potentialBenefit: 0.15,
-        timeToValueMonths: 6,
-        effort: "Alto",
-        value: "Bajo",
-        quadrant: "BAJA PRIORIDAD",
-        category: "Customer Experience"
-      },
-      {
-        id: "8",
-        rank: 8,
-        name: "Plataforma E-Learning y Capacitación Interna",
-        area: "Recursos Humanos",
-        sponsor: "Enrique Aguilar",
-        score: 45,
-        roiExpected: 90,
-        investmentRequired: 0.02,
-        potentialBenefit: 0.04,
-        timeToValueMonths: 3,
-        effort: "Alto",
-        value: "Bajo",
-        quadrant: "BAJA PRIORIDAD",
-        category: "Transformación Digital"
-      }
-    ];
+
+    if (list.length < 8) {
+      defaultInitiatives.forEach((def) => {
+        if (!list.some((i: any) => i.name.toLowerCase().includes(def.name.toLowerCase().substring(0, 8)))) {
+          list.push(def);
+        }
+      });
+    }
+
+    return list.map(sanitizeInitiativeItem);
   });
 
   const [projects, setProjects] = useState<any[]>(() => {
@@ -347,6 +359,22 @@ export function App() {
 
   // Automatic state migration on mount to clean up any legacy localStorage data
   useEffect(() => {
+    setInitiatives((prev) => {
+      let list = [...prev];
+      if (list.length < 8) {
+        defaultInitiatives.forEach((def) => {
+          if (!list.some((i: any) => i.name.toLowerCase().includes(def.name.toLowerCase().substring(0, 8)))) {
+            list.push(def);
+          }
+        });
+      }
+      const sanitized = list.map(sanitizeInitiativeItem);
+      try {
+        localStorage.setItem('eas_initiatives', JSON.stringify(sanitized));
+      } catch {}
+      return sanitized;
+    });
+
     setProjects((prev) => {
       const sanitized = prev.map((p, idx) => {
         const clean = sanitizeProjectItem(p);
