@@ -83,7 +83,33 @@ export const Module2Execution: React.FC<Module2ExecutionProps> = ({
   const hoverRow = isDark ? 'hover:bg-[#132244]' : 'hover:bg-slate-50';
 
   return (
-    <div className="space-y-4 w-full">
+    <div className="space-y-4 text-left w-full max-w-full overflow-hidden select-none">
+      {/* Module 2 Banner Header */}
+      {!isCockpit && (
+        <div className={`border rounded-xl p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-md transition-colors ${
+          isDark ? 'bg-gradient-to-r from-[#0b1b3d] via-[#102450] to-[#0b1b3d] border-[#1d3363]' : 'bg-gradient-to-r from-indigo-900 via-blue-900 to-indigo-900 border-indigo-800 text-white'
+        }`}>
+          <div className="flex items-center space-x-2.5">
+            <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-extrabold text-white text-sm shadow flex-shrink-0">
+              2
+            </div>
+            <div>
+              <h2 className="text-xs sm:text-base font-extrabold text-white tracking-tight uppercase">
+                EJECUCIÓN DE PROYECTOS Y GOBERNANZA PMO
+              </h2>
+              <p className="text-[10px] sm:text-xs text-indigo-200/90 font-medium">
+                ¿Cómo van nuestros proyectos en tiempo y costo? • Presione cualquier elemento para detalles
+              </p>
+            </div>
+          </div>
+          <div className="text-left sm:text-right mt-1 sm:mt-0">
+            <span className="text-xs bg-indigo-950/80 text-indigo-300 border border-indigo-400/40 px-2.5 py-1 rounded font-semibold inline-block">
+              Forms 2 Ejecución
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className={`p-3.5 sm:p-4 rounded-xl border transition-colors min-w-0 w-full ${bgCard}`}>
         <div className="flex items-center justify-between mb-3 pb-1.5 border-b border-slate-700/50">
           <div>
