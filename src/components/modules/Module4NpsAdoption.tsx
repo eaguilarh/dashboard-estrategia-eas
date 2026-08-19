@@ -78,61 +78,61 @@ export const Module4NpsAdoption: React.FC<Module4Props> = ({ kpis, closedProject
 
       {/* KPI Cards Row (6 metrics) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 overflow-hidden ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
+          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
           <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-xl font-black text-emerald-500">{kpis.avgNPS} <span className="text-[9px] font-normal text-slate-400">/ 100</span></span>
-            <Award className="w-3.5 h-3.5 text-emerald-500" />
+            <span className="text-base sm:text-lg font-black text-emerald-500">{kpis.avgNPS} <span className="text-[9px] font-normal text-slate-400">/ 100</span></span>
+            <Award className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 overflow-hidden ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Adopción General</span>
+          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Adopción General</span>
           <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-xl font-black text-purple-500">{kpis.avgAdoptionPct}%</span>
-            <Users className="w-3.5 h-3.5 text-purple-500" />
+            <span className="text-base sm:text-lg font-black text-purple-500">{kpis.avgAdoptionPct}%</span>
+            <Users className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 overflow-hidden ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Promotores</span>
+          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Promotores</span>
           <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-xl font-black text-emerald-500">{pctPromotores}%</span>
-            <ThumbsUp className="w-3.5 h-3.5 text-emerald-500" />
+            <span className="text-base sm:text-lg font-black text-emerald-500">{pctPromotores}%</span>
+            <ThumbsUp className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 overflow-hidden ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos Totales</span>
+          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Proyectos Totales</span>
           <div className="mt-1 flex items-baseline justify-between">
-            <span className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.closedProjectsCount}</span>
+            <span className={`text-base sm:text-lg font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.closedProjectsCount}</span>
           </div>
         </div>
 
-        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 overflow-hidden ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Retención de Uso</span>
+          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Retención de Uso</span>
           <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-xl font-black text-cyan-500">{kpis.avgAdoptionPct > 0 ? `${kpis.avgAdoptionPct}%` : '0%'}</span>
-            <TrendingUp className="w-3.5 h-3.5 text-cyan-500" />
+            <span className="text-base sm:text-lg font-black text-cyan-500">{kpis.avgAdoptionPct > 0 ? `${kpis.avgAdoptionPct}%` : '0%'}</span>
+            <TrendingUp className="w-3.5 h-3.5 text-cyan-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors ${
+        <div className={`p-2.5 rounded-xl border flex flex-col justify-between transition-colors min-w-0 overflow-hidden ${
           isDark ? 'bg-[#0e172a] border-[#1e293b]' : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Excelente</span>
-          <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-xl font-black text-emerald-500">{closedProjects.filter(p => p.nps >= 80).length} <span className="text-[9px] font-normal text-slate-400">proyectos</span></span>
+          <span className={`text-[10px] font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Excelente</span>
+          <div className="mt-1 flex items-baseline justify-between gap-1 flex-wrap">
+            <span className="text-base sm:text-lg font-black text-emerald-500">{closedProjects.filter(p => p.nps >= 80).length} <span className="text-[9px] font-normal text-slate-400 whitespace-nowrap">proy.</span></span>
           </div>
         </div>
       </div>

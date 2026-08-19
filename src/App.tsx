@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ViewMode, FilterState } from './types/dashboard';
-import { calculateKPIs, mockKPIs, mockInitiatives, mockProjects, mockClosedProjects, mockAlerts } from './data/mockData';
+import { calculateKPIs, calculateAlerts, mockKPIs, mockInitiatives, mockProjects, mockClosedProjects, mockAlerts } from './data/mockData';
+import { normalizeDateStr } from './utils/formatters';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { Module1Prioritization } from './components/modules/Module1Prioritization';
@@ -11,6 +12,18 @@ import { PMOKanbanView } from './components/modules/PMOKanbanView';
 import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
+
+const APP_VERSION = 'v1.3_gantt_dates_fix';
+if (typeof window !== 'undefined') {
+  try {
+    const savedVer = localStorage.getItem('eas_app_version');
+    if (savedVer !== APP_VERSION) {
+      localStorage.removeItem('eas_projects');
+      localStorage.removeItem('eas_initiatives');
+      localStorage.setItem('eas_app_version', APP_VERSION);
+    }
+  } catch (e) {}
+}
 
 function sanitizeInitiativeItem(init: any): any {
   if (!init) return init;
@@ -43,21 +56,39 @@ function sanitizeInitiativeItem(init: any): any {
   };
 }
 
+
 function sanitizeProjectItem(proj: any): any {
   if (!proj) return proj;
   let name = String(proj.name || '').trim();
   if (name.startsWith('1. ')) {
     name = name.substring(3).trim();
   }
-  if (name.includes('Atlas') || proj.id === 'P2-ATLAS' || proj.id === '2') {
+  if (name.startsWith('2. ')) {
+    name = name.substring(3).trim();
+  }
+  if (name.startsWith('3. ')) {
+    name = name.substring(3).trim();
+  }
+  let startDatePlan = normalizeDateStr(proj.startDatePlan || '24 Jul');
+  let endDatePlan = normalizeDateStr(proj.endDatePlan || '14 Ago');
+
+  if (name.includes('Atlas') || proj.id === 'P2-ATLAS' || proj.id === '2' || proj.id === 'P2' || name.toLowerCase().includes('proyecto 2')) {
     return {
       ...proj,
       name: 'Atlas SAP Operation Suite',
-      startDatePlan: '10/08/2026',
-      endDatePlan: '31/08/2026',
+      startDatePlan: '10 Ago',
+      endDatePlan: '31 Ago',
     };
   }
-  return { ...proj, name };
+  if (name.includes('Prospección') || name.includes('Prospeccion') || proj.id === 'P3-PROSPEC' || proj.id === '3') {
+    return {
+      ...proj,
+      name: 'Plataforma de Prospección Comercial con IA',
+      startDatePlan: '01 Sep',
+      endDatePlan: '15 Oct',
+    };
+  }
+  return { ...proj, name, startDatePlan, endDatePlan };
 }
 
 export function App() {
@@ -104,43 +135,37 @@ export function App() {
       }
     } catch {}
 
-    if (list.length === 0) {
-      list = [
-        {
-          id: "P1",
-          initiativeId: "3",
-          name: "Reclutamiento de Funcionales OTC",
-          area: "Operaciones",
-          sponsor: "Enrique Aguilar",
-          pm: "Enrique Aguilar",
-          startDatePlan: "24 Jul",
-          endDatePlan: "14 Ago",
-          budgetApproved: 0.03,
-          budgetSpent: 0.00,
-          progressPlanPct: 40,
-          progressRealPct: 75,
-          statusGantt: "On Track",
-          timeHealth: "Verde",
-          costHealth: "Verde",
-          scopeHealth: "Verde",
-          riskHealth: "Verde",
-          spi: 1.875,
-          cpi: 1.0,
-        }
-      ];
-    }
-
-    const hasAtlas = list.some((p: any) => p.name.includes("Atlas"));
-    if (!hasAtlas) {
-      list.push({
+    const defaultProjects = [
+      {
+        id: "P1",
+        initiativeId: "3",
+        name: "Reclutamiento de Funcionales OTC",
+        area: "Operaciones",
+        sponsor: "Enrique Aguilar",
+        pm: "Enrique Aguilar",
+        startDatePlan: "24 Jul",
+        endDatePlan: "14 Ago",
+        budgetApproved: 0.03,
+        budgetSpent: 0.00,
+        progressPlanPct: 40,
+        progressRealPct: 75,
+        statusGantt: "On Track",
+        timeHealth: "Verde",
+        costHealth: "Verde",
+        scopeHealth: "Verde",
+        riskHealth: "Verde",
+        spi: 1.88,
+        cpi: 1.00,
+      },
+      {
         id: "P2-ATLAS",
         initiativeId: "2",
         name: "Atlas SAP Operation Suite",
         area: "Operaciones",
         sponsor: "Enrique Aguilar",
         pm: "Carlos Ruiz",
-        startDatePlan: "10/08/2026",
-        endDatePlan: "31/08/2026",
+        startDatePlan: "10 Ago",
+        endDatePlan: "31 Ago",
         budgetApproved: 0.15,
         budgetSpent: 0.03,
         progressPlanPct: 33,
@@ -151,11 +176,40 @@ export function App() {
         scopeHealth: "Verde",
         riskHealth: "Verde",
         spi: 1.06,
-        cpi: 1.0
+        cpi: 1.00,
+      },
+      {
+        id: "P3-PROSPEC",
+        initiativeId: "1",
+        name: "Plataforma de Prospección Comercial con IA",
+        area: "Comercial / Ventas",
+        sponsor: "Enrique Aguilar",
+        pm: "Mariana López",
+        startDatePlan: "01 Sep",
+        endDatePlan: "15 Oct",
+        budgetApproved: 0.08,
+        budgetSpent: 0.01,
+        progressPlanPct: 20,
+        progressRealPct: 25,
+        statusGantt: "On Track",
+        timeHealth: "Verde",
+        costHealth: "Verde",
+        scopeHealth: "Verde",
+        riskHealth: "Verde",
+        spi: 1.25,
+        cpi: 1.00,
+      }
+    ];
+
+    if (list.length < 3) {
+      defaultProjects.forEach((def) => {
+        if (!list.some((p: any) => p.name.toLowerCase().includes(def.name.toLowerCase().substring(0, 8)))) {
+          list.push(def);
+        }
       });
     }
 
-    return list;
+    return list.map(sanitizeProjectItem);
   });
 
   const [closedProjects, setClosedProjects] = useState<any[]>(() => {
@@ -173,11 +227,33 @@ export function App() {
 
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
-  // React state for alerts
-  const [alerts, setAlerts] = useState<any[]>(mockAlerts);
-
   // Compute KPIs dynamically whenever datasets are modified
   const kpis = calculateKPIs(initiatives, projects, closedProjects);
+
+  // Compute alerts dynamically from calculateAlerts
+  const alerts = calculateAlerts(initiatives, projects, closedProjects, kpis);
+
+  // Automatic state migration on mount to clean up any legacy localStorage data
+  useEffect(() => {
+    setProjects((prev) => {
+      const sanitized = prev.map((p, idx) => {
+        const clean = sanitizeProjectItem(p);
+        if (idx === 1 || clean.name.includes('Atlas') || clean.id === 'P2-ATLAS' || clean.id === '2') {
+          return {
+            ...clean,
+            name: 'Atlas SAP Operation Suite',
+            startDatePlan: '10 Ago',
+            endDatePlan: '31 Ago'
+          };
+        }
+        return clean;
+      });
+      try {
+        localStorage.setItem('eas_projects', JSON.stringify(sanitized));
+      } catch {}
+      return sanitized;
+    });
+  }, []);
 
   // Persistence side effects
   useEffect(() => {
@@ -246,8 +322,8 @@ export function App() {
           area: "Operaciones",
           sponsor: "Enrique Aguilar",
           pm: "Carlos Ruiz",
-          startDatePlan: "10/08/2026",
-          endDatePlan: "31/08/2026",
+          startDatePlan: "10 Ago",
+          endDatePlan: "31 Ago",
           budgetApproved: 0.15,
           budgetSpent: 0.03,
           progressPlanPct: 33,
@@ -259,6 +335,30 @@ export function App() {
           riskHealth: "Verde" as const,
           spi: 1.06,
           cpi: 1.0,
+        });
+      }
+      const hasProspec = cleaned.some((p: any) => p.name.includes("Prospección") || p.name.includes("Prospeccion"));
+      if (!hasProspec) {
+        cleaned.push({
+          id: "P3-PROSPEC",
+          initiativeId: "1",
+          name: "Plataforma de Prospección Comercial con IA",
+          area: "Comercial / Ventas",
+          sponsor: "Enrique Aguilar",
+          pm: "Mariana López",
+          startDatePlan: "01 Sep",
+          endDatePlan: "15 Oct",
+          budgetApproved: 0.08,
+          budgetSpent: 0.01,
+          progressPlanPct: 20,
+          progressRealPct: 25,
+          statusGantt: "On Track" as const,
+          timeHealth: "Verde" as const,
+          costHealth: "Verde" as const,
+          scopeHealth: "Verde" as const,
+          riskHealth: "Verde" as const,
+          spi: 1.25,
+          cpi: 1.00,
         });
       }
       try {
@@ -630,6 +730,7 @@ export function App() {
                   <ExecutiveCockpit
                     kpis={kpis}
                     alerts={alerts}
+                    projects={projects}
                     onNavigate={setCurrentView}
                     theme={theme}
                     onDrillDown={setDrillDownItem}

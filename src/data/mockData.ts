@@ -99,3 +99,33 @@ export const mockProjects: ProjectExecution[] = [];
 export const mockClosedProjects: ClosedProject[] = [];
 
 export const mockAlerts: PortfolioAlert[] = [];
+
+export const calculateAlerts = (
+  initiatives: Initiative[],
+  projects: ProjectExecution[],
+  closedProjects: ClosedProject[],
+  kpis: PortfolioKPIs
+): PortfolioAlert[] => {
+  const alerts: PortfolioAlert[] = [];
+  const risky = projects.filter((p: ProjectExecution) => p.statusGantt === "En Riesgo" || p.statusGantt === "Atrasado" || (p.spi !== undefined && p.spi < 0.90));
+  if (risky.length > 0) {
+    alerts.push({ id: "A1", type: "danger", message: risky.length + " proyecto(s) presentan desviación de tiempo o riesgo (SPI < 0.90 / Estatus en Riesgo).", count: risky.length });
+  }
+  const budgetDev = projects.filter((p: ProjectExecution) => (p.cpi !== undefined && p.cpi < 0.95) || (p.budgetSpent > 0 && p.budgetApproved > 0 && p.budgetSpent > p.budgetApproved));
+  if (budgetDev.length > 0) {
+    alerts.push({ id: "A2", type: "warning", message: budgetDev.length + " proyecto(s) registran desviación presupuestal (CPI < 0.95 o presupuesto excedido).", count: budgetDev.length });
+  }
+  const pendingF3 = projects.filter((p: ProjectExecution) => (p.progressRealPct || 0) >= 100 || p.statusGantt === "Completado");
+  if (pendingF3.length > 0 || closedProjects.length > 0) {
+    const count = Math.max(pendingF3.length, closedProjects.length);
+    alerts.push({ id: "A3", type: "warning", message: count + " proyecto(s) finalizados requieren evaluación de beneficios a 90 días (Forms 3).", count });
+  }
+  const highScorePending = initiatives.filter((i: Initiative) => (i.score || 0) >= 70 && !projects.some((p: ProjectExecution) => p.initiativeId === i.id || p.name.includes(i.name)));
+  if (highScorePending.length > 0) {
+    alerts.push({ id: "A4", type: "info", message: highScorePending.length + " iniciativa(s) de alta prioridad (Score >= 70) pendientes de pase a construcción.", count: highScorePending.length });
+  }
+  if (alerts.length === 0) {
+    alerts.push({ id: "A0", type: "info", message: "Portafolio en estado óptimo: 100% de los proyectos avanzan conforme a parámetros normativos.", count: projects.length });
+  }
+  return alerts;
+};

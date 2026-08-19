@@ -227,7 +227,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           </div>
 
           <div className="space-y-2">
-            {planningProjects.map((prj) => (
+            {planningProjects.map((prj, idx) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'project', title: prj.name, sourceForm: 'Formulario 2 (Brief & Gantt PMO)', data: prj })}
@@ -236,7 +236,10 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</span>
+                  <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    <span className="text-cyan-400 font-extrabold mr-1">{idx + 1}.</span>
+                    {prj.name}
+                  </span>
                   <span className="text-[9px] font-bold text-amber-300 bg-amber-950 px-1.5 py-0.5 rounded border border-amber-500/40">
                     Plan
                   </span>
@@ -267,7 +270,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           </div>
 
           <div className="space-y-2">
-            {constructionProjects.map((prj) => (
+            {constructionProjects.map((prj, idx) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'project', title: prj.name, sourceForm: 'Formulario 2 (Brief & Gantt PMO)', data: prj })}
@@ -276,7 +279,10 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</span>
+                  <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    <span className="text-amber-400 font-extrabold mr-1">{idx + 1}.</span>
+                    {prj.name}
+                  </span>
                   <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${
                     prj.statusGantt === 'On Track' ? 'bg-emerald-950 text-emerald-400 border-emerald-500/40' : 'bg-amber-950 text-amber-400 border-amber-500/40'
                   }`}>
@@ -309,7 +315,7 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
           </div>
 
           <div className="space-y-2">
-            {projects.filter(p => p.progressRealPct === 100).map((prj) => (
+            {projects.filter(p => p.progressRealPct === 100).map((prj, idx) => (
               <div
                 key={prj.id}
                 onClick={() => onDrillDown({ type: 'closedProject', title: prj.name, sourceForm: 'Formulario 3 (NPS & ROI 90 Días)', data: { ...prj, deliveryDate: '15 Ene 2026', roiReal90DaysPct: 28, nps: 82, npsStatus: 'Excelente', adoptionPct: 92, realBenefitMXN: 32, promisedBenefitMXN: 30 } })}
@@ -318,7 +324,10 @@ export const PMOKanbanView: React.FC<PMOKanbanProps> = ({ initiatives, projects,
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{prj.name}</span>
+                  <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    <span className="text-emerald-400 font-extrabold mr-1">{idx + 1}.</span>
+                    {prj.name}
+                  </span>
                   <span className="text-[9px] font-bold text-emerald-300 bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-500/40">
                     ROI 90D Medido
                   </span>

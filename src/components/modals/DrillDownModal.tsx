@@ -83,7 +83,10 @@ export const DrillDownModal: React.FC<DrillDownModalProps> = ({ item, onClose })
                   {data.items && data.items.map((it: any, idx: number) => (
                     <div key={idx} className="p-2.5 rounded-lg border bg-[#0e1933] border-[#1f3460] flex items-center justify-between text-xs">
                       <div>
-                        <strong className="text-white block font-bold">{it.name || it.title || it}</strong>
+                        <strong className="text-white block font-bold">
+                          <span className="text-cyan-400 font-extrabold mr-1">{idx + 1}.</span>
+                          {it.name || it.title || it}
+                        </strong>
                         <span className="text-[10px] text-slate-400">{it.detail || it.reason || 'Seguimiento por la PMO'}</span>
                       </div>
                       {it.status && (

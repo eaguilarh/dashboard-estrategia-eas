@@ -1,5 +1,5 @@
 import React from 'react';
-import { PortfolioKPIs, PortfolioAlert, ViewMode, FilterState } from '../../types/dashboard';
+import { PortfolioKPIs, PortfolioAlert, ViewMode, FilterState, ProjectExecution } from '../../types/dashboard';
 import {
   AlertTriangle,
   Layers,
@@ -18,9 +18,12 @@ import {
   Award
 } from 'lucide-react';
 
+import { formatNumber, formatMillions, normalizeDateStr, parseMonthDay } from '../../utils/formatters';
+
 interface ExecutiveCockpitProps {
   kpis: PortfolioKPIs;
   alerts: PortfolioAlert[];
+  projects?: ProjectExecution[];
   onNavigate: (view: ViewMode) => void;
   theme?: 'dark' | 'light';
   onDrillDown?: (item: any) => void;
@@ -32,16 +35,17 @@ interface ExecutiveCockpitProps {
 export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
   kpis,
   alerts,
+  projects = [],
   onNavigate,
   theme = 'dark',
   onDrillDown,
   filters,
   onFilterChange,
-  lastUpdated = '20 Jul 2026 08:30 AM'
+  lastUpdated = '20 Jul 2026 08:30 A'
 }) => {
   const isDark = theme === 'dark';
 
-  // 1. Resumen Ejecutivo (6 Metric Cards dynamically pulling from computed KPIs)
+  // 1. Resumen Ejecutivo (6 etric Cards dynamically pulling from computed KPIs)
   const executiveSummaryCards = [
     { count: kpis.totalInitiatives || 0, label: 'Ideas / Iniciativas', color: '#2563eb' },
     { count: kpis.funnelPrioritized || 0, label: 'Priorizadas', color: '#16a34a' },
@@ -61,25 +65,34 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
     { count: kpis.funnelRoiMeasured || 0, label: 'Con ROI Medido', color: '#0f172a', topW: 18, botW: 18 },
   ];
 
-  // 3. Roadmap Estratégico (Pull dynamically from active projects if present, empty otherwise)
-  const roadmapItems = kpis.activeProjects > 0 ? [
-    { name: 'IA Generativa', color: '#2563eb', startPct: 0, widthPct: 50 },
-    { name: 'CRM 360°', color: '#16a34a', startPct: 20, widthPct: 50 },
-    { name: 'Automatización SAP', color: '#9333ea', startPct: 45, widthPct: 50 },
-    { name: 'Data Analytics', color: '#ea580c', startPct: 50, widthPct: 40 },
-    { name: 'Portal del Cliente', color: '#0d9488', startPct: 55, widthPct: 40 },
-  ].slice(0, Math.min(5, kpis.activeProjects)) : [];
+  // 3. Roadmap Estratégico - Pull from real projects
+  const colors = ['#2563eb', '#16a34a', '#9333ea', '#ea580c', '#0d9488', '#0284c7'];
+  const roadmapItems = projects.map((prj, idx) => {
+    const start = parseMonthDay(prj.startDatePlan);
+    const end = parseMonthDay(prj.endDatePlan);
+    const startPct = Math.max(0, Math.min(90, ((start.monthIdx + (start.day / 31)) / 12) * 100));
+    const endPct = Math.max(startPct + 5, Math.min(100, ((end.monthIdx + (end.day / 31)) / 12) * 100));
+    const widthPct = Math.max(6, endPct - startPct);
+    return {
+      name: prj.name,
+      startDatePlan: prj.startDatePlan,
+      endDatePlan: prj.endDatePlan,
+      color: colors[idx % colors.length],
+      startPct,
+      widthPct
+    };
+  });
 
   // 4. Alert Details for Drill-Down
   const getAlertDetails = (alertId: string, alertMessage: string) => {
     switch (alertId) {
       case 'A1':
         return {
-          recommendation: 'Reunión extraordinaria de alineación PMO y renegociación de hitos críticos de avance.',
+          recommendation: 'Reunión extraordinaria de alineación PO y renegociación de hitos críticos de avance.',
           items: [
             { name: 'Automatización SAP', detail: 'SPI: 0.85, CPI: 0.98 - Retraso en migración de módulos contables', status: 'Riesgo' },
             { name: 'Portal del Cliente', detail: 'SPI: 0.83, CPI: 0.95 - Pendiente validación de seguridad e integración API', status: 'Riesgo' },
-            { name: 'Migración Cloud AWS', detail: 'SPI: 0.82, CPI: 0.92 - Dependencia con entrega de servidor por proveedor', status: 'Riesgo' },
+            { name: 'igración Cloud AWS', detail: 'SPI: 0.82, CPI: 0.92 - Dependencia con entrega de servidor por proveedor', status: 'Riesgo' },
             { name: 'Sistema de Facturación', detail: 'SPI: 0.80, CPI: 0.90 - Aprobación presupuestal adicional pendiente', status: 'Riesgo' },
             { name: 'Workflow Legal', detail: 'SPI: 0.81, CPI: 0.94 - Revisión de normas de cumplimiento normativo', status: 'Riesgo' },
             { name: 'App Proveedores', detail: 'SPI: 0.84, CPI: 0.96 - Cambio de requerimientos en Sprint 3', status: 'Riesgo' }
@@ -90,13 +103,13 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           recommendation: 'Enviar recordatorio automático de encuesta Forms 3 a los sponsors operativos asignados.',
           items: [
             { name: 'Portal del Cliente', detail: 'Go-Live: 30 Abr 2026 - Encuesta agendada para Día 90', status: 'Pendiente' },
-            { name: 'App Móvil Clientes', detail: 'Go-Live: 20 May 2026 - Encuesta agendada para Día 90', status: 'Pendiente' },
+            { name: 'App óvil Clientes', detail: 'Go-Live: 20 ay 2026 - Encuesta agendada para Día 90', status: 'Pendiente' },
             { name: 'Firma Electrónica', detail: 'En fase de preparación de lanzamiento', status: 'Pendiente' },
             { name: 'Chatbot IA Operaciones', detail: 'Despliegue reciente en canal productivo', status: 'Pendiente' },
             { name: 'Gobierno de Datos TI', detail: 'Piloto operativo en revisión por el CIO', status: 'Pendiente' },
             { name: 'Gestión Documental', detail: 'Adopción en segunda fase corporativa', status: 'Pendiente' },
             { name: 'E-learning Corporativo', detail: 'Próximo despliegue a usuarios finales', status: 'Pendiente' },
-            { name: 'Mesa de Ayuda TI', detail: 'Programada para aplicación en Forms 3', status: 'Pendiente' }
+            { name: 'esa de Ayuda TI', detail: 'Programada para aplicación en Forms 3', status: 'Pendiente' }
           ]
         };
       case 'A3':
@@ -104,13 +117,13 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
           recommendation: 'Realizar auditoría financiera del beneficio realizado vs esperado para certificar el ROI.',
           items: [
             { name: 'IA Contact Center', detail: 'Cerrado 15 Feb 2026 - F3 pendiente por comité directivo', status: 'Pendiente' },
-            { name: 'CRM 360°', detail: 'Cerrado 15 Ene 2026 - F3 pendiente por sponsor comercial', status: 'Pendiente' },
-            { name: 'Automatización SAP', detail: 'Cerrado 10 Mar 2026 - F3 programada', status: 'Pendiente' }
+            { name: 'CR 360°', detail: 'Cerrado 15 Ene 2026 - F3 pendiente por sponsor comercial', status: 'Pendiente' },
+            { name: 'Automatización SAP', detail: 'Cerrado 10 ar 2026 - F3 programada', status: 'Pendiente' }
           ]
         };
       default:
         return {
-          recommendation: 'Seguimiento por parte del PMO Leader en las sesiones de status de los días jueves.',
+          recommendation: 'Seguimiento por parte del PO Leader en las sesiones de status de los días jueves.',
           items: [
             { name: 'Workflow Legal', detail: '18 minutas de acuerdos pendientes de firma electrónica', status: 'Abierto' },
             { name: 'IA Contact Center', detail: 'Error en conexión telefónica intermitente', status: 'Abierto' }
@@ -133,7 +146,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
       onDrillDown({
         type: 'alert',
         title: `Alerta: ${alert.message}`,
-        sourceForm: 'Monitoreo de Portafolio PMO',
+        sourceForm: 'onitoreo de Portafolio PO',
         data: alert
       });
     }
@@ -212,7 +225,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
         </div>
       </div>
 
-      {/* Main 5 Equal Columns Panel Row (Fluid responsive & zoom-resistant) */}
+      {/* ain 5 Equal Columns Panel Row (Fluid responsive & zoom-resistant) */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 items-stretch w-full">
         {/* PANEL 1: RESUMEN EJECUTIVO */}
         <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
@@ -324,9 +337,15 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               {roadmapItems.length > 0 ? (
                 roadmapItems.map((item, idx) => (
                   <div key={idx} className="flex flex-col space-y-0.5 min-w-0">
-                    <span className={`text-[9px] sm:text-[10px] font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
-                      {item.name}
-                    </span>
+                    <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[10px]">
+                      <span className={`font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                        <span className="font-extrabold text-cyan-400 mr-1">{idx + 1}.</span>
+                        {item.name}
+                      </span>
+                      <span className="text-[8px] text-slate-400 font-semibold whitespace-nowrap">
+                        {normalizeDateStr(item.startDatePlan)} - {normalizeDateStr(item.endDatePlan)}
+                      </span>
+                    </div>
                     <div className={`h-3 rounded overflow-hidden relative border ${
                       isDark ? 'bg-[#060e1d] border-[#18294a]' : 'bg-slate-100 border-slate-200'
                     }`}>
@@ -365,7 +384,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
               <div className="min-w-0">
                 <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Inversión Total</span>
-                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">${kpis.totalInvestmentRequired}M <span className="text-[8px] font-normal">MXN</span></strong>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">{formatMillions(kpis.totalInvestmentRequired)} <span className="text-[8px] font-normal">MXN</span></strong>
               </div>
             </div>
 
@@ -381,7 +400,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
               <div className="min-w-0">
                 <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Esperado</span>
-                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">${kpis.totalPotentialBenefit}M <span className="text-[8px] font-normal">MXN</span></strong>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">{formatMillions(kpis.totalPotentialBenefit)} <span className="text-[8px] font-normal">MXN</span></strong>
               </div>
             </div>
 
@@ -397,7 +416,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
               <div className="min-w-0">
                 <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>ROI Promedio</span>
-                <strong className="text-emerald-500 text-xs sm:text-sm font-black">{kpis.avgExpectedROI}%</strong>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black">{formatNumber(kpis.avgExpectedROI, 2)}%</strong>
               </div>
             </div>
 
@@ -405,7 +424,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <Target className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
               <div className="min-w-0">
                 <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Beneficio Realizado</span>
-                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">${kpis.realizedBenefitMXN}M <span className="text-[8px] font-normal">MXN</span></strong>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black whitespace-nowrap">{formatMillions(kpis.realizedBenefitMXN)} <span className="text-[8px] font-normal">MXN</span></strong>
               </div>
             </div>
 
@@ -413,7 +432,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 flex-shrink-0" />
               <div className="min-w-0">
                 <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>% Proyectos On Track</span>
-                <strong className="text-emerald-500 text-xs sm:text-sm font-black">{kpis.pctOnTrack}%</strong>
+                <strong className="text-emerald-500 text-xs sm:text-sm font-black">{formatNumber(kpis.pctOnTrack, 2)}%</strong>
               </div>
             </div>
 
@@ -421,7 +440,7 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
               <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-500 flex-shrink-0" />
               <div className="min-w-0">
                 <span className={`text-[8px] sm:text-[9px] block font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>NPS Promedio</span>
-                <strong className={`text-xs sm:text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{kpis.avgNPS}</strong>
+                <strong className={`text-xs sm:text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{formatNumber(kpis.avgNPS, 2)}</strong>
               </div>
             </div>
           </div>
