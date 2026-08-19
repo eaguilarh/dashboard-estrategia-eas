@@ -13,7 +13,7 @@ import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
 
-const APP_VERSION = 'v1.4_quadrants_projects_fix';
+const APP_VERSION = 'v1.6_only_registered_data';
 if (typeof window !== 'undefined') {
   try {
     const savedVer = localStorage.getItem('eas_app_version');
@@ -34,15 +34,6 @@ function sanitizeInitiativeItem(init: any): any {
   }
   if (name.startsWith('3. ')) {
     name = name.substring(3).trim();
-  }
-
-  if (
-    name.includes('Desarrollar una solución') ||
-    name.toLowerCase().includes('prospección') ||
-    name.toLowerCase().includes('prospeccion') ||
-    name.length > 70
-  ) {
-    name = 'Plataforma de Prospección Comercial con IA';
   }
 
   const category = (name.includes('Prospección') || name.includes('Prospeccion'))
@@ -80,14 +71,6 @@ function sanitizeProjectItem(proj: any): any {
       endDatePlan: '31 Ago',
     };
   }
-  if (name.includes('Portal') || proj.id === 'P3-PORTAL' || proj.id === '3') {
-    return {
-      ...proj,
-      name: 'Portal Autoservicio de Clientes CX',
-      startDatePlan: '15 Ago',
-      endDatePlan: '30 Sep',
-    };
-  }
   return { ...proj, name, startDatePlan, endDatePlan };
 }
 
@@ -105,7 +88,7 @@ const defaultInitiatives = [
     timeToValueMonths: 3,
     effort: "Alto",
     value: "Alto",
-    quadrant: "PROYECTOS CLAVE",
+    quadrant: "Proyectos Clave",
     category: "Transformación Digital"
   },
   {
@@ -121,7 +104,7 @@ const defaultInitiatives = [
     timeToValueMonths: 1,
     effort: "Bajo",
     value: "Alto",
-    quadrant: "QUICK WINS",
+    quadrant: "Quick Wins",
     category: "Transformación Digital"
   },
   {
@@ -137,88 +120,53 @@ const defaultInitiatives = [
     timeToValueMonths: 4,
     effort: "Alto",
     value: "Alto",
-    quadrant: "PROYECTOS CLAVE",
+    quadrant: "Proyectos Clave",
     category: "Automatización"
-  },
+  }
+];
+
+const defaultProjects = [
   {
-    id: "4",
-    rank: 4,
-    name: "Portal Autoservicio de Clientes CX",
-    area: "Atención a Clientes",
-    sponsor: "Mariana López",
-    score: 74,
-    roiExpected: 160,
-    investmentRequired: 0.05,
-    potentialBenefit: 0.13,
-    timeToValueMonths: 2,
-    effort: "Bajo",
-    value: "Alto",
-    quadrant: "QUICK WINS",
-    category: "Customer Experience"
-  },
-  {
-    id: "5",
-    rank: 5,
-    name: "Automatización de Facturación y Cobranza",
-    area: "Finanzas",
-    sponsor: "Carlos Ruiz",
-    score: 68,
-    roiExpected: 140,
-    investmentRequired: 0.04,
-    potentialBenefit: 0.10,
-    timeToValueMonths: 2,
-    effort: "Bajo",
-    value: "Bajo",
-    quadrant: "OPTIMIZACIÓN",
-    category: "Automatización"
-  },
-  {
-    id: "6",
-    rank: 6,
-    name: "Sistema de Gobierno de Datos y Compliance",
-    area: "Legal & TI",
-    sponsor: "Laura Gomez",
-    score: 62,
-    roiExpected: 110,
-    investmentRequired: 0.06,
-    potentialBenefit: 0.13,
-    timeToValueMonths: 5,
-    effort: "Bajo",
-    value: "Bajo",
-    quadrant: "OPTIMIZACIÓN",
-    category: "Compliance"
-  },
-  {
-    id: "7",
-    rank: 7,
-    name: "Motor de Análisis Predictivo de Churn",
-    area: "Comercial",
-    sponsor: "Mariana López",
-    score: 55,
-    roiExpected: 120,
-    investmentRequired: 0.07,
-    potentialBenefit: 0.15,
-    timeToValueMonths: 6,
-    effort: "Alto",
-    value: "Bajo",
-    quadrant: "BAJA PRIORIDAD",
-    category: "Customer Experience"
-  },
-  {
-    id: "8",
-    rank: 8,
-    name: "Plataforma E-Learning y Capacitación Interna",
-    area: "Recursos Humanos",
+    id: "P1",
+    initiativeId: "2",
+    name: "Reclutamiento de Funcionales OTC",
+    area: "Operaciones",
     sponsor: "Enrique Aguilar",
-    score: 45,
-    roiExpected: 90,
-    investmentRequired: 0.02,
-    potentialBenefit: 0.04,
-    timeToValueMonths: 3,
-    effort: "Alto",
-    value: "Bajo",
-    quadrant: "BAJA PRIORIDAD",
-    category: "Transformación Digital"
+    pm: "Enrique Aguilar",
+    startDatePlan: "24 Jul",
+    endDatePlan: "14 Ago",
+    budgetApproved: 0.03,
+    budgetSpent: 0.00,
+    progressPlanPct: 40,
+    progressRealPct: 75,
+    statusGantt: "On Track",
+    timeHealth: "Verde",
+    costHealth: "Verde",
+    scopeHealth: "Verde",
+    riskHealth: "Verde",
+    spi: 1.88,
+    cpi: 1.00,
+  },
+  {
+    id: "P2-ATLAS",
+    initiativeId: "3",
+    name: "Atlas SAP Operation Suite",
+    area: "Operaciones",
+    sponsor: "Enrique Aguilar",
+    pm: "Carlos Ruiz",
+    startDatePlan: "10 Ago",
+    endDatePlan: "31 Ago",
+    budgetApproved: 0.15,
+    budgetSpent: 0.03,
+    progressPlanPct: 33,
+    progressRealPct: 35,
+    statusGantt: "On Track",
+    timeHealth: "Verde",
+    costHealth: "Verde",
+    scopeHealth: "Verde",
+    riskHealth: "Verde",
+    spi: 1.06,
+    cpi: 1.00,
   }
 ];
 
@@ -234,16 +182,14 @@ export function App() {
       const saved = localStorage.getItem('eas_initiatives');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) list = parsed;
+        if (Array.isArray(parsed)) {
+          list = parsed.filter(i => !['4', '5', '6', '7', '8'].includes(String(i.id)) && !i.name.includes('Facturación') && !i.name.includes('Gobierno de Datos') && !i.name.includes('Churn') && !i.name.includes('E-Learning') && !i.name.includes('Autoservicio'));
+        }
       }
     } catch {}
 
-    if (list.length < 8) {
-      defaultInitiatives.forEach((def) => {
-        if (!list.some((i: any) => i.name.toLowerCase().includes(def.name.toLowerCase().substring(0, 8)))) {
-          list.push(def);
-        }
-      });
+    if (list.length === 0) {
+      list = [...defaultInitiatives];
     }
 
     return list.map(sanitizeInitiativeItem);
@@ -255,82 +201,14 @@ export function App() {
       const saved = localStorage.getItem('eas_projects');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.length > 0) list = parsed.map(sanitizeProjectItem);
+        if (Array.isArray(parsed)) {
+          list = parsed.filter(p => !p.name.includes('Prospección') && !p.name.includes('Prospeccion') && p.id !== 'P3-PROSPEC' && p.id !== 'P3-PORTAL' && !p.name.includes('Autoservicio'));
+        }
       }
     } catch {}
 
-    const defaultProjects = [
-      {
-        id: "P1",
-        initiativeId: "2",
-        name: "Reclutamiento de Funcionales OTC",
-        area: "Operaciones",
-        sponsor: "Enrique Aguilar",
-        pm: "Enrique Aguilar",
-        startDatePlan: "24 Jul",
-        endDatePlan: "14 Ago",
-        budgetApproved: 0.03,
-        budgetSpent: 0.00,
-        progressPlanPct: 40,
-        progressRealPct: 75,
-        statusGantt: "On Track",
-        timeHealth: "Verde",
-        costHealth: "Verde",
-        scopeHealth: "Verde",
-        riskHealth: "Verde",
-        spi: 1.88,
-        cpi: 1.00,
-      },
-      {
-        id: "P2-ATLAS",
-        initiativeId: "3",
-        name: "Atlas SAP Operation Suite",
-        area: "Operaciones",
-        sponsor: "Enrique Aguilar",
-        pm: "Carlos Ruiz",
-        startDatePlan: "10 Ago",
-        endDatePlan: "31 Ago",
-        budgetApproved: 0.15,
-        budgetSpent: 0.03,
-        progressPlanPct: 33,
-        progressRealPct: 35,
-        statusGantt: "On Track",
-        timeHealth: "Verde",
-        costHealth: "Verde",
-        scopeHealth: "Verde",
-        riskHealth: "Verde",
-        spi: 1.06,
-        cpi: 1.00,
-      },
-      {
-        id: "P3-PORTAL",
-        initiativeId: "4",
-        name: "Portal Autoservicio de Clientes CX",
-        area: "Atención a Clientes",
-        sponsor: "Mariana López",
-        pm: "Mariana López",
-        startDatePlan: "15 Ago",
-        endDatePlan: "30 Sep",
-        budgetApproved: 0.05,
-        budgetSpent: 0.01,
-        progressPlanPct: 20,
-        progressRealPct: 25,
-        statusGantt: "On Track",
-        timeHealth: "Verde",
-        costHealth: "Verde",
-        scopeHealth: "Verde",
-        riskHealth: "Verde",
-        spi: 1.15,
-        cpi: 1.00,
-      }
-    ];
-
-    if (list.length < 3) {
-      defaultProjects.forEach((def) => {
-        if (!list.some((p: any) => p.name.toLowerCase().includes(def.name.toLowerCase().substring(0, 8)))) {
-          list.push(def);
-        }
-      });
+    if (list.length === 0) {
+      list = [...defaultProjects];
     }
 
     return list.map(sanitizeProjectItem);
@@ -360,13 +238,9 @@ export function App() {
   // Automatic state migration on mount to clean up any legacy localStorage data
   useEffect(() => {
     setInitiatives((prev) => {
-      let list = [...prev];
-      if (list.length < 8) {
-        defaultInitiatives.forEach((def) => {
-          if (!list.some((i: any) => i.name.toLowerCase().includes(def.name.toLowerCase().substring(0, 8)))) {
-            list.push(def);
-          }
-        });
+      let list = prev.filter(i => !['4', '5', '6', '7', '8'].includes(String(i.id)) && !i.name.includes('Facturación') && !i.name.includes('Gobierno de Datos') && !i.name.includes('Churn') && !i.name.includes('E-Learning') && !i.name.includes('Autoservicio'));
+      if (list.length === 0) {
+        list = [...defaultInitiatives];
       }
       const sanitized = list.map(sanitizeInitiativeItem);
       try {
@@ -376,7 +250,11 @@ export function App() {
     });
 
     setProjects((prev) => {
-      const sanitized = prev.map((p, idx) => {
+      let list = prev.filter(p => !p.name.includes('Prospección') && !p.name.includes('Prospeccion') && p.id !== 'P3-PROSPEC' && p.id !== 'P3-PORTAL' && !p.name.includes('Autoservicio'));
+      if (list.length === 0) {
+        list = [...defaultProjects];
+      }
+      const sanitized = list.map((p, idx) => {
         const clean = sanitizeProjectItem(p);
         if (idx === 1 || clean.name.includes('Atlas') || clean.id === 'P2-ATLAS' || clean.id === '2') {
           return {
