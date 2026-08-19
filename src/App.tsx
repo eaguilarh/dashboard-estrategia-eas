@@ -13,7 +13,7 @@ import { ExecutiveCockpit } from './components/modules/ExecutiveCockpit';
 import { ExcelUploaderModal } from './components/modals/ExcelUploaderModal';
 import { DrillDownModal, DrillDownItem } from './components/modals/DrillDownModal';
 
-const APP_VERSION = 'v1.6_only_registered_data';
+const APP_VERSION = 'v1.7_purge_prospec_and_phase2_box';
 if (typeof window !== 'undefined') {
   try {
     const savedVer = localStorage.getItem('eas_app_version');
@@ -353,30 +353,6 @@ export function App() {
           riskHealth: "Verde" as const,
           spi: 1.06,
           cpi: 1.0,
-        });
-      }
-      const hasProspec = cleaned.some((p: any) => p.name.includes("Prospección") || p.name.includes("Prospeccion"));
-      if (!hasProspec) {
-        cleaned.push({
-          id: "P3-PROSPEC",
-          initiativeId: "1",
-          name: "Plataforma de Prospección Comercial con IA",
-          area: "Comercial / Ventas",
-          sponsor: "Enrique Aguilar",
-          pm: "Mariana López",
-          startDatePlan: "01 Sep",
-          endDatePlan: "15 Oct",
-          budgetApproved: 0.08,
-          budgetSpent: 0.01,
-          progressPlanPct: 20,
-          progressRealPct: 25,
-          statusGantt: "On Track" as const,
-          timeHealth: "Verde" as const,
-          costHealth: "Verde" as const,
-          scopeHealth: "Verde" as const,
-          riskHealth: "Verde" as const,
-          spi: 1.25,
-          cpi: 1.00,
         });
       }
       try {

@@ -174,58 +174,68 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
 
         <div className="flex flex-wrap items-center gap-2">
           {/* Filter: Año */}
-          <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Año</span>
+          <div className={`flex items-center space-x-1 px-2 py-1 rounded-md border ${
+            isDark ? 'bg-[#060e1d] border-[#1d3563] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}>
+            <span className="font-semibold text-[10px] sm:text-[11px]">Año</span>
             <select
               value={filters?.year || '2026'}
               onChange={(e) => onFilterChange && onFilterChange('year', e.target.value)}
-              className="bg-transparent text-white font-bold outline-none cursor-pointer text-xs"
+              className={`bg-transparent font-bold outline-none cursor-pointer text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}
             >
-              <option value="2026" className="bg-[#060e1d]">2026</option>
+              <option value="2026" className={isDark ? 'bg-[#060e1d]' : 'bg-white'}>2026</option>
             </select>
           </div>
 
-          <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Dirección</span>
+          <div className={`flex items-center space-x-1 px-2 py-1 rounded-md border ${
+            isDark ? 'bg-[#060e1d] border-[#1d3563] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}>
+            <span className="font-semibold text-[10px] sm:text-[11px]">Dirección</span>
             <select
               value={filters?.direction || 'Todas'}
               onChange={(e) => onFilterChange && onFilterChange('direction', e.target.value)}
-              className="bg-transparent text-white font-bold outline-none cursor-pointer text-xs"
+              className={`bg-transparent font-bold outline-none cursor-pointer text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}
             >
-              <option value="Todas" className="bg-[#060e1d]">Todas</option>
+              <option value="Todas" className={isDark ? 'bg-[#060e1d]' : 'bg-white'}>Todas</option>
             </select>
           </div>
 
-          <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Sponsor</span>
+          <div className={`flex items-center space-x-1 px-2 py-1 rounded-md border ${
+            isDark ? 'bg-[#060e1d] border-[#1d3563] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}>
+            <span className="font-semibold text-[10px] sm:text-[11px]">Sponsor</span>
             <select
               value={filters?.sponsor || 'Todos'}
               onChange={(e) => onFilterChange && onFilterChange('sponsor', e.target.value)}
-              className="bg-transparent text-white font-bold outline-none cursor-pointer text-xs"
+              className={`bg-transparent font-bold outline-none cursor-pointer text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}
             >
-              <option value="Todos" className="bg-[#060e1d]">Todos</option>
+              <option value="Todos" className={isDark ? 'bg-[#060e1d]' : 'bg-white'}>Todos</option>
             </select>
           </div>
 
-          <div className="flex items-center space-x-1 bg-[#060e1d] px-2 py-1 rounded-md border border-[#1d3563]">
-            <span className="text-slate-400 font-semibold text-[10px] sm:text-[11px]">Tipo</span>
+          <div className={`flex items-center space-x-1 px-2 py-1 rounded-md border ${
+            isDark ? 'bg-[#060e1d] border-[#1d3563] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'
+          }`}>
+            <span className="font-semibold text-[10px] sm:text-[11px]">Tipo</span>
             <select
               value={filters?.type || 'Todos'}
               onChange={(e) => onFilterChange && onFilterChange('type', e.target.value)}
-              className="bg-transparent text-white font-bold outline-none cursor-pointer text-xs"
+              className={`bg-transparent font-bold outline-none cursor-pointer text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}
             >
-              <option value="Todos" className="bg-[#060e1d]">Todos</option>
+              <option value="Todos" className={isDark ? 'bg-[#060e1d]' : 'bg-white'}>Todos</option>
             </select>
           </div>
 
-          <div className="flex items-center space-x-1.5 bg-[#060e1d] px-2.5 py-1 rounded-md border border-[#1d3563] text-slate-300">
-            <Calendar className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-            <span className="text-[10px] font-medium">Última actualización: <strong className="text-white">{lastUpdated}</strong></span>
+          <div className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-md border ${
+            isDark ? 'bg-[#060e1d] border-[#1d3563] text-slate-300' : 'bg-blue-50 border-blue-200 text-blue-900'
+          }`}>
+            <Calendar className={`w-3.5 h-3.5 flex-shrink-0 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+            <span className="text-[10px] font-medium">Última actualización: <strong className={isDark ? 'text-white' : 'text-blue-950'}>{lastUpdated}</strong></span>
           </div>
         </div>
       </div>
 
-      {/* ain 5 Equal Columns Panel Row (Fluid responsive & zoom-resistant) */}
+      {/* Main 5 Equal Columns Panel Row (Fluid responsive & zoom-resistant) */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 items-stretch w-full">
         {/* PANEL 1: RESUMEN EJECUTIVO */}
         <div className={`min-w-0 p-3 sm:p-3.5 rounded-xl border flex flex-col justify-between transition-colors ${
@@ -268,41 +278,19 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
             EMBUDO DE VALOR (STAGE-GATE)
           </h3>
 
-          <div className="py-2 space-y-1 my-auto">
+          <div className="flex flex-col items-center justify-center my-auto py-1 space-y-1 w-full">
             {funnelRows.map((row, idx) => (
-              <div
-                key={idx}
-                className="flex items-center space-x-2 h-8 border-b border-slate-100 dark:border-slate-800/60 last:border-b-0 px-1"
-              >
-                <div className="w-[45%] flex justify-center items-center h-full">
-                  <svg viewBox="0 0 160 30" className="w-full h-6">
-                    {idx < 5 ? (
-                      <polygon
-                        points={`${(160 - row.topW) / 2},2 ${(160 + row.topW) / 2},2 ${(160 + row.botW) / 2},28 ${(160 - row.botW) / 2},28`}
-                        fill={row.color}
-                      />
-                    ) : (
-                      <rect
-                        x="71"
-                        y="2"
-                        width="18"
-                        height="26"
-                        rx="2"
-                        fill={row.color}
-                        stroke={isDark ? '#38bdf8' : '#1e3a8a'}
-                        strokeWidth="1"
-                      />
-                    )}
-                  </svg>
-                </div>
-
-                <div className="w-[55%] flex items-center space-x-1.5 text-xs min-w-0">
-                  <span className={`text-xs sm:text-sm font-black flex-shrink-0 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                    {row.count}
-                  </span>
-                  <span className={`text-[9px] sm:text-[10px] font-semibold truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                    {row.label}
-                  </span>
+              <div key={idx} className="w-full flex items-center justify-center space-x-2">
+                <div
+                  className="h-6 flex items-center justify-between px-2 text-white font-bold rounded shadow-sm transition-all"
+                  style={{
+                    backgroundColor: row.color,
+                    width: `${Math.max(35, (row.count / (kpis.totalInitiatives || 1)) * 100)}%`,
+                    minWidth: '70px'
+                  }}
+                >
+                  <span className="text-[10px] sm:text-xs font-black">{row.count}</span>
+                  <span className="text-[8px] sm:text-[9px] font-semibold opacity-90 truncate ml-1">{row.label}</span>
                 </div>
               </div>
             ))}
@@ -361,10 +349,20 @@ export const ExecutiveCockpit: React.FC<ExecutiveCockpitProps> = ({
                   </div>
                 ))
               ) : (
-                <div className="text-center py-8 text-[10px] text-slate-500 font-semibold">
-                  No hay proyectos activos en el roadmap.
+                <div className="text-center py-4 text-[10px] text-slate-500 font-semibold">
+                  No hay proyectos en construcción activos en este periodo.
                 </div>
               )}
+            </div>
+
+            {/* Recuadro Explicativo de Fase 2 del Dashboard */}
+            <div className={`mt-2 p-2 rounded-lg border text-[10px] flex items-center space-x-1.5 ${
+              isDark ? 'bg-[#09152b] border-[#1b2d52] text-cyan-300' : 'bg-blue-50 border-blue-200 text-blue-900'
+            }`}>
+              <span className="font-bold text-xs">ℹ️</span>
+              <span>
+                <strong>Fase 2 del Dashboard:</strong> Monitoreo y proyección a 12 meses de iniciativas y proyectos estratégicos en pipeline.
+              </span>
             </div>
           </div>
         </div>
